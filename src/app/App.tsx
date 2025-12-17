@@ -1,5 +1,8 @@
-export const App = () => {
-  return <div className="mt-2 rounded bg-blue-500 p-4 text-white">Test</div>;
-};
+import { RouterProvider } from "react-router-dom";
+import router from "../routes/routes.tsx";
+
+export function App() {
+  return <RouterProvider router={router} />;
+}
 
 export default App;

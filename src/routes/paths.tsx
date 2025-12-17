@@ -1,6 +1,6 @@
 export const ROUTES = {
-  WELCOME: "/",
-  HOME: "/home",
+  HOME: "/",
+  WELCOME: "/welcome",
   PROFILE: "/profile",
   NOT_FOUND: "*",
 
@@ -10,24 +10,24 @@ export const ROUTES = {
   },
 
   DICTIONARIES: {
-    ROOT: "/dictionary",
+    ROOT: "/dictionaries",
     PUBLIC: {
-      OXFORD_3000: "/dictionary/public/oxford-3000",
+      OXFORD_3000: "/dictionaries/public/oxford-3000",
     },
     PERSONAL: {
-      OXFORD_WORDS: "/dictionary/personal/oxford",
-      CUSTOM_WORDS: "/dictionary/personal/custom",
-      ADD_NEW_WORD: "/dictionary/personal/add",
+      ROOT: "/dictionaries/personal",
+      OXFORD_WORDS: "/dictionaries/personal/oxford",
+      CUSTOM_WORDS: "/dictionaries/personal/custom",
+      ADD_NEW_WORD: "/dictionaries/personal/add",
     },
   },
 
   EXERCISES: {
     ROOT: "/exercises",
+    SESSION: "/exercises/session",
     SETTINGS: {
-      INTERVAL: '/exercises/settings/interval',
-      REPEAT: '/exercises/settings/repeat',
+      MAIN: "/exercises/settings/main",
+      REPEAT: "/exercises/settings/repeat",
     },
-    SESSION: '/exercises/session',
   },
-} as const;
-
+};
