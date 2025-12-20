@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import BottomNavigation from "../ui/BottomNavigation.tsx";
 
-function MainLayout() {
+function NavigationLayout() {
   return (
     <>
       <main>
@@ -14,4 +14,4 @@ function MainLayout() {
   );
 }
 
-export default MainLayout;
+export default NavigationLayout;

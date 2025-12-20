@@ -19,6 +19,13 @@ function PersonalMain() {
         >
           ВЛАСНІ СЛОВА
         </NavLink>
+
+        <NavLink
+          to={ROUTES.DICTIONARIES.PERSONAL.ADD_NEW_WORD}
+          className="border-2 bg-blue-300"
+        >
+          ДОДАТИ СЛОВО
+        </NavLink>
       </div>
     </>
   );

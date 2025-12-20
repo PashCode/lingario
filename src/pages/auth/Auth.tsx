@@ -1,6 +1,10 @@
+import RegisterForm from "../../features/auth/components/RegisterForm.tsx";
+
 function Auth() {
   return (
-    <div>AUTH</div>
+    <>
+      <RegisterForm />
+    </>
   );
 }
 

@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import MainLayout from "../shared/components/layouts/MainLayout.tsx";
+import NavigationLayout from "../shared/components/layouts/NavigationLayout.tsx";
 import FullScreenLayout from "../shared/components/layouts/FullScreenLayout.tsx";
 import Home from "../pages/main/Home.tsx";
 import Dictionaries from "../pages/main/Dictionaries.tsx";
@@ -21,7 +21,7 @@ import { ROUTES } from "./paths.tsx";
 
 const router = createBrowserRouter([
   {
-    element: <MainLayout />,
+    element: <NavigationLayout />,
     children: [
       { path: ROUTES.HOME, element: <Home /> },
       { path: ROUTES.DICTIONARIES.ROOT, element: <Dictionaries /> },

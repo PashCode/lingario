@@ -11,4 +11,5 @@ const firebaseConfig = initializeApp({
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 });
 
-export const auth = getAuth(firebaseConfig);
+const auth = getAuth(firebaseConfig);
+export default auth;
