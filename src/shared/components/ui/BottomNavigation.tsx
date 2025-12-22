@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { ROUTES } from "../../../routes/paths.tsx";
+import { ROUTES } from "@/routes/paths.ts";
 
 function BottomNavigation() {
   return (
@@ -7,7 +7,7 @@ function BottomNavigation() {
       <NavLink
         to={ROUTES.HOME}
         className={
-          "flex h-10.5 w-1/8 items-center justify-center border-1 bg-emerald-300 font-bold"
+          "flex h-10.5 w-1/8 items-center justify-center border bg-emerald-300 font-bold"
         }
       >
         Головна
@@ -16,7 +16,7 @@ function BottomNavigation() {
       <NavLink
         to={ROUTES.DICTIONARIES.ROOT}
         className={
-          "flex h-10.5 w-1/8 items-center justify-center border-1 bg-emerald-300 font-bold"
+          "flex h-10.5 w-1/8 items-center justify-center border bg-emerald-300 font-bold"
         }
       >
         Словники
@@ -25,7 +25,7 @@ function BottomNavigation() {
       <NavLink
         to={ROUTES.EXERCISES.ROOT}
         className={
-          "flex h-10.5 w-1/8 items-center justify-center border-1 bg-emerald-300 font-bold"
+          "flex h-10.5 w-1/8 items-center justify-center border bg-emerald-300 font-bold"
         }
       >
         Вправи
@@ -34,7 +34,7 @@ function BottomNavigation() {
       <NavLink
         to={ROUTES.PROFILE}
         className={
-          "flex h-10.5 w-1/8 items-center justify-center border-1 bg-emerald-300 font-bold"
+          "flex h-10.5 w-1/8 items-center justify-center border bg-emerald-300 font-bold"
         }
       >
         Профіль

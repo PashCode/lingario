@@ -1,4 +1,4 @@
-import { ROUTES } from "../../routes/paths.tsx";
+import { ROUTES } from "@/routes/paths.ts";
 import { NavLink } from "react-router-dom";
 
 function MainSettings() {

@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { ROUTES } from "../../routes/paths.tsx";
+import { ROUTES } from "@/routes/paths.ts";
 
 function Exercises() {
   return (

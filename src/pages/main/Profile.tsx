@@ -1,13 +1,12 @@
-import { logout } from "../../features/auth/authServices.ts";
-import auth from "../../config/firebase.ts";
+import { logout } from "@/features/auth/authServices.ts";
 
 function Profile() {
-  const hangleLogout = async (auth) => await logout(auth);
+  const hangleLogout = async () => await logout();
 
   return (
     <>
       <div>PROFILE</div>
-      <button onClick={() => hangleLogout(auth)}>Вийти</button>
+      <button onClick={() => hangleLogout()}>Вийти</button>
     </>
   );
 }

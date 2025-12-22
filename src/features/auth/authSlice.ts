@@ -1,33 +1,36 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { register } from "./authServices.ts";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { FirebaseError } from "firebase/app";
+import { current } from "@reduxjs/toolkit";
+import { register } from "./authServices";
 import type {
-  IAuthInitialState,
-  IRegisterParams,
-  IAuthError,
-} from "./authTypes.ts";
+  AuthError,
+  AuthInitialState,
+  UserRegisterData,
+  UserProfileData,
+} from "./authTypes";
 
-// import type { PayloadAction } from "@reduxjs/toolkit";
-
-const initialState: IAuthInitialState = {
+const initialState: AuthInitialState = {
   user: null,
   isAuthenticated: false,
-  isLoading: false,
+  isLoading: true,
   error: null,
 };
 
-export const registerUser = createAsyncThunk(
+export const registerUser = createAsyncThunk<
+  UserProfileData,
+  UserRegisterData,
+  { rejectValue: AuthError }
+>(
   "auth/registerUser",
-  async ({ email, password, name }: IRegisterParams, { rejectWithValue }) => {
+  async ({ email, password, name }: UserRegisterData, { rejectWithValue }) => {
     try {
-      await register(email, password);
-      return { email, name };
+      const firebaseUser = await register({ email, name, password });
+      return { email, name, uid: firebaseUser.uid };
     } catch (err) {
       const error = err as FirebaseError;
       return rejectWithValue({
         code: error.code,
-        message: "Failed register",
+        message: error.message,
       });
     }
   },
@@ -37,26 +40,35 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logoutUser(state, action) {
-      state.isAuthenticated = action.payload
-    }
+    setUser: (state, action) => {
+      state.user = action.payload;
+      state.isAuthenticated = true;
+      state.isLoading = false;
+    },
+    logoutUser: (state) => {
+      state.user = null;
+      state.isAuthenticated = false;
+      state.isLoading = false;
+    },
   },
+
   extraReducers(builder) {
     builder.addCase(registerUser.pending, (state) => {
       state.isLoading = true;
       state.error = null;
     });
     builder.addCase(registerUser.fulfilled, (state, action) => {
-      state.isLoading = false;
       state.user = action.payload;
       state.isAuthenticated = true;
+      state.isLoading = false;
     });
     builder.addCase(registerUser.rejected, (state, action) => {
+      if (action.payload) state.error = action.payload;
       state.isLoading = false;
-      state.error = action.payload as IAuthError;
+      console.log(current(state));
     });
   },
 });
 
-export const { logoutUser } = authSlice.actions;
+export const { setUser, logoutUser } = authSlice.actions;
 export default authSlice.reducer;

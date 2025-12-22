@@ -1,22 +1,23 @@
-export interface IRegisterParams {
+export interface AuthInitialState {
+  user: UserProfileData | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: AuthError | null;
+}
+
+export interface UserRegisterData {
   email: string;
   name: string;
   password: string;
 }
 
-export interface IUserProfile {
-  email: string;
-  name: string;
+export interface UserProfileData {
+  email: string | null;
+  name: string | null;
+  uid: string| null;
 }
 
-export interface IAuthError {
-  code: string | number;
+export interface AuthError {
+  code?: string | number;
   message: string;
-}
-
-export interface IAuthInitialState {
-  user: IUserProfile | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  error: IAuthError | null;
 }

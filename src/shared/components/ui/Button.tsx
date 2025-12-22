@@ -1,7 +1,5 @@
-import type { TButtonProps } from "../../types/types.ts";
-
-function Button({ text }: TButtonProps) {
-  return <button>{text}</button>;
+function Button() {
+  return <button></button>;
 }
 
 export default Button;

@@ -1,7 +1,9 @@
 import { RouterProvider } from "react-router-dom";
-import router from "../routes/routes.tsx";
+import useAuthListener from "@/features/auth/hooks/useAuthListener";
+import router from "../routes/routes";
 
 export function App() {
+  useAuthListener();
   return <RouterProvider router={router} />;
 }
 
