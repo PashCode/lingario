@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { FirebaseError } from "firebase/app";
 import { current } from "@reduxjs/toolkit";
-import { register } from "./authServices";
+import { getAuthErrorMessage } from "./authHelpers";
+import { register } from "@/features/auth/authServices";
 import type {
   AuthError,
   AuthInitialState,
@@ -13,7 +14,8 @@ const initialState: AuthInitialState = {
   user: null,
   isAuthenticated: false,
   isLoading: true,
-  error: null,
+  isSubmitting: false,
+  serverError: null,
 };
 
 export const registerUser = createAsyncThunk<
@@ -28,9 +30,10 @@ export const registerUser = createAsyncThunk<
       return { email, name, uid: firebaseUser.uid };
     } catch (err) {
       const error = err as FirebaseError;
+      const readableErrorMessage = getAuthErrorMessage(error.code);
       return rejectWithValue({
         code: error.code,
-        message: error.message,
+        message: readableErrorMessage,
       });
     }
   },
@@ -54,17 +57,20 @@ const authSlice = createSlice({
 
   extraReducers(builder) {
     builder.addCase(registerUser.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
+      state.isSubmitting = true;
+      // state.isLoading = true;
+      state.serverError = null;
     });
     builder.addCase(registerUser.fulfilled, (state, action) => {
       state.user = action.payload;
       state.isAuthenticated = true;
-      state.isLoading = false;
+      state.isSubmitting = false;
+      // state.isLoading = false;
     });
     builder.addCase(registerUser.rejected, (state, action) => {
-      if (action.payload) state.error = action.payload;
-      state.isLoading = false;
+      if (action.payload) state.serverError = action.payload;
+      state.isSubmitting = false;
+      // state.isLoading = false;
       console.log(current(state));
     });
   },

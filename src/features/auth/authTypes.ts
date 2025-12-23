@@ -2,7 +2,8 @@ export interface AuthInitialState {
   user: UserProfileData | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  error: AuthError | null;
+  isSubmitting: boolean;
+  serverError: AuthError | null;
 }
 
 export interface UserRegisterData {
@@ -14,10 +15,21 @@ export interface UserRegisterData {
 export interface UserProfileData {
   email: string | null;
   name: string | null;
-  uid: string| null;
+  uid: string | null;
 }
 
 export interface AuthError {
-  code?: string | number;
+  code: string | number;
   message: string;
 }
+
+export interface ValidationErrors {
+  email?: string;
+  password?: string;
+  name?: string;
+}
+
+export interface AlertProps {
+  errorText: string | null;
+}
+
