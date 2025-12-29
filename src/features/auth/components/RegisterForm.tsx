@@ -1,15 +1,12 @@
 import { useState, type FormEvent, type ChangeEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "@/app/store";
+import authApi from "../authApi";
 import Input from "@/shared/components/ui/Input";
 import Alert from "@/shared/components/ui/Alert";
-import { registerUser } from "../authSlice";
-import { validateRegisterForm } from "@/features/auth/authHelpers";
+import { validateRegisterForm } from "@/features/auth/authHelpers"; // виправити назву
 import type { UserRegisterData, ValidationErrors } from "../authTypes";
 
 function RegisterForm() {
-  const dispatch: AppDispatch = useDispatch();
-  const { serverError, isSubmitting } = useSelector((state: RootState) => state.auth);
+  const [register, { isLoading, error: apiError }] = authApi.useRegisterUserMutation();
 
   const [fieldErrors, setFieldErrors] = useState<ValidationErrors>({});
   const [user, setUser] = useState<UserRegisterData>({
@@ -28,7 +25,7 @@ function RegisterForm() {
     }
 
     setFieldErrors({});
-    dispatch(registerUser(user));
+    await register(user);
   }
 
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
@@ -40,9 +37,11 @@ function RegisterForm() {
     }
   }
 
+  const errorMessage = apiError ? apiError.message : null;
+
   return (
     <div className="flex h-dvh w-full flex-col items-center justify-center">
-      {serverError && <Alert errorText={serverError.message} />}
+      {errorMessage && <Alert errorText={errorMessage} />}
 
       <h1>ФОРМА РЕЄСТРАЦІЇ</h1>
 
@@ -92,10 +91,10 @@ function RegisterForm() {
         />
 
         <button
-          disabled={isSubmitting}
+          disabled={isLoading}
           className="cursor-pointer border-2 bg-green-600 disabled:bg-neutral-500"
         >
-          {isSubmitting ? "Loading..." : "Зареєструватись"}
+          {isLoading ? "Loading..." : "Зареєструватись"}
         </button>
       </form>
     </div>

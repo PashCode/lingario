@@ -1,9 +1,6 @@
 export interface AuthInitialState {
   user: UserProfileData | null;
   isAuthenticated: boolean;
-  isLoading: boolean;
-  isSubmitting: boolean;
-  serverError: AuthError | null;
 }
 
 export interface UserRegisterData {
