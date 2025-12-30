@@ -13,6 +13,7 @@ export interface User {
   email: string | null;
   name: string | null;
   uid: string | null;
+  emailVerified: boolean;
 }
 
 export interface AuthApiError {

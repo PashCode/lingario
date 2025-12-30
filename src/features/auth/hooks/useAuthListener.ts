@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import auth from "@/config/firebase";
-import { logoutUser, setUser } from "@/features/auth/slice.ts";
+import { logoutUser, registerUser } from "@/features/auth/slice.ts";
 
 const useAuthListener = () => {
   const dispatch = useDispatch();
@@ -11,10 +11,11 @@ const useAuthListener = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(
-          setUser({
+          registerUser({
             email: user.email,
             name: user.displayName,
             uid: user.uid,
+            emailVerified: user.emailVerified,
           }),
         );
       } else {

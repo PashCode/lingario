@@ -10,9 +10,14 @@ const api = baseApi.injectEndpoints({
       queryFn: async ({ email, name, password }) => {
         try {
           const firebaseUser = await register({ email, name, password });
-          const data: User = { email, name, uid: firebaseUser.uid };
+          const data: User = {
+            email,
+            name,
+            uid: firebaseUser.uid,
+            emailVerified: firebaseUser.emailVerified,
+          };
           return { data };
-        } catch (err){
+        } catch (err) {
           const error = err as FirebaseError;
           const readableMessage = getAuthErrorMessage(error.code);
           return {

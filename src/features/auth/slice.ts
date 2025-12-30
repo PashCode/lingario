@@ -10,7 +10,7 @@ const slice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action) => {
+    registerUser: (state, action) => {
       state.user = action.payload;
       state.status = "success";
     },
@@ -26,7 +26,6 @@ const slice = createSlice({
   },
 });
 
-export const { setUser, logoutUser } = slice.actions;
-export const { selectUser, selectAuthStatus, selectIsUserAuthenticated } =
-  slice.selectors;
+export const { registerUser, logoutUser } = slice.actions;
+export const { selectUser, selectAuthStatus, selectIsUserAuthenticated } = slice.selectors;
 export default slice.reducer;

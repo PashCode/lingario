@@ -8,11 +8,19 @@ import type {
   RegisterParams,
   ValidationErrors,
 } from "../types.ts";
+import { registerUser } from "@/features/auth/slice.ts";
+import { useDispatch } from "react-redux";
 
 function RegisterForm() {
   const [register, { isLoading, error: apiError }] = useRegisterUserMutation();
   const [inputErrors, setInputErrors] = useState<ValidationErrors>({});
-  const [user, setUser] = useState<RegisterParams>({ email: "", password: "", name: "" });
+  const [user, setUser] = useState<RegisterParams>({
+    email: "",
+    password: "",
+    name: "",
+  });
+
+  const dispatch = useDispatch();
 
   async function handleSubmitForm(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -21,7 +29,8 @@ function RegisterForm() {
     setInputErrors(errors);
     if (Object.keys(errors).length > 0) return;
 
-    await register(user);
+    const userData = await register(user).unwrap();
+    dispatch(registerUser(userData));
   }
 
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
