@@ -1,12 +1,16 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ROUTES } from "./paths";
-import type { RootState } from "@/app/store";
+import {
+  selectAuthStatus,
+  selectIsUserAuthenticated,
+} from "@/features/auth/slice.ts";
 
 const ProtectedRoute = () => {
-  const { isAuthenticated, isLoading } = useSelector((state: RootState) => state.auth);
+  const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
+  const status = useSelector(selectAuthStatus)
 
-  if (isLoading) {
+  if (status === 'loading') {
     return (
       <div className="flex h-screen items-center justify-center">
         Завантаження...
@@ -14,7 +18,7 @@ const ProtectedRoute = () => {
     );
   }
 
-  if (!isAuthenticated) {
+  if (!isUserAuthenticated) {
     return <Navigate to={ROUTES.AUTH.ROOT} replace />;
   }
 

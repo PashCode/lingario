@@ -1,47 +1,43 @@
 import { useState, type FormEvent, type ChangeEvent } from "react";
-import authApi from "../authApi";
+import { useRegisterUserMutation } from "../api.ts";
 import Input from "@/shared/components/ui/Input";
 import Alert from "@/shared/components/ui/Alert";
-import { validateRegisterForm } from "@/features/auth/authHelpers"; // виправити назву
-import type { UserRegisterData, ValidationErrors } from "../authTypes";
+import { validateRegisterParams } from "@/features/auth/utils/helpers.ts";
+import type {
+  AuthApiError,
+  RegisterParams,
+  ValidationErrors,
+} from "../types.ts";
 
 function RegisterForm() {
-  const [register, { isLoading, error: apiError }] = authApi.useRegisterUserMutation();
-
-  const [fieldErrors, setFieldErrors] = useState<ValidationErrors>({});
-  const [user, setUser] = useState<UserRegisterData>({
-    email: "",
-    name: "",
-    password: "",
-  });
+  const [register, { isLoading, error: apiError }] = useRegisterUserMutation();
+  const [inputErrors, setInputErrors] = useState<ValidationErrors>({});
+  const [user, setUser] = useState<RegisterParams>({ email: "", password: "", name: "" });
 
   async function handleSubmitForm(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const errors = validateRegisterForm(user);
 
-    if (Object.keys(errors).length > 0) {
-      setFieldErrors(errors);
-      return;
-    }
+    const errors = validateRegisterParams(user);
+    setInputErrors(errors);
+    if (Object.keys(errors).length > 0) return;
 
-    setFieldErrors({});
     await register(user);
   }
 
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
-    setUser((prev) => ({ ...prev, [name]: value }));
+    setUser((prevUser) => ({ ...prevUser, [name]: value }));
 
-    if (fieldErrors[name as keyof ValidationErrors]) {
-      setFieldErrors((prev) => ({ ...prev, [name]: undefined }));
+    if (inputErrors[name as keyof ValidationErrors]) {
+      setInputErrors((prevError) => ({ ...prevError, [name]: undefined }));
     }
   }
 
-  const errorMessage = apiError ? apiError.message : null;
+  const errorMessage = apiError ? (apiError as AuthApiError).message : null;
 
   return (
     <div className="flex h-dvh w-full flex-col items-center justify-center">
-      {errorMessage && <Alert errorText={errorMessage} />}
+      {errorMessage && <Alert message={errorMessage} />}
 
       <h1>ФОРМА РЕЄСТРАЦІЇ</h1>
 
@@ -60,7 +56,7 @@ function RegisterForm() {
           className="w-full border-2"
           value={user.email}
           onChange={handleChangeInput}
-          textError={fieldErrors.email}
+          errorMessage={inputErrors.email}
         />
 
         <Input
@@ -74,7 +70,7 @@ function RegisterForm() {
           className="w-full border-2"
           value={user.password}
           onChange={handleChangeInput}
-          textError={fieldErrors.password}
+          errorMessage={inputErrors.password}
         />
 
         <Input
@@ -87,7 +83,7 @@ function RegisterForm() {
           className="w-full border-2"
           value={user.name}
           onChange={handleChangeInput}
-          textError={fieldErrors.name}
+          errorMessage={inputErrors.name}
         />
 
         <button

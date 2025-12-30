@@ -1,4 +1,4 @@
-import { logout } from "@/features/auth/authServices.ts";
+import { logout } from "@/features/auth/services.ts";
 
 function Profile() {
   const hangleLogout = async () => await logout();

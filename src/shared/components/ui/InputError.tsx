@@ -1,9 +1,9 @@
-interface InputError {
-  textError: string | undefined;
+interface InputErrorProps {
+  errorMessage: string | undefined;
 }
 
-function InputError({ textError }: InputError) {
-  return <p className="text-red-800">{textError}</p>;
+function InputError({ errorMessage }: InputErrorProps) {
+  return <p className="text-red-800">{errorMessage}</p>;
 }
 
 export default InputError;
