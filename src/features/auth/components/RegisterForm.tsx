@@ -1,48 +1,16 @@
-import { useState, type FormEvent, type ChangeEvent } from "react";
-import { useRegisterUserMutation } from "../api.ts";
 import Input from "@/shared/components/ui/Input";
 import Alert from "@/shared/components/ui/Alert";
-import { validateRegisterParams } from "@/features/auth/utils/helpers.ts";
-import type {
-  AuthApiError,
-  RegisterParams,
-  ValidationErrors,
-} from "../types.ts";
-import { registerUser } from "@/features/auth/slice.ts";
-import { useDispatch } from "react-redux";
+import useRegisterForm from "@/features/auth/hooks/useRegisterForm.ts";
 
 function RegisterForm() {
-  const [register, { isLoading, error: apiError }] = useRegisterUserMutation();
-  const [inputErrors, setInputErrors] = useState<ValidationErrors>({});
-  const [user, setUser] = useState<RegisterParams>({
-    email: "",
-    password: "",
-    name: "",
-  });
-
-  const dispatch = useDispatch();
-
-  async function handleSubmitForm(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    const errors = validateRegisterParams(user);
-    setInputErrors(errors);
-    if (Object.keys(errors).length > 0) return;
-
-    const userData = await register(user).unwrap();
-    dispatch(registerUser(userData));
-  }
-
-  function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-    setUser((prevUser) => ({ ...prevUser, [name]: value }));
-
-    if (inputErrors[name as keyof ValidationErrors]) {
-      setInputErrors((prevError) => ({ ...prevError, [name]: undefined }));
-    }
-  }
-
-  const errorMessage = apiError ? (apiError as AuthApiError).message : null;
+  const {
+    handleChangeInput,
+    handleSubmitForm,
+    errorMessage,
+    inputErrors,
+    isLoading,
+    user,
+  } = useRegisterForm();
 
   return (
     <div className="flex h-dvh w-full flex-col items-center justify-center">
@@ -99,7 +67,7 @@ function RegisterForm() {
           disabled={isLoading}
           className="cursor-pointer border-2 bg-green-600 disabled:bg-neutral-500"
         >
-          {isLoading ? "Loading..." : "Зареєструватись"}
+          {isLoading ? "Завантаження..." : "Зареєструватись"}
         </button>
       </form>
     </div>

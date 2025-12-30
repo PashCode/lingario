@@ -43,7 +43,7 @@ export const getAuthErrorMessage = (errorCode: string): string => {
 
 export function validateRegisterParams(user: RegisterParams): ValidationErrors {
   const errorMessages: ValidationErrors = {};
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Zа-яА-ЯіІїЇєЄґҐ]{2,}$/;
 
   // Імʼя
   if (!user.name.trim()) {
