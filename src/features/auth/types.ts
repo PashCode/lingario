@@ -9,6 +9,11 @@ export interface RegisterParams {
   name: string;
 }
 
+export interface LoginParams {
+  email: string;
+  password: string;
+}
+
 export interface User {
   email: string | null;
   name: string | null;
@@ -23,6 +28,6 @@ export interface AuthApiError {
 
 export interface ValidationErrors {
   email?: string;
-  password?: string;
-  name?: string;
+  password?: string ;
+  name?: string ;
 }

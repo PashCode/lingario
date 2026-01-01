@@ -1,22 +1,20 @@
-import { useRegisterUserMutation } from "@/features/auth/api.ts";
 import { type ChangeEvent, type FormEvent, useState } from "react";
-import type { AuthApiError, RegisterParams, ValidationErrors } from "@/features/auth/types.ts";
-import { useDispatch } from "react-redux";
-import { validateRegisterParams } from "@/features/auth/utils/helpers.ts";
-import { registerUser } from "@/features/auth/slice.ts";
+import type {
+  AuthApiError,
+  LoginParams,
+  ValidationErrors,
+} from "@/features/auth/types.ts";
+import { validateLogin } from "@/features/auth/utils/validation.ts";
+import { useLoginUserMutation } from "@/features/auth/api.ts";
 
-function useRegisterForm() {
-  const dispatch = useDispatch();
-  const [register, { isLoading, error: apiError }] = useRegisterUserMutation();
-
-  const [user, setUser] = useState<RegisterParams>({ email: "", password: "", name: "" });
+function useAuthLogin() {
+  const [user, setUser] = useState<LoginParams>({ email: "", password: "" });
   const [inputErrors, setInputErrors] = useState<ValidationErrors>({});
+  const [login, { isLoading, error: apiError }] = useLoginUserMutation();
 
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
-
     setUser((prevUser) => ({ ...prevUser, [name]: value }));
-
     if (inputErrors[name as keyof ValidationErrors]) {
       setInputErrors((prevError) => ({ ...prevError, [name]: undefined }));
     }
@@ -24,16 +22,15 @@ function useRegisterForm() {
 
   async function handleSubmitForm(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    const errors = validateRegisterParams(user);
+    const errors = validateLogin(user);
     setInputErrors(errors);
+
     if (Object.keys(errors).length > 0) return;
 
     try {
-      const userData = await register(user).unwrap();
-      dispatch(registerUser(userData));
+      await login(user).unwrap();
     } catch (error) {
-      console.error("Registration failed:", error);
+      console.error("Authenticated failed: ", error);
     }
   }
 
@@ -49,4 +46,4 @@ function useRegisterForm() {
   };
 }
 
-export default useRegisterForm;
+export default useAuthLogin;

@@ -1,11 +1,7 @@
-import RegisterForm from "../../features/auth/components/RegisterForm.tsx";
+import AuthForm from "@/features/auth/components/AuthForm.tsx";
 
 function Auth() {
-  return (
-    <>
-      <RegisterForm />
-    </>
-  );
+  return <AuthForm />;
 }
 
 export default Auth;

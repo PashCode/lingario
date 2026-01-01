@@ -6,7 +6,7 @@ import {
   // sendEmailVerification,
 } from "firebase/auth";
 import auth from "@/config/firebase";
-import type { RegisterParams } from "@/features/auth/types.ts";
+import type { LoginParams, RegisterParams } from "@/features/auth/types.ts";
 
 export async function register({ email, name, password }: RegisterParams) {
   const { user } = await createUserWithEmailAndPassword(auth, email, password);
@@ -15,8 +15,9 @@ export async function register({ email, name, password }: RegisterParams) {
   return user;
 }
 
-export async function login(email: string, password: string) {
-  await signInWithEmailAndPassword(auth, email, password);
+export async function login({email, password}: LoginParams) {
+  const {user} = await signInWithEmailAndPassword(auth, email, password);
+  return user
 }
 
 export async function logout() {

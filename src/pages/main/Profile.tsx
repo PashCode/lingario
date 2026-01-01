@@ -1,12 +1,10 @@
-import { logout } from "@/features/auth/services.ts";
+import LogoutButton from "@/features/auth/components/LogoutButton.tsx";
 
 function Profile() {
-  const hangleLogout = async () => await logout();
-
   return (
     <>
       <div>PROFILE</div>
-      <button onClick={() => hangleLogout()}>Вийти</button>
+      <LogoutButton />
     </>
   );
 }

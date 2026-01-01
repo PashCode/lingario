@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 function FullScreenLayout() {
   return (
     <>
-      <main>
+      <main className='h-dvh flex items-center justify-center'>
         <Outlet />
       </main>
     </>

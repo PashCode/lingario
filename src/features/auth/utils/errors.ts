@@ -1,7 +1,6 @@
 import { AUTH_ERRORS } from "./constants.ts";
-import type { RegisterParams, ValidationErrors } from "@/features/auth/types.ts";
 
-export const getAuthErrorMessage = (errorCode: string): string => {
+const getAuthErrorMessage = (errorCode: string): string => {
   switch (errorCode) {
     // Пошта
     case AUTH_ERRORS.EMAIL_ALREADY_IN_USE:
@@ -41,30 +40,4 @@ export const getAuthErrorMessage = (errorCode: string): string => {
   }
 };
 
-export function validateRegisterParams(user: RegisterParams): ValidationErrors {
-  const errorMessages: ValidationErrors = {};
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Zа-яА-ЯіІїЇєЄґҐ]{2,}$/;
-
-  // Імʼя
-  if (!user.name.trim()) {
-    errorMessages.name = getAuthErrorMessage(AUTH_ERRORS.VALIDATION_NAME_REQUIRED);
-  } else if (user.name.trim().length < 2) {
-    errorMessages.name = getAuthErrorMessage(AUTH_ERRORS.VALIDATION_NAME_SHORT);
-  }
-
-  // Імейл
-  if (!user.email.trim()) {
-    errorMessages.email = getAuthErrorMessage(AUTH_ERRORS.VALIDATION_EMAIL_REQUIRED);
-  } else if (!emailRegex.test(user.email)) {
-    errorMessages.email = getAuthErrorMessage(AUTH_ERRORS.INVALID_EMAIL);
-  }
-
-  // Пароль
-  if (!user.password) {
-    errorMessages.password = getAuthErrorMessage(AUTH_ERRORS.MISSING_PASSWORD);
-  } else if (user.password.length < 6) {
-    errorMessages.password = getAuthErrorMessage(AUTH_ERRORS.WEAK_PASSWORD);
-  }
-
-  return errorMessages;
-}
+export default getAuthErrorMessage;
