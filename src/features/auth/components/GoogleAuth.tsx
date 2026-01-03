@@ -1,11 +1,14 @@
-import { useLoginWithGoogleMutation } from "@/features/auth/api.ts";
-import type { AuthApiError } from "@/features/auth/types.ts";
-import Alert from "@/shared/components/ui/Alert.tsx";
+import { useLoginWithGoogleMutation } from "@/features/auth/api";
+import type { AuthApiError } from "@/features/auth/types";
+import Alert from "@/shared/components/ui/Alert";
 
 function GoogleAuth() {
-  const [loginWithGoogle, { isLoading, error: apiError }] = useLoginWithGoogleMutation();
+  const [loginWithGoogle, { isLoading, error: googleLoginError }] = useLoginWithGoogleMutation();
   const handleLoginWithGoogle = () => loginWithGoogle();
-  const errorMessage = apiError ? (apiError as AuthApiError).message : null;
+
+  const errorMessage = googleLoginError
+    ? (googleLoginError as AuthApiError).message
+    : null;
 
   return (
     <div>

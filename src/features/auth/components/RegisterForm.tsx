@@ -1,6 +1,6 @@
 import Input from "@/shared/components/ui/Input";
 import Alert from "@/shared/components/ui/Alert";
-import useAuthRegister from "@/features/auth/hooks/useAuthRegister.ts";
+import useRegister from "@/features/auth/hooks/useRegister";
 
 function RegisterForm() {
   const {
@@ -10,7 +10,7 @@ function RegisterForm() {
     inputErrors,
     isLoading,
     user,
-  } = useAuthRegister();
+  } = useRegister();
 
   return (
     <div className="flex h-full w-full flex-col items-center">

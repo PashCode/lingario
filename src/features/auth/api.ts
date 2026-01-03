@@ -1,6 +1,12 @@
-import baseApi from "@/shared/api/baseApi.ts";
-import { register, login, logout, loginWithGoogle } from "./services.ts";
-import getAuthErrorMessage from "./utils/errors.ts";
+import baseApi from "@/shared/api/baseApi";
+import {
+  register,
+  login,
+  logout,
+  loginWithGoogle,
+  deleteAccount,
+} from "./services";
+import getAuthErrorMessage from "./utils/errors";
 import type { FirebaseError } from "firebase/app";
 import type {
   RegisterParams,
@@ -9,7 +15,7 @@ import type {
   LoginParams,
 } from "./types.ts";
 import { type User as FirebaseUser } from "firebase/auth";
-import { setUser } from "@/features/auth/slice.ts";
+import { setUser } from "@/features/auth/slice";
 
 function handleAuthError(error: FirebaseError) {
   const readableMessage = getAuthErrorMessage(error.code);
@@ -69,7 +75,7 @@ const api = baseApi.injectEndpoints({
           await logout();
           return { data: null };
         } catch (error) {
-          return { error: error };
+          return handleAuthError(error as FirebaseError);
         }
       },
     }),
@@ -84,6 +90,17 @@ const api = baseApi.injectEndpoints({
         }
       },
     }),
+
+    deleteAccount: builder.mutation<null, void>({
+      queryFn: async () => {
+        try {
+          await deleteAccount();
+          return { data: null };
+        } catch (error) {
+          return handleAuthError(error as FirebaseError);
+        }
+      },
+    }),
   }),
 });
 
@@ -92,4 +109,5 @@ export const {
   useLoginUserMutation,
   useLogoutUserMutation,
   useLoginWithGoogleMutation,
+  useDeleteAccountMutation,
 } = api;

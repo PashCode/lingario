@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import auth from "@/config/firebase";
-import { logoutUser, setUser } from "@/features/auth/slice.ts";
-import checkRedirectResul from "@/features/auth/utils/AuthRedirect.ts";
+import { clearUser, setUser } from "@/features/auth/slice";
+import checkRedirectResul from "@/features/auth/utils/authRedirect";
 
 const useAuthListener = () => {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const useAuthListener = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
-        dispatch(logoutUser());
+        dispatch(clearUser());
         return;
       }
 

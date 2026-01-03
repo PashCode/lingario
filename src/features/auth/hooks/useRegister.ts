@@ -1,16 +1,16 @@
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import type {
   AuthApiError,
-  LoginParams,
+  RegisterParams,
   ValidationErrors,
 } from "@/features/auth/types.ts";
-import { validateLogin } from "@/features/auth/utils/validation.ts";
-import { useLoginUserMutation } from "@/features/auth/api.ts";
+import { validateRegister } from "@/features/auth/utils/validation";
+import { useRegisterUserMutation } from "@/features/auth/api";
 
-function useAuthLogin() {
-  const [user, setUser] = useState<LoginParams>({ email: "", password: "" });
+function useRegister() {
+  const [user, setUser] = useState<RegisterParams>({ email: "", password: "", name: "" });
   const [inputErrors, setInputErrors] = useState<ValidationErrors>({});
-  const [login, { isLoading, error: loginError }] = useLoginUserMutation();
+  const [register, { isLoading, error: registerError }] = useRegisterUserMutation();
 
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -23,19 +23,19 @@ function useAuthLogin() {
   async function handleSubmitForm(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const errors = validateLogin(user);
+    const errors = validateRegister(user);
     setInputErrors(errors);
     if (Object.keys(errors).length > 0) return;
 
     try {
-      await login(user).unwrap();
+      await register(user).unwrap();
     } catch (error) {
-      console.error("Login failed: ", error);
+      console.error("Registration failed: ", error);
     }
   }
 
-  const errorMessage = loginError
-    ? (loginError as AuthApiError).message
+  const errorMessage = registerError
+    ? (registerError as AuthApiError).message
     : null;
 
   return {
@@ -48,4 +48,4 @@ function useAuthLogin() {
   };
 }
 
-export default useAuthLogin;
+export default useRegister;

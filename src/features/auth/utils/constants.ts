@@ -8,6 +8,8 @@ export const AUTH_ERRORS = {
   USER_NOT_FOUND: "auth/user-not-found",
   WRONG_PASSWORD: "auth/wrong-password",
   INVALID_CREDENTIAL: "auth/invalid-credential",
+  REQUIRES_RECENT_LOGIN: "auth/requires-recent-login",
+  ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL: "auth/account-exists-with-different-credential",
 
   TOO_MANY_REQUESTS: "auth/too-many-requests",
   NETWORK_REQUEST_FAILED: "auth/network-request-failed",

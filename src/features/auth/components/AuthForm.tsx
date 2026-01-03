@@ -1,6 +1,6 @@
-import RegisterForm from "@/features/auth/components/RegisterForm.tsx";
-import LoginForm from "@/features/auth/components/LoginForm.tsx";
-import GoogleAuth from "@/features/auth/components/googleAuth.tsx";
+import RegisterForm from "@/features/auth/components/RegisterForm";
+import LoginForm from "@/features/auth/components/LoginForm";
+import GoogleAuth from "@/features/auth/components/GoogleAuth";
 
 function AuthForm() {
   return (

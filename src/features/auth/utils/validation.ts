@@ -1,10 +1,10 @@
-import { AUTH_ERRORS } from "./constants.ts";
+import { AUTH_ERRORS } from "./constants";
 import type {
   LoginParams,
   RegisterParams,
   ValidationErrors,
-} from "@/features/auth/types.ts";
-import getAuthErrorMessage from "@/features/auth/utils/errors.ts";
+} from "@/features/auth/types";
+import getAuthErrorMessage from "@/features/auth/utils/errors";
 
 function validateEmail(email: string, errorMessages: ValidationErrors) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Zа-яА-ЯіІїЇєЄґҐ]{2,}$/;

@@ -1,6 +1,6 @@
-import Input from "@/shared/components/ui/Input.tsx";
-import useAuthForm from "@/features/auth/hooks/useAuthLogin";
-import Alert from "@/shared/components/ui/Alert.tsx";
+import Input from "@/shared/components/ui/Input";
+import useAuthForm from "@/features/auth/hooks/useLogin";
+import Alert from "@/shared/components/ui/Alert";
 
 function LoginForm() {
   const {

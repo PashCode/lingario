@@ -1,4 +1,4 @@
-import { AUTH_ERRORS } from "./constants.ts";
+import { AUTH_ERRORS } from "./constants";
 
 const getAuthErrorMessage = (errorCode: string): string => {
   switch (errorCode) {
@@ -20,6 +20,14 @@ const getAuthErrorMessage = (errorCode: string): string => {
     case AUTH_ERRORS.INVALID_CREDENTIAL:
     case AUTH_ERRORS.OPERATION_NOT_ALLOWED:
       return "Невірний email або пароль.";
+
+    //   Вхід через Google Sign in або інші провайдери
+    case AUTH_ERRORS.ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL:
+      return "Акаунт з такою поштою вже існує. Увійдіть через логін/пароль.";
+
+    // Видалення акаунту
+    case AUTH_ERRORS.REQUIRES_RECENT_LOGIN:
+      return "Щоб видалити акаунт, потрібно підтвердити особу. Вийдіть і увійдіть знову.";
 
     // Валідація
     case AUTH_ERRORS.VALIDATION_NAME_REQUIRED:

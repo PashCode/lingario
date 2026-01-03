@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { AuthState } from "./types.ts";
+import type { AuthState } from "./types";
 
 const initialState: AuthState = {
   user: null,
@@ -14,7 +14,7 @@ const slice = createSlice({
       state.user = action.payload;
       state.status = "success";
     },
-    logoutUser: (state) => {
+    clearUser: (state) => {
       state.user = null;
       state.status = "success";
     },
@@ -26,15 +26,7 @@ const slice = createSlice({
   },
 });
 
-export const {
-  setUser,
-  logoutUser,
-} = slice.actions;
-
-export const {
-  selectUser,
-  selectAuthStatus,
-  selectIsUserAuthenticated,
-} = slice.selectors;
+export const { setUser, clearUser } = slice.actions;
+export const { selectUser, selectAuthStatus, selectIsUserAuthenticated } = slice.selectors;
 
 export default slice.reducer;
