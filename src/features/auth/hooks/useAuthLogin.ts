@@ -10,7 +10,7 @@ import { useLoginUserMutation } from "@/features/auth/api.ts";
 function useAuthLogin() {
   const [user, setUser] = useState<LoginParams>({ email: "", password: "" });
   const [inputErrors, setInputErrors] = useState<ValidationErrors>({});
-  const [login, { isLoading, error: apiError }] = useLoginUserMutation();
+  const [login, { isLoading, error: loginError }] = useLoginUserMutation();
 
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -22,19 +22,21 @@ function useAuthLogin() {
 
   async function handleSubmitForm(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     const errors = validateLogin(user);
     setInputErrors(errors);
-
     if (Object.keys(errors).length > 0) return;
 
     try {
       await login(user).unwrap();
     } catch (error) {
-      console.error("Authenticated failed: ", error);
+      console.error("Login failed: ", error);
     }
   }
 
-  const errorMessage = apiError ? (apiError as AuthApiError).message : null;
+  const errorMessage = loginError
+    ? (loginError as AuthApiError).message
+    : null;
 
   return {
     handleChangeInput,

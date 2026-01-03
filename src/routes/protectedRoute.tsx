@@ -8,9 +8,9 @@ import {
 
 const ProtectedRoute = () => {
   const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
-  const status = useSelector(selectAuthStatus)
+  const status = useSelector(selectAuthStatus);
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return (
       <div className="flex h-screen items-center justify-center">
         Завантаження...

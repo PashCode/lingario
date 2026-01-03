@@ -13,7 +13,7 @@ function RegisterForm() {
   } = useAuthRegister();
 
   return (
-    <div className="flex w-full h-full flex-col items-center">
+    <div className="flex h-full w-full flex-col items-center">
       {errorMessage && <Alert message={errorMessage} />}
 
       <h1>ФОРМА РЕЄСТРАЦІЇ</h1>
@@ -24,11 +24,11 @@ function RegisterForm() {
         className="flex w-1/2 flex-col justify-around border-4 border-green-900"
       >
         <Input
-          id="email"
+          id="register-email"
+          htmlFor="register-email"
           type="email"
           name="email"
           autoComplete="email"
-          htmlFor="email"
           labelText="Введіть email:"
           className="w-full border-2"
           value={user.email}
@@ -37,11 +37,11 @@ function RegisterForm() {
         />
 
         <Input
-          id="password"
+          id="register-password"
+          htmlFor="register-password"
           type="password"
           name="password"
           autoComplete="new-password"
-          htmlFor="password"
           labelText="Введіть пароль:"
           placeholder="Від 6 символів"
           className="w-full border-2"
@@ -51,10 +51,10 @@ function RegisterForm() {
         />
 
         <Input
-          id="name"
+          id="register-name"
+          htmlFor="register-name"
           type="text"
           name="name"
-          htmlFor="name"
           labelText="Введіть ім'я:"
           placeholder="Від 2 символів"
           className="w-full border-2"

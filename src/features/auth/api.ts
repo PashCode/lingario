@@ -1,5 +1,5 @@
 import baseApi from "@/shared/api/baseApi.ts";
-import { register, login, logout } from "./services.ts";
+import { register, login, logout, loginWithGoogle } from "./services.ts";
 import getAuthErrorMessage from "./utils/errors.ts";
 import type { FirebaseError } from "firebase/app";
 import type {
@@ -43,10 +43,8 @@ const api = baseApi.injectEndpoints({
         }
       },
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        console.log("QUERY STARTED START");
         try {
           const { data } = await queryFulfilled;
-          console.log("QUERY STARTED DATA", data);
           dispatch(setUser(data));
         } catch (error) {
           handleAuthError(error as FirebaseError);
@@ -58,7 +56,7 @@ const api = baseApi.injectEndpoints({
       queryFn: async ({ email, password }) => {
         try {
           const firebaseUser = await login({ email, password });
-          return handleAuthRequest(firebaseUser, null);
+          return handleAuthRequest(firebaseUser, null); // опціональні дані (поки що не потрібні)
         } catch (error) {
           return handleAuthError(error as FirebaseError);
         }
@@ -69,6 +67,17 @@ const api = baseApi.injectEndpoints({
       queryFn: async () => {
         try {
           await logout();
+          return { data: null };
+        } catch (error) {
+          return { error: error };
+        }
+      },
+    }),
+
+    loginWithGoogle: builder.mutation<null, void>({
+      queryFn: async () => {
+        try {
+          await loginWithGoogle();
           return { data: null };
         } catch (error) {
           return handleAuthError(error as FirebaseError);
@@ -82,4 +91,5 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useLogoutUserMutation,
+  useLoginWithGoogleMutation,
 } = api;

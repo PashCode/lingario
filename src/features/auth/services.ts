@@ -3,6 +3,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
+  signInWithRedirect,
+  GoogleAuthProvider,
   // sendEmailVerification,
 } from "firebase/auth";
 import auth from "@/config/firebase";
@@ -15,11 +17,15 @@ export async function register({ email, name, password }: RegisterParams) {
   return user;
 }
 
-export async function login({email, password}: LoginParams) {
-  const {user} = await signInWithEmailAndPassword(auth, email, password);
-  return user
+export async function login({ email, password }: LoginParams) {
+  const { user } = await signInWithEmailAndPassword(auth, email, password);
+  return user;
 }
 
 export async function logout() {
   await signOut(auth);
+}
+
+export async function loginWithGoogle() {
+  await signInWithRedirect(auth, new GoogleAuthProvider());
 }

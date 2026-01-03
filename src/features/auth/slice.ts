@@ -26,6 +26,15 @@ const slice = createSlice({
   },
 });
 
-export const { setUser, logoutUser } = slice.actions;
-export const { selectUser, selectAuthStatus, selectIsUserAuthenticated } = slice.selectors;
+export const {
+  setUser,
+  logoutUser,
+} = slice.actions;
+
+export const {
+  selectUser,
+  selectAuthStatus,
+  selectIsUserAuthenticated,
+} = slice.selectors;
+
 export default slice.reducer;

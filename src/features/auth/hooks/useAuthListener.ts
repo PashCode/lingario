@@ -3,26 +3,27 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import auth from "@/config/firebase";
 import { logoutUser, setUser } from "@/features/auth/slice.ts";
+import checkRedirectResul from "@/features/auth/utils/AuthRedirect.ts";
 
 const useAuthListener = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    void checkRedirectResul(auth);
+  }, []);
+
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log("спрацював useAuthListener");
       if (!user) {
-        console.log("Юзера немає зовсім, робимо dispatch logoutUser");
         dispatch(logoutUser());
         return;
       }
 
       if (!user.displayName) {
-        console.log("Немає імені юзера, виходимо з useAuthListener");
         return;
       }
 
       if (user) {
-        console.log("Юзер існує, тому робимо діспатч setUser");
         dispatch(
           setUser({
             email: user.email,

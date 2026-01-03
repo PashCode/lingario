@@ -4,13 +4,13 @@ import type {
   RegisterParams,
   ValidationErrors,
 } from "@/features/auth/types.ts";
-import { validateRegister,} from "@/features/auth/utils/validation.ts";
+import { validateRegister } from "@/features/auth/utils/validation.ts";
 import { useRegisterUserMutation } from "@/features/auth/api.ts";
 
 function useAuthRegister() {
   const [user, setUser] = useState<RegisterParams>({ email: "", password: "", name: "" });
   const [inputErrors, setInputErrors] = useState<ValidationErrors>({});
-  const [register, { isLoading, error: apiError }] = useRegisterUserMutation();
+  const [register, { isLoading, error: registerError }] = useRegisterUserMutation();
 
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -25,17 +25,18 @@ function useAuthRegister() {
 
     const errors = validateRegister(user);
     setInputErrors(errors);
-
     if (Object.keys(errors).length > 0) return;
 
     try {
       await register(user).unwrap();
     } catch (error) {
-      console.error("Authenticated failed: ", error);
+      console.error("Registration failed: ", error);
     }
   }
 
-  const errorMessage = apiError ? (apiError as AuthApiError).message : null;
+  const errorMessage = registerError
+    ? (registerError as AuthApiError).message
+    : null;
 
   return {
     handleChangeInput,

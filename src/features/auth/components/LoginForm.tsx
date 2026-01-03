@@ -13,20 +13,21 @@ function LoginForm() {
   } = useAuthForm();
 
   return (
-    <div className="w-full h-full flex flex-col items-center">
+    <div className="flex h-full w-full flex-col items-center">
       {errorMessage && <Alert message={errorMessage} />}
       <h1>ФОРМА ВХОДУ</h1>
 
       <form
+        noValidate
         onSubmit={handleSubmitForm}
         className="flex w-1/2 flex-col justify-around border-4 border-green-900"
       >
         <Input
-          id="email1"
+          id="login-email"
+          htmlFor="login-email"
           type="email"
           name="email"
           autoComplete="email"
-          htmlFor="email"
           labelText="Введіть email:"
           className="w-full border-2"
           value={user.email}
@@ -35,11 +36,10 @@ function LoginForm() {
         />
 
         <Input
-          id="password1"
+          id="login-password"
+          htmlFor="login-password"
           type="password"
           name="password"
-          autoComplete="new-password"
-          htmlFor="password"
           labelText="Введіть пароль:"
           placeholder="Від 6 символів"
           className="w-full border-2"
