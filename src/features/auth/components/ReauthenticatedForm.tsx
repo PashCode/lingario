@@ -1,8 +1,7 @@
-import Input from "@/shared/components/ui/Input";
-import useLogin from "@/features/auth/hooks/useLogin";
 import Alert from "@/shared/components/ui/Alert";
+import Input from "@/shared/components/ui/Input";
 
-function LoginForm() {
+function ReauthenticatedForm(props) {
   const {
     handleChangeInput,
     handleSubmitForm,
@@ -10,12 +9,12 @@ function LoginForm() {
     inputErrors,
     isLoading,
     user,
-  } = useLogin();
+  } = props;
 
   return (
     <div className="flex h-full w-full flex-col items-center">
       {errorMessage && <Alert message={errorMessage} />}
-      <h1>ФОРМА ВХОДУ</h1>
+      <h1>ФОРМА ПІДТВЕРДЖЕННЯ ДАНИХ ПЕРЕД ВИДАЛЕННЯМ</h1>
 
       <form
         noValidate
@@ -23,8 +22,8 @@ function LoginForm() {
         className="flex w-1/2 flex-col justify-around border-4 border-green-900"
       >
         <Input
-          id="login-email"
-          htmlFor="login-email"
+          id="login-email1"
+          htmlFor="login-email1"
           type="email"
           name="email"
           autoComplete="email"
@@ -36,8 +35,8 @@ function LoginForm() {
         />
 
         <Input
-          id="login-password"
-          htmlFor="login-password"
+          id="login-password1"
+          htmlFor="login-password1"
           type="password"
           name="password"
           labelText="Введіть пароль:"
@@ -59,4 +58,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default ReauthenticatedForm

@@ -11,6 +11,9 @@ import {
 import auth from "@/config/firebase";
 import type { LoginParams, RegisterParams } from "@/features/auth/types";
 
+// import { reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
+
+
 export async function register({ email, name, password }: RegisterParams) {
   const { user } = await createUserWithEmailAndPassword(auth, email, password);
   await updateProfile(user, { displayName: name });
