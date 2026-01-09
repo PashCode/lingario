@@ -1,49 +1,33 @@
-import Alert from "@/shared/components/ui/Alert";
 import useDeleteAccount from "@/features/auth/hooks/useDeleteAccount";
-import ReauthenticatedForm from "@/features/auth/components/ReauthenticatedForm";
-import CheckDeleteAccount from "@/features/auth/components/CheckDeleteAccount";
+import ReauthForm from "@/features/auth/components/ReauthForm";
+import Button from "@/shared/components/ui/Button";
 
 function DeleteAccount() {
   const {
-    handleChangeInput,
-    handleSubmitForm,
-    deleteAccount,
-    errorMessage,
-    errorCode,
-    inputErrors,
     isLoading,
-    user,
-    isDeleteConfirm,
-    setIsDeleteConfirm,
+    isModalOpen,
+    setModalOpen,
+    handleDelete
   } = useDeleteAccount();
 
   return (
     <>
-      <button
+      <Button
+        text={isLoading ? "Видалення..." : "Видалити акаунт"}
         disabled={isLoading}
         className="border-4 border-red-600 disabled:bg-neutral-500"
-        onClick={() => setIsDeleteConfirm(true)}
-      >
-        {isLoading ? "Видалення..." : "Видалити акаунт"}
-      </button>
+        onClick={() => setModalOpen(true)}
+      />
 
-      {isDeleteConfirm && (
-        <CheckDeleteAccount
-          deleteAccount={deleteAccount}
-          setIsDeleteConfirm={setIsDeleteConfirm}
-        />
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <ReauthForm
+            handleDelete={handleDelete}
+            isLoading={isLoading}
+            onCancel={() => setModalOpen(false)}
+          />
+        </div>
       )}
-      {errorCode === "auth/requires-recent-login" && (
-        <ReauthenticatedForm
-          handleChangeInput={handleChangeInput}
-          handleSubmitForm={handleSubmitForm}
-          errorMessage={errorMessage}
-          inputErrors={inputErrors}
-          isLoading={isLoading}
-          user={user}
-        />
-      )}
-      {errorMessage && <Alert message={errorMessage} />}
     </>
   );
 }

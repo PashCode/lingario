@@ -10,29 +10,41 @@ function validateEmail(email: string, errorMessages: ValidationErrors) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Zа-яА-ЯіІїЇєЄґҐ]{2,}$/;
 
   if (!email.trim())
-    return (errorMessages.email = getAuthErrorMessage( AUTH_ERRORS.VALIDATION_EMAIL_REQUIRED ))
+    return (errorMessages.email = getAuthErrorMessage(
+      AUTH_ERRORS.VALIDATION_EMAIL_REQUIRED,
+    ));
   if (!emailRegex.test(email))
-    return (errorMessages.email = getAuthErrorMessage( AUTH_ERRORS.INVALID_EMAIL ));
+    return (errorMessages.email = getAuthErrorMessage(
+      AUTH_ERRORS.INVALID_EMAIL,
+    ));
 
-    return null;
+  return null;
 }
 
 function validatePassword(password: string, errorMessages: ValidationErrors) {
   if (!password)
-    return (errorMessages.password = getAuthErrorMessage( AUTH_ERRORS.MISSING_PASSWORD ));
+    return (errorMessages.password = getAuthErrorMessage(
+      AUTH_ERRORS.MISSING_PASSWORD,
+    ));
   if (password.length < 6)
-    return (errorMessages.password = getAuthErrorMessage( AUTH_ERRORS.WEAK_PASSWORD ));
+    return (errorMessages.password = getAuthErrorMessage(
+      AUTH_ERRORS.WEAK_PASSWORD,
+    ));
 
-    return null;
+  return null;
 }
 
 function validateName(name: string, errorMessages: ValidationErrors) {
   if (!name.trim())
-    return (errorMessages.name = getAuthErrorMessage( AUTH_ERRORS.VALIDATION_NAME_REQUIRED, ));
+    return (errorMessages.name = getAuthErrorMessage(
+      AUTH_ERRORS.VALIDATION_NAME_REQUIRED,
+    ));
   if (name.trim().length < 2)
-    return (errorMessages.name = getAuthErrorMessage( AUTH_ERRORS.VALIDATION_NAME_SHORT ));
+    return (errorMessages.name = getAuthErrorMessage(
+      AUTH_ERRORS.VALIDATION_NAME_SHORT,
+    ));
 
-    return null;
+  return null;
 }
 
 export function validateRegister(user: RegisterParams) {
@@ -47,5 +59,11 @@ export function validateLogin(user: LoginParams) {
   const errorMessages: ValidationErrors = {};
   validateEmail(user.email, errorMessages);
   validatePassword(user.password, errorMessages);
+  return errorMessages;
+}
+
+export function validateReAuthenticatedPassword(password: string) {
+  const errorMessages: ValidationErrors = {};
+  validatePassword(password, errorMessages);
   return errorMessages;
 }

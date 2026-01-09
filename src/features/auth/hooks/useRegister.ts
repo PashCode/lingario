@@ -5,12 +5,13 @@ import type {
   ValidationErrors,
 } from "@/features/auth/types.ts";
 import { validateRegister } from "@/features/auth/utils/validation";
-import { useRegisterUserMutation } from "@/features/auth/api";
+import { useRegisterUserMutation } from "@/features/auth/api"
+import { toast } from "sonner";
 
 function useRegister() {
   const [user, setUser] = useState<RegisterParams>({ email: "", password: "", name: "" });
   const [inputErrors, setInputErrors] = useState<ValidationErrors>({});
-  const [register, { isLoading, error: registerError }] = useRegisterUserMutation();
+  const [register, { isLoading }] = useRegisterUserMutation();
 
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -29,19 +30,15 @@ function useRegister() {
 
     try {
       await register(user).unwrap();
+      toast.success('Ласкаво просимо');
     } catch (error) {
-      console.error("Registration failed: ", error);
+      toast.error((error as AuthApiError).message);
     }
   }
-
-  const errorMessage = registerError
-    ? (registerError as AuthApiError).message
-    : null;
 
   return {
     handleChangeInput,
     handleSubmitForm,
-    errorMessage,
     inputErrors,
     isLoading,
     user,

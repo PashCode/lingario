@@ -3,13 +3,19 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import auth from "@/config/firebase";
 import { clearUser, setUser } from "@/features/auth/slice";
-import checkRedirectResul from "@/features/auth/utils/authRedirect";
+import {
+  checkGoogleAuthRedirect,
+  greetingAfterGoogleRedirect,
+} from "@/features/auth/utils/googleRedirect";
 
 const useAuthListener = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    void checkRedirectResul(auth);
+    checkGoogleAuthRedirect(auth).then((userCredentials) => {
+      if (!userCredentials) return;
+      greetingAfterGoogleRedirect(userCredentials);
+    });
   }, []);
 
   useEffect(() => {

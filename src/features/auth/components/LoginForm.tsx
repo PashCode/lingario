@@ -1,12 +1,11 @@
 import Input from "@/shared/components/ui/Input";
+import Button from "@/shared/components/ui/Button";
 import useLogin from "@/features/auth/hooks/useLogin";
-import Alert from "@/shared/components/ui/Alert";
 
 function LoginForm() {
   const {
     handleChangeInput,
     handleSubmitForm,
-    errorMessage,
     inputErrors,
     isLoading,
     user,
@@ -14,7 +13,6 @@ function LoginForm() {
 
   return (
     <div className="flex h-full w-full flex-col items-center">
-      {errorMessage && <Alert message={errorMessage} />}
       <h1>ФОРМА ВХОДУ</h1>
 
       <form
@@ -48,12 +46,11 @@ function LoginForm() {
           errorMessage={inputErrors.password}
         />
 
-        <button
+        <Button
+          text={isLoading ? "Завантаження..." : "Увійти"}
           disabled={isLoading}
           className="cursor-pointer border-2 bg-green-600 disabled:bg-neutral-500"
-        >
-          {isLoading ? "Завантаження..." : "Увійти"}
-        </button>
+        />
       </form>
     </div>
   );

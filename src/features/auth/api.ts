@@ -5,6 +5,7 @@ import {
   logout,
   loginWithGoogle,
   deleteAccount,
+  reauthenticateDeleteAccount,
 } from "./services";
 import getAuthErrorMessage from "./utils/errors";
 import type { FirebaseError } from "firebase/app";
@@ -101,6 +102,17 @@ const api = baseApi.injectEndpoints({
         }
       },
     }),
+
+    reauthenticateDeleteAccount: builder.mutation({
+      queryFn: async (password) => {
+        try {
+          await reauthenticateDeleteAccount(password);
+          return { data: null };
+        } catch (error) {
+          return handleAuthError(error as FirebaseError);
+        }
+      },
+    }),
   }),
 });
 
@@ -110,4 +122,5 @@ export const {
   useLogoutUserMutation,
   useLoginWithGoogleMutation,
   useDeleteAccountMutation,
+  useReauthenticateDeleteAccountMutation,
 } = api;

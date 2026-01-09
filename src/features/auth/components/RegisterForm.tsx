@@ -1,12 +1,11 @@
 import Input from "@/shared/components/ui/Input";
-import Alert from "@/shared/components/ui/Alert";
+import Button from "@/shared/components/ui/Button";
 import useRegister from "@/features/auth/hooks/useRegister";
 
 function RegisterForm() {
   const {
     handleChangeInput,
     handleSubmitForm,
-    errorMessage,
     inputErrors,
     isLoading,
     user,
@@ -14,8 +13,6 @@ function RegisterForm() {
 
   return (
     <div className="flex h-full w-full flex-col items-center">
-      {errorMessage && <Alert message={errorMessage} />}
-
       <h1>ФОРМА РЕЄСТРАЦІЇ</h1>
 
       <form
@@ -63,12 +60,11 @@ function RegisterForm() {
           errorMessage={inputErrors.name}
         />
 
-        <button
+        <Button
+          text={isLoading ? "Завантаження..." : "Зареєструватись"}
           disabled={isLoading}
           className="cursor-pointer border-2 bg-green-600 disabled:bg-neutral-500"
-        >
-          {isLoading ? "Завантаження..." : "Зареєструватись"}
-        </button>
+        />
       </form>
     </div>
   );

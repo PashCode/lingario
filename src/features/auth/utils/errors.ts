@@ -44,7 +44,7 @@ const getAuthErrorMessage = (errorCode: string): string => {
       return "Помилка мережі. Перевірте інтернет.";
 
     default:
-      return "Сталася помилка. Спробуйте ще раз.";
+      return "Сталася непередбачувана помилка. Спробуйте пізніше.";
   }
 };
 

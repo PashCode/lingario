@@ -6,11 +6,12 @@ import type {
 } from "@/features/auth/types.ts";
 import { validateLogin } from "@/features/auth/utils/validation";
 import { useLoginUserMutation } from "@/features/auth/api";
+import { toast } from "sonner";
 
 function useLogin() {
   const [user, setUser] = useState<LoginParams>({ email: "", password: "" });
   const [inputErrors, setInputErrors] = useState<ValidationErrors>({});
-  const [login, { isLoading, error: loginError }] = useLoginUserMutation();
+  const [login, { isLoading }] = useLoginUserMutation();
 
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -29,19 +30,15 @@ function useLogin() {
 
     try {
       await login(user).unwrap();
+      toast.success("З поверненням");
     } catch (error) {
-      console.error("Login failed: ", error);
+      toast.error((error as AuthApiError).message);
     }
   }
-
-  const errorMessage = loginError
-    ? (loginError as AuthApiError).message
-    : null;
 
   return {
     handleChangeInput,
     handleSubmitForm,
-    errorMessage,
     inputErrors,
     isLoading,
     user,

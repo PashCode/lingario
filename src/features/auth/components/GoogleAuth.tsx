@@ -1,26 +1,27 @@
 import { useLoginWithGoogleMutation } from "@/features/auth/api";
 import type { AuthApiError } from "@/features/auth/types";
-import Alert from "@/shared/components/ui/Alert";
+import { toast } from "sonner";
+import Button from "@/shared/components/ui/Button";
 
 function GoogleAuth() {
-  const [loginWithGoogle, { isLoading, error: googleLoginError }] = useLoginWithGoogleMutation();
-  const handleLoginWithGoogle = () => loginWithGoogle();
+  const [loginWithGoogle, { isLoading }] = useLoginWithGoogleMutation();
 
-  const errorMessage = googleLoginError
-    ? (googleLoginError as AuthApiError).message
-    : null;
+  async function handleLoginWithGoogle() {
+    try {
+      await loginWithGoogle().unwrap();
+    } catch (error) {
+      toast.error((error as AuthApiError).message);
+    }
+  }
 
   return (
     <div>
-      <button
+      <Button
+        text={isLoading ? "Завантаження..." : "Увійти через Google"}
         disabled={isLoading}
         className="cursor-pointer border-2 bg-green-600 disabled:bg-neutral-500"
         onClick={handleLoginWithGoogle}
-      >
-        {isLoading ? "Завантаження..." : "Увійти через Google"}
-      </button>
-
-      {errorMessage && <Alert message={errorMessage} />}
+      />
     </div>
   );
 }
