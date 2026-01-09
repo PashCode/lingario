@@ -4,6 +4,7 @@ import type { AuthState } from "./types";
 const initialState: AuthState = {
   user: null,
   status: "loading",
+  googleRedirectStatus: "idle",
 };
 
 const slice = createSlice({
@@ -18,15 +19,25 @@ const slice = createSlice({
       state.user = null;
       state.status = "success";
     },
+    setGoogleRedirectStatus: (state, action) => {
+      state.googleRedirectStatus = action.payload;
+    },
   },
   selectors: {
     selectUser: (state) => state.user,
     selectAuthStatus: (state) => state.status,
     selectIsUserAuthenticated: (state) => state.user !== null,
+    selectSetGoogleRedirectStatus: (state) => state.googleRedirectStatus,
   },
 });
 
-export const { setUser, clearUser } = slice.actions;
-export const { selectUser, selectAuthStatus, selectIsUserAuthenticated } = slice.selectors;
+export const { setUser, clearUser, setGoogleRedirectStatus } = slice.actions;
+
+export const {
+  selectUser,
+  selectAuthStatus,
+  selectIsUserAuthenticated,
+  selectSetGoogleRedirectStatus,
+} = slice.selectors;
 
 export default slice.reducer;

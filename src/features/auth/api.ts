@@ -3,7 +3,6 @@ import {
   register,
   login,
   logout,
-  loginWithGoogle,
   deleteAccount,
   reauthenticateDeleteAccount,
 } from "./services";
@@ -81,17 +80,6 @@ const api = baseApi.injectEndpoints({
       },
     }),
 
-    loginWithGoogle: builder.mutation<null, void>({
-      queryFn: async () => {
-        try {
-          await loginWithGoogle();
-          return { data: null };
-        } catch (error) {
-          return handleAuthError(error as FirebaseError);
-        }
-      },
-    }),
-
     deleteAccount: builder.mutation<null, void>({
       queryFn: async () => {
         try {
@@ -120,7 +108,6 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useLogoutUserMutation,
-  useLoginWithGoogleMutation,
   useDeleteAccountMutation,
   useReauthenticateDeleteAccountMutation,
 } = api;
