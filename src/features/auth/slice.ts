@@ -27,17 +27,21 @@ const slice = createSlice({
     selectUser: (state) => state.user,
     selectAuthStatus: (state) => state.status,
     selectIsUserAuthenticated: (state) => state.user !== null,
-    selectSetGoogleRedirectStatus: (state) => state.googleRedirectStatus,
+    selectGoogleRedirectStatus: (state) => state.googleRedirectStatus,
   },
 });
 
-export const { setUser, clearUser, setGoogleRedirectStatus } = slice.actions;
+export const {
+  setUser,
+  clearUser,
+  setGoogleRedirectStatus,
+} = slice.actions;
 
 export const {
   selectUser,
   selectAuthStatus,
   selectIsUserAuthenticated,
-  selectSetGoogleRedirectStatus,
+  selectGoogleRedirectStatus,
 } = slice.selectors;
 
 export default slice.reducer;

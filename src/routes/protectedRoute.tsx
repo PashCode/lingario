@@ -5,17 +5,14 @@ import {
   selectAuthStatus,
   selectIsUserAuthenticated,
 } from "@/features/auth/slice.ts";
+import GlobalLoading from "@/shared/components/ui/GlobalLoading";
 
 const ProtectedRoute = () => {
   const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
   const status = useSelector(selectAuthStatus);
 
   if (status === "loading") {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        Завантаження...
-      </div>
-    );
+    return <GlobalLoading/>
   }
 
   if (!isUserAuthenticated) {

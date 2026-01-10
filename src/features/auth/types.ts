@@ -1,7 +1,7 @@
 export interface AuthState {
   user: User | null;
   status: "loading" | "success";
-  googleRedirectStatus: "idle" | "loading"
+  googleRedirectStatus: "idle" | "loading";
 }
 
 export interface RegisterParams {

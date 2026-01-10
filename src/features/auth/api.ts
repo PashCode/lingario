@@ -4,7 +4,8 @@ import {
   login,
   logout,
   deleteAccount,
-  reauthenticateDeleteAccount,
+  reauthDeleteWithPassword,
+  reauthDeleteWithGoogle,
 } from "./services";
 import getAuthErrorMessage from "./utils/errors";
 import type { FirebaseError } from "firebase/app";
@@ -16,6 +17,7 @@ import type {
 } from "./types.ts";
 import { type User as FirebaseUser } from "firebase/auth";
 import { setUser } from "@/features/auth/slice";
+import auth from "@/config/firebase";
 
 function handleAuthError(error: FirebaseError) {
   const readableMessage = getAuthErrorMessage(error.code);
@@ -91,10 +93,12 @@ const api = baseApi.injectEndpoints({
       },
     }),
 
-    reauthenticateDeleteAccount: builder.mutation({
+    reauthDeleteAccount: builder.mutation({
       queryFn: async (password) => {
+        const providerId = auth?.currentUser?.providerData[0].providerId;
         try {
-          await reauthenticateDeleteAccount(password);
+          if (providerId === "password") await reauthDeleteWithPassword(password);
+          if (providerId === "google.com") await reauthDeleteWithGoogle();
           return { data: null };
         } catch (error) {
           return handleAuthError(error as FirebaseError);
@@ -109,5 +113,5 @@ export const {
   useLoginUserMutation,
   useLogoutUserMutation,
   useDeleteAccountMutation,
-  useReauthenticateDeleteAccountMutation,
+  useReauthDeleteAccountMutation,
 } = api;

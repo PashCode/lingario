@@ -2,15 +2,12 @@ import type { AuthApiError } from "@/features/auth/types";
 import { toast } from "sonner";
 import Button from "@/shared/components/ui/Button";
 import { loginWithGoogle } from "@/features/auth/services";
-import {
-  selectSetGoogleRedirectStatus,
-  setGoogleRedirectStatus,
-} from "@/features/auth/slice";
+import { selectGoogleRedirectStatus, setGoogleRedirectStatus } from "@/features/auth/slice";
 import { useDispatch, useSelector } from "react-redux";
 
 function GoogleAuth() {
   const dispatch = useDispatch();
-  const isRedirectLoading = useSelector(selectSetGoogleRedirectStatus);
+  const redirectLoadingStatus = useSelector(selectGoogleRedirectStatus);
 
   async function handleLoginWithGoogle() {
     try {
@@ -25,11 +22,11 @@ function GoogleAuth() {
     <div>
       <Button
         text={
-          isRedirectLoading === "loading"
+          redirectLoadingStatus === "loading"
             ? "Завантаження..."
             : "Увійти через Google"
         }
-        disabled={isRedirectLoading === "loading"}
+        disabled={redirectLoadingStatus === "loading"}
         className="cursor-pointer border-2 bg-green-600 disabled:bg-neutral-500"
         onClick={handleLoginWithGoogle}
       />

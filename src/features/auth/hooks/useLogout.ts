@@ -8,6 +8,7 @@ function useLogout() {
   async  function handleLogout() {
     try {
       await logout().unwrap();
+      toast.success("Ви успішно вийшли з акаунту");
     } catch (error) {
       toast.error((error as AuthApiError).message);
     }

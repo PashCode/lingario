@@ -13,7 +13,7 @@ export function App() {
   return (
     <>
       <RouterProvider router={router} />
-      <Toaster richColors position={"top-center"} />
+      <Toaster richColors position="top-right" />
     </>
   );
 }

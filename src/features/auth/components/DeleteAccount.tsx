@@ -13,8 +13,7 @@ function DeleteAccount() {
   return (
     <>
       <Button
-        text={isLoading ? "Видалення..." : "Видалити акаунт"}
-        disabled={isLoading}
+        text="Видалити акаунт"
         className="border-4 border-red-600 disabled:bg-neutral-500"
         onClick={() => setModalOpen(true)}
       />

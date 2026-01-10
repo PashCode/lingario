@@ -24,6 +24,8 @@ const getAuthErrorMessage = (errorCode: string): string => {
     //   Вхід через Google Sign in або інші провайдери
     case AUTH_ERRORS.ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL:
       return "Акаунт з такою поштою вже існує. Увійдіть через логін/пароль.";
+    case AUTH_ERRORS.USER_MISMATCH:
+      return "Будь ласка, використайте правильний акаунт.";
 
     // Видалення акаунту
     case AUTH_ERRORS.REQUIRES_RECENT_LOGIN:

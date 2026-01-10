@@ -6,6 +6,7 @@ export const AUTH_ERRORS = {
   OPERATION_NOT_ALLOWED: "auth/operation-not-allowed",
 
   USER_NOT_FOUND: "auth/user-not-found",
+  USER_MISMATCH: 'auth/user-mismatch',
   WRONG_PASSWORD: "auth/wrong-password",
   INVALID_CREDENTIAL: "auth/invalid-credential",
   REQUIRES_RECENT_LOGIN: "auth/requires-recent-login",
