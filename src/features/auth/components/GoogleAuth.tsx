@@ -3,11 +3,11 @@ import { toast } from "sonner";
 import Button from "@/shared/components/ui/Button";
 import { loginWithGoogle } from "@/features/auth/services";
 import { selectGoogleRedirectStatus, setGoogleRedirectStatus } from "@/features/auth/slice";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/app/store";
 
 function GoogleAuth() {
-  const dispatch = useDispatch();
-  const redirectLoadingStatus = useSelector(selectGoogleRedirectStatus);
+  const dispatch = useAppDispatch();
+  const redirectLoadingStatus = useAppSelector(selectGoogleRedirectStatus);
 
   async function handleLoginWithGoogle() {
     try {

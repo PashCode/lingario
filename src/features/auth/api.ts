@@ -17,7 +17,7 @@ import type {
 } from "./types.ts";
 import { type User as FirebaseUser } from "firebase/auth";
 import { setUser } from "@/features/auth/slice";
-import auth from "@/config/firebase";
+import { auth } from "@/config/firebase";
 
 function handleAuthError(error: FirebaseError) {
   const readableMessage = getAuthErrorMessage(error.code);

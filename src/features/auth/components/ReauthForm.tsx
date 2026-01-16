@@ -2,7 +2,7 @@ import { useState, type FormEvent, type ChangeEvent } from "react";
 import Input from "@/shared/components/ui/Input";
 import Button from "@/shared/components/ui/Button";
 import { validateReAuthenticatedPassword } from "@/features/auth/utils/validation";
-import auth from "@/config/firebase";
+import { auth } from "@/config/firebase";
 
 function ReauthForm({ handleDelete, isLoading, onCancel }: any) {
   const [password, setPassword] = useState("");
@@ -15,7 +15,7 @@ function ReauthForm({ handleDelete, isLoading, onCancel }: any) {
   }
 
   async function handleSubmit(e: FormEvent) {
-    if(providerId === 'password') {
+    if (providerId === "password") {
       e.preventDefault();
       const errors = validateReAuthenticatedPassword(password);
 
@@ -57,7 +57,7 @@ function ReauthForm({ handleDelete, isLoading, onCancel }: any) {
 
           <div className="flex gap-2">
             <Button
-              text={ isLoading ? "Завантаження..." : "Видалити" }
+              text={isLoading ? "Завантаження..." : "Видалити"}
               disabled={isLoading}
               className="w-full cursor-pointer border-2 bg-red-600 text-white"
             />

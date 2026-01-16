@@ -5,7 +5,7 @@ import {
   type UserCredential,
 } from "firebase/auth";
 import { toast } from "sonner";
-import auth from "@/config/firebase";
+import { auth } from "@/config/firebase";
 
 async function checkRedirectResult(): Promise<UserCredential | null> {
   try {

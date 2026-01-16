@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { setGoogleRedirectStatus } from "@/features/auth/slice";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/app/store";
 
 function useResetAuthCache() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const handlePageShow = (event: PageTransitionEvent) => {

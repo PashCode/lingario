@@ -11,7 +11,7 @@ import {
   reauthenticateWithCredential,
   reauthenticateWithPopup,
 } from "firebase/auth";
-import auth from "@/config/firebase";
+import { auth } from "@/config/firebase";
 import type { LoginParams, RegisterParams } from "@/features/auth/types";
 
 export async function register({ email, name, password }: RegisterParams) {
