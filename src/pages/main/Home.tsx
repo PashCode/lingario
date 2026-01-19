@@ -1,8 +1,8 @@
 import { selectUser } from "@/features/auth/slice";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/app/store";
 
 function Home() {
-  const user = useSelector(selectUser);
+  const user = useAppSelector(selectUser);
   return (
     <>
       <div>HOME</div>

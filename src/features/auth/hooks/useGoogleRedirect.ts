@@ -6,12 +6,15 @@ import {
 } from "firebase/auth";
 import { toast } from "sonner";
 import { auth } from "@/config/firebase";
+import { isFirebaseApiError } from "@/features/auth/types";
 
 async function checkRedirectResult(): Promise<UserCredential | null> {
   try {
     return await getRedirectResult(auth);
   } catch (error) {
-    toast.error(`Помилка під час входу: ${error}`);
+    if (isFirebaseApiError(error)) {
+      toast.error(error.message);
+    }
     return null;
   }
 }

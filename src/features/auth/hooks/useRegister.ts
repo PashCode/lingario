@@ -1,15 +1,19 @@
 import { type ChangeEvent, type FormEvent, useState } from "react";
-import type {
-  AuthApiError,
-  RegisterParams,
-  ValidationErrors,
+import {
+  isFirebaseApiError,
+  type RegisterParams,
+  type ValidationErrors,
 } from "@/features/auth/types.ts";
 import { validateRegister } from "@/features/auth/utils/validation";
-import { useRegisterUserMutation } from "@/features/auth/api"
+import { useRegisterUserMutation } from "@/features/auth/api";
 import { toast } from "sonner";
 
 function useRegister() {
-  const [user, setUser] = useState<RegisterParams>({ email: "", password: "", name: "" });
+  const [user, setUser] = useState<RegisterParams>({
+    email: "",
+    password: "",
+    name: "",
+  });
   const [inputErrors, setInputErrors] = useState<ValidationErrors>({});
   const [register, { isLoading }] = useRegisterUserMutation();
 
@@ -30,9 +34,11 @@ function useRegister() {
 
     try {
       await register(user).unwrap();
-      toast.success('Ласкаво просимо');
+      toast.success("Ласкаво просимо");
     } catch (error) {
-      toast.error((error as AuthApiError).message);
+      if (isFirebaseApiError(error)) {
+        toast.error(error.message);
+      }
     }
   }
 

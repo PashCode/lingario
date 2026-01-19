@@ -4,7 +4,7 @@ import {
   useDeleteAccountMutation,
   useReauthDeleteAccountMutation,
 } from "@/features/auth/api";
-import type { FirebaseError } from "firebase/app";
+import { isFirebaseApiError } from "@/features/auth/types";
 
 function useDeleteAccount() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -12,29 +12,31 @@ function useDeleteAccount() {
   const [reauth, { isLoading: isReauth }] = useReauthDeleteAccountMutation();
   const isLoading = isDeleting || isReauth;
 
-  async function handleDelete(password: string) {
+  async function handleDelete(password: string): Promise<void> {
     try {
       await reauth(password).unwrap();
       await deleteAccount().unwrap();
       toast.success("Акаунт видалено успішно");
     } catch (error) {
-      const firebaseError = error as FirebaseError;
+      if (isFirebaseApiError(error)) {
+        const ignoreError = [
+          "auth/popup-closed-by-user",
+          "auth/cancelled-popup-request",
+        ];
 
-      const ignoreError = [
-        "auth/popup-closed-by-user",
-        "auth/cancelled-popup-request",
-      ];
+        if (error.code === "auth/invalid-credential") {
+          toast.error("Неправильний пароль");
+          return;
+        }
 
-      if (firebaseError.code === "auth/invalid-credential") {
-        toast.error("Неправильний пароль");
-        return;
+        if (ignoreError.includes(error.code)) {
+          return;
+        }
+
+        toast.error(error.message);
+      } else {
+        toast.error("Сталася непередбачувана помилка. Спробуйте пізніше.");
       }
-
-      if (ignoreError.includes(firebaseError.code)) {
-        return;
-      }
-
-      toast.error(firebaseError.message);
     }
   }
 

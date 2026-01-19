@@ -42,7 +42,10 @@ export async function deleteAccount() {
 export async function reauthDeleteWithPassword(password: string) {
   if (!auth.currentUser?.email) return;
 
-  const credentials = EmailAuthProvider.credential( auth.currentUser.email, password, );
+  const credentials = EmailAuthProvider.credential(
+    auth.currentUser.email,
+    password,
+  );
   await reauthenticateWithCredential(auth.currentUser, credentials);
 }
 

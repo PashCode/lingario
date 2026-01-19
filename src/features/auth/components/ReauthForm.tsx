@@ -3,11 +3,12 @@ import Input from "@/shared/components/ui/Input";
 import Button from "@/shared/components/ui/Button";
 import { validateReAuthenticatedPassword } from "@/features/auth/utils/validation";
 import { auth } from "@/config/firebase";
+import type { ReauthFormParams } from "@/features/auth/types";
 
-function ReauthForm({ handleDelete, isLoading, onCancel }: any) {
+function ReauthForm({ handleDelete, isLoading, onCancel }: ReauthFormParams) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | undefined>(undefined);
-  const providerId = auth?.currentUser?.providerData[0].providerId;
+  const providerId = auth.currentUser!.providerData[0].providerId;
 
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);

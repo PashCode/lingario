@@ -1,8 +1,8 @@
 import { type ChangeEvent, type FormEvent, useState } from "react";
-import type {
-  AuthApiError,
-  LoginParams,
-  ValidationErrors,
+import {
+  isFirebaseApiError,
+  type LoginParams,
+  type ValidationErrors,
 } from "@/features/auth/types.ts";
 import { validateLogin } from "@/features/auth/utils/validation";
 import { useLoginUserMutation } from "@/features/auth/api";
@@ -32,7 +32,9 @@ function useLogin() {
       await login(user).unwrap();
       toast.success("З поверненням");
     } catch (error) {
-      toast.error((error as AuthApiError).message);
+      if (isFirebaseApiError(error)) {
+        toast.error(error.message);
+      }
     }
   }
 

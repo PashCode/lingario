@@ -1,9 +1,12 @@
-import type { AuthApiError } from "@/features/auth/types";
 import { toast } from "sonner";
 import Button from "@/shared/components/ui/Button";
 import { loginWithGoogle } from "@/features/auth/services";
-import { selectGoogleRedirectStatus, setGoogleRedirectStatus } from "@/features/auth/slice";
+import {
+  selectGoogleRedirectStatus,
+  setGoogleRedirectStatus,
+} from "@/features/auth/slice";
 import { useAppDispatch, useAppSelector } from "@/app/store";
+import { isFirebaseApiError } from "@/features/auth/types";
 
 function GoogleAuth() {
   const dispatch = useAppDispatch();
@@ -14,7 +17,10 @@ function GoogleAuth() {
       dispatch(setGoogleRedirectStatus("loading"));
       await loginWithGoogle();
     } catch (error) {
-      toast.error((error as AuthApiError).message);
+      if (isFirebaseApiError(error)) {
+        toast.error(error.message);
+        dispatch(setGoogleRedirectStatus("idle"));
+      }
     }
   }
 
