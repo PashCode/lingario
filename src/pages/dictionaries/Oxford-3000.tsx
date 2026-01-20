@@ -1,14 +1,16 @@
+import { useAppSelector } from "@/app/store";
+import { selectOxfordDictionary } from "@/features/auth/slice";
+
 function Oxford3000() {
-  // const { oxfordDictionary } = useRegister();
-  const getDict = localStorage.getItem("oxford-dictionary");
-  const resDict = JSON.parse(getDict)
+  const oxfordDictionary = useAppSelector(selectOxfordDictionary);
+  console.log(oxfordDictionary);
 
   return (
     <div className="flex flex-col">
       <h1>PUBLIC OXFORD 3000</h1>
 
       <div>
-        {resDict.map((word, index) => {
+        {oxfordDictionary.map((word, index) => {
           return (
             <div key={index}>
               <div className="flex">

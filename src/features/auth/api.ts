@@ -6,7 +6,7 @@ import {
   reauthDeleteWithGoogle,
   reauthDeleteWithPassword,
   register,
-  getOxfordDictionary,
+  // getOxfordDictionary,
 } from "./services";
 import getAuthErrorMessage from "./utils/errors";
 import type {
@@ -20,6 +20,7 @@ import { type User as FirebaseUser } from "firebase/auth";
 import { setUser, setOxfordDictionary } from "@/features/auth/slice";
 import { auth } from "@/config/firebase";
 import { isFirebaseApiError } from "./types.ts";
+import getOrCreateOxfordDictionary from "@/features/auth/utils/ensureDictionary";
 
 function handleAuthError(error: unknown): AuthErrorResponse {
   const code = isFirebaseApiError(error) ? error.code : "auth/unexpected-error";
@@ -58,13 +59,8 @@ const api = baseApi.injectEndpoints({
         }
       },
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        const oxfordDictionary = await getOxfordDictionary();
+        const oxfordDictionary = await getOrCreateOxfordDictionary();
         dispatch(setOxfordDictionary(oxfordDictionary));
-
-        localStorage.setItem(
-          "oxford-dictionary",
-          JSON.stringify(oxfordDictionary),
-        );
 
         const { data } = await queryFulfilled;
         dispatch(setUser(data));

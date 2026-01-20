@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/config/firebase";
-import { clearUser, setUser } from "@/features/auth/slice";
+import { clearUser, setUser, setOxfordDictionary } from "@/features/auth/slice";
 import { useAppDispatch } from "@/app/store";
+import getOrCreateOxfordDictionary from "@/features/auth/utils/ensureDictionary";
 
 const useAuthListener = () => {
   const dispatch = useAppDispatch();
+  // const oxfordDictionary = await getOrCreateOxfordDictionary();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -27,6 +29,9 @@ const useAuthListener = () => {
             emailVerified: user.emailVerified,
           }),
         );
+        getOrCreateOxfordDictionary().then((dictionary) => {
+          dispatch(setOxfordDictionary(dictionary));
+        });
       }
     });
 

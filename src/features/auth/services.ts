@@ -61,6 +61,5 @@ export async function reauthDeleteWithGoogle() {
 export async function getOxfordDictionary() {
     const link = await getDownloadURL(storageDict)
     const res = await fetch(link)
-    const data = await res.json()
-    return data
+    return await res.json()
 }
