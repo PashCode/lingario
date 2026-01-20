@@ -1,4 +1,4 @@
-import { getOxfordDictionary } from "@/features/auth/services";
+import { getOxfordDictionaryFromDB } from "@/features/auth/services";
 
 async function getOrCreateOxfordDictionary() {
   const getDictionary = JSON.parse(
@@ -9,7 +9,7 @@ async function getOrCreateOxfordDictionary() {
     return getDictionary;
   }
 
-  const oxfordDictionary = await getOxfordDictionary();
+  const oxfordDictionary = await getOxfordDictionaryFromDB();
   localStorage.setItem("oxford-dictionary", JSON.stringify(oxfordDictionary));
   return oxfordDictionary;
 }

@@ -6,7 +6,6 @@ import {
   reauthDeleteWithGoogle,
   reauthDeleteWithPassword,
   register,
-  // getOxfordDictionary,
 } from "./services";
 import getAuthErrorMessage from "./utils/errors";
 import type {
@@ -93,6 +92,7 @@ const api = baseApi.injectEndpoints({
       queryFn: async () => {
         try {
           await deleteAccount();
+          localStorage.clear();
           return { data: null };
         } catch (error) {
           return handleAuthError(error);
@@ -107,6 +107,7 @@ const api = baseApi.injectEndpoints({
 
           if (providerId === "password") await reauthDeleteWithPassword(password);
           if (providerId === "google.com") await reauthDeleteWithGoogle();
+          localStorage.clear();
           return { data: null };
         } catch (error) {
           return handleAuthError(error);

@@ -11,7 +11,7 @@ import {
   reauthenticateWithCredential,
   reauthenticateWithPopup,
 } from "firebase/auth";
-import { auth, storageDict } from "@/config/firebase";
+import { auth, oxfordDictionaryStorage } from "@/config/firebase";
 import type { LoginParams, RegisterParams } from "@/features/auth/types";
 import { getDownloadURL } from "firebase/storage";
 
@@ -58,8 +58,8 @@ export async function reauthDeleteWithGoogle() {
   );
 }
 
-export async function getOxfordDictionary() {
-    const link = await getDownloadURL(storageDict)
-    const res = await fetch(link)
-    return await res.json()
+export async function getOxfordDictionaryFromDB() {
+  const oxfordDictionaryLink = await getDownloadURL(oxfordDictionaryStorage);
+  const oxfordDictionary = await fetch(oxfordDictionaryLink);
+  return await oxfordDictionary.json();
 }

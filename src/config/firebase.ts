@@ -16,5 +16,7 @@ const firebaseConfig = initializeApp({
 export const auth = getAuth(firebaseConfig);
 export const db = getFirestore(firebaseConfig);
 
-const storage = getStorage()
-export const storageDict = ref(storage, "oxford-dictionary/min_oxford_3000.json");
+export const oxfordDictionaryStorage = ref(
+  getStorage(),
+  "oxford-dictionary/min_oxford_3000.json",
+);
