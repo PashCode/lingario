@@ -5,6 +5,7 @@ const initialState: AuthState = {
   user: null,
   status: "loading",
   googleRedirectStatus: "idle",
+  oxfordDictionary: []
 };
 
 const slice = createSlice({
@@ -22,12 +23,16 @@ const slice = createSlice({
     setGoogleRedirectStatus: (state, action) => {
       state.googleRedirectStatus = action.payload;
     },
+    setOxfordDictionary: (state, action) => {
+      state.oxfordDictionary = action.payload
+    }
   },
   selectors: {
     selectUser: (state) => state.user,
     selectAuthStatus: (state) => state.status,
     selectIsUserAuthenticated: (state) => state.user !== null,
     selectGoogleRedirectStatus: (state) => state.googleRedirectStatus,
+    selectOxfordDictionary: (state) => state.oxfordDictionary
   },
 });
 
@@ -35,6 +40,7 @@ export const {
   setUser,
   clearUser,
   setGoogleRedirectStatus,
+  setOxfordDictionary
 } = slice.actions;
 
 export const {
@@ -42,6 +48,7 @@ export const {
   selectAuthStatus,
   selectIsUserAuthenticated,
   selectGoogleRedirectStatus,
+  selectOxfordDictionary,
 } = slice.selectors;
 
 export default slice.reducer;

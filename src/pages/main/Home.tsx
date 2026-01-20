@@ -3,6 +3,7 @@ import { useAppSelector } from "@/app/store";
 
 function Home() {
   const user = useAppSelector(selectUser);
+
   return (
     <>
       <div>HOME</div>

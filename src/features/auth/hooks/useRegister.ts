@@ -7,6 +7,8 @@ import {
 import { validateRegister } from "@/features/auth/utils/validation";
 import { useRegisterUserMutation } from "@/features/auth/api";
 import { toast } from "sonner";
+import { useAppSelector } from "@/app/store";
+import { selectOxfordDictionary } from "@/features/auth/slice";
 
 function useRegister() {
   const [user, setUser] = useState<RegisterParams>({
@@ -16,6 +18,7 @@ function useRegister() {
   });
   const [inputErrors, setInputErrors] = useState<ValidationErrors>({});
   const [register, { isLoading }] = useRegisterUserMutation();
+  const oxfordDictionary = useAppSelector(selectOxfordDictionary);
 
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -48,6 +51,7 @@ function useRegister() {
     inputErrors,
     isLoading,
     user,
+    oxfordDictionary,
   };
 }
 

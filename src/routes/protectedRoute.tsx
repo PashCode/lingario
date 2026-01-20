@@ -1,15 +1,15 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { ROUTES } from "./paths";
 import {
   selectAuthStatus,
   selectIsUserAuthenticated,
 } from "@/features/auth/slice.ts";
 import GlobalLoading from "@/shared/components/ui/GlobalLoading";
+import { useAppSelector } from "@/app/store";
 
 const ProtectedRoute = () => {
-  const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
-  const status = useSelector(selectAuthStatus);
+  const isUserAuthenticated = useAppSelector(selectIsUserAuthenticated);
+  const status = useAppSelector(selectAuthStatus);
 
   if (status === "loading") {
     return <GlobalLoading/>

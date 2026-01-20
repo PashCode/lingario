@@ -6,18 +6,19 @@ import {
   signInWithRedirect,
   signOut,
   updateProfile,
-  sendEmailVerification,
+  // sendEmailVerification,
   EmailAuthProvider,
   reauthenticateWithCredential,
   reauthenticateWithPopup,
 } from "firebase/auth";
-import { auth } from "@/config/firebase";
+import { auth, storageDict } from "@/config/firebase";
 import type { LoginParams, RegisterParams } from "@/features/auth/types";
+import { getDownloadURL } from "firebase/storage";
 
 export async function register({ email, name, password }: RegisterParams) {
   const { user } = await createUserWithEmailAndPassword(auth, email, password);
   await updateProfile(user, { displayName: name });
-  await sendEmailVerification(user);
+  // await sendEmailVerification(user);
   return user;
 }
 
@@ -55,4 +56,11 @@ export async function reauthDeleteWithGoogle() {
     auth.currentUser,
     new GoogleAuthProvider(),
   );
+}
+
+export async function getOxfordDictionary() {
+    const link = await getDownloadURL(storageDict)
+    const res = await fetch(link)
+    const data = await res.json()
+    return data
 }
