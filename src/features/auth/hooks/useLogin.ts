@@ -5,7 +5,7 @@ import {
   type ValidationErrors,
 } from "@/features/auth/types.ts";
 import { validateLogin } from "@/features/auth/utils/validation";
-import { useLoginUserMutation } from "@/features/auth/api";
+import { useLoginUserMutation } from "@/features/auth/authApi";
 import { toast } from "sonner";
 
 function useLogin() {

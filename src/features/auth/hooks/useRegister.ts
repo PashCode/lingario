@@ -5,7 +5,7 @@ import {
   type ValidationErrors,
 } from "@/features/auth/types.ts";
 import { validateRegister } from "@/features/auth/utils/validation";
-import { useRegisterUserMutation } from "@/features/auth/api";
+import { useRegisterUserMutation } from "@/features/auth/authApi";
 import { toast } from "sonner";
 
 function useRegister() {

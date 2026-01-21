@@ -1,4 +1,4 @@
-import { useLogoutUserMutation } from "@/features/auth/api";
+import { useLogoutUserMutation } from "@/features/auth/authApi";
 import { isFirebaseApiError } from "@/features/auth/types";
 import { toast } from "sonner";
 

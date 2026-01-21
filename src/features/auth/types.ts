@@ -4,13 +4,6 @@ export interface AuthState {
   user: User | null;
   status: "loading" | "success";
   googleRedirectStatus: "idle" | "loading";
-  oxfordDictionary: Array<OxfordDictionaryValues>;
-}
-
-export interface OxfordDictionaryValues {
-  e: string;
-  u: string;
-  l: string;
 }
 
 export interface RegisterParams {

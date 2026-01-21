@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "../features/auth/slice";
+import authReducer from "@/features/auth/slice";
+import dictionaryReducer from "@/features/dictionary/slice"
 import baseApi from "@/shared/api/baseApi";
 import { useDispatch, useSelector } from "react-redux";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
+    dictionary: dictionaryReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {

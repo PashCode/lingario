@@ -3,8 +3,8 @@ import { loginWithGoogle } from "@/features/auth/services";
 import {
   selectGoogleRedirectStatus,
   setGoogleRedirectStatus,
-  setOxfordDictionary,
 } from "@/features/auth/slice";
+import { setOxfordDictionary } from "@/features/dictionary/slice";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { isFirebaseApiError } from "@/features/auth/types";
 import getOrCreateOxfordDictionary from "@/features/auth/utils/ensureDictionary";

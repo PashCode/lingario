@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import {
   useDeleteAccountMutation,
   useReauthDeleteAccountMutation,
-} from "@/features/auth/api";
+} from "@/features/auth/authApi";
 import { isFirebaseApiError } from "@/features/auth/types";
 
 function useDeleteAccount() {

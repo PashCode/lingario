@@ -1,9 +1,8 @@
 import { useAppSelector } from "@/app/store";
-import { selectOxfordDictionary } from "@/features/auth/slice";
+import { selectOxfordDictionary } from "@/features/dictionary/slice";
 
 function Oxford3000() {
   const oxfordDictionary = useAppSelector(selectOxfordDictionary);
-  console.log(oxfordDictionary);
 
   return (
     <div className="flex flex-col">

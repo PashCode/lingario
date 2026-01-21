@@ -16,7 +16,8 @@ import type {
   AuthSuccessResponse,
 } from "./types.ts";
 import { type User as FirebaseUser } from "firebase/auth";
-import { setUser, setOxfordDictionary } from "@/features/auth/slice";
+import { setUser } from "@/features/auth/slice";
+import { setOxfordDictionary } from "@/features/dictionary/slice";
 import { auth } from "@/config/firebase";
 import { isFirebaseApiError } from "./types.ts";
 import getOrCreateOxfordDictionary from "@/features/auth/utils/ensureDictionary";
@@ -46,7 +47,7 @@ function handleAuthRequest(
   return { data };
 }
 
-const api = baseApi.injectEndpoints({
+const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     registerUser: builder.mutation<User, RegisterParams>({
       queryFn: async ({ email, password, name }) => {
@@ -122,4 +123,4 @@ export const {
   useLogoutUserMutation,
   useDeleteAccountMutation,
   useReauthDeleteAccountMutation,
-} = api;
+} = authApi;
