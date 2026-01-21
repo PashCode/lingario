@@ -1,28 +1,8 @@
-import { toast } from "sonner";
 import Button from "@/shared/components/ui/Button";
-import { loginWithGoogle } from "@/features/auth/services";
-import {
-  selectGoogleRedirectStatus,
-  setGoogleRedirectStatus,
-} from "@/features/auth/slice";
-import { useAppDispatch, useAppSelector } from "@/app/store";
-import { isFirebaseApiError } from "@/features/auth/types";
+import useGoogleAuth from "@/features/auth/hooks/useGoogleAuth";
 
 function GoogleAuth() {
-  const dispatch = useAppDispatch();
-  const redirectLoadingStatus = useAppSelector(selectGoogleRedirectStatus);
-
-  async function handleLoginWithGoogle() {
-    try {
-      dispatch(setGoogleRedirectStatus("loading"));
-      await loginWithGoogle();
-    } catch (error) {
-      if (isFirebaseApiError(error)) {
-        toast.error(error.message);
-        dispatch(setGoogleRedirectStatus("idle"));
-      }
-    }
-  }
+  const { handleLoginWithGoogle, redirectLoadingStatus } = useGoogleAuth();
 
   return (
     <div>

@@ -104,7 +104,6 @@ const api = baseApi.injectEndpoints({
       queryFn: async (password) => {
         try {
           const providerId = auth.currentUser!.providerData[0].providerId;
-
           if (providerId === "password") await reauthDeleteWithPassword(password);
           if (providerId === "google.com") await reauthDeleteWithGoogle();
           localStorage.clear();
