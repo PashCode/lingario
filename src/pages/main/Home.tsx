@@ -1,14 +1,12 @@
-import { selectUser } from "@/features/auth/slice";
-import { useAppSelector } from "@/app/store";
+import TestInfo from "@/features/home/components/TestInfo";
+import AIEverydayPhrase from "@/features/home/components/AIEverydayPhrase";
 
 function Home() {
-  const user = useAppSelector(selectUser);
-
   return (
     <>
       <div>HOME</div>
-      <p>{`${user?.email} / ${user?.emailVerified}`}</p>
-      <p>{user?.name}</p>
+      <TestInfo />
+      <AIEverydayPhrase />
     </>
   );
 }
