@@ -2,9 +2,14 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/config/firebase";
 import { clearUser, setUser } from "@/features/auth/slice";
-import { setOxfordDictionary } from "@/features/dictionary/slice";
+import { clearOxford3000 } from "@/features/dictionary/slice";
+import { clearAIEverydayPhrase } from "@/features/home/slice";
+import { setOxford3000 } from "@/features/dictionary/slice";
 import { useAppDispatch } from "@/app/store";
-import getOrCreateOxfordDictionary from "@/features/auth/utils/ensureDictionary";
+import getStorageOrFetch from "@/utils/getStorageOrFetch";
+import { LSOxford3000Config } from "@/features/dictionary/utils/constants";
+import { setAIEverydayPhrase } from "@/features/home/slice";
+import { LSAIEverydayPhraseConfig } from "@/features/home/utils/constants";
 
 const useAuthListener = () => {
   const dispatch = useAppDispatch();
@@ -13,6 +18,8 @@ const useAuthListener = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
         dispatch(clearUser());
+        dispatch(clearOxford3000());
+        dispatch(clearAIEverydayPhrase());
         return;
       }
 
@@ -29,8 +36,11 @@ const useAuthListener = () => {
             emailVerified: user.emailVerified,
           }),
         );
-        getOrCreateOxfordDictionary().then((dictionary) => {
-          dispatch(setOxfordDictionary(dictionary));
+        getStorageOrFetch(LSAIEverydayPhraseConfig).then((AIEverydayPhrase) => {
+          dispatch(setAIEverydayPhrase(AIEverydayPhrase));
+        });
+        getStorageOrFetch(LSOxford3000Config).then((oxfordDictionary) => {
+          dispatch(setOxford3000(oxfordDictionary));
         });
       }
     });

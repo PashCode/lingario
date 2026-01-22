@@ -4,10 +4,11 @@ import {
   selectGoogleRedirectStatus,
   setGoogleRedirectStatus,
 } from "@/features/auth/slice";
-import { setOxfordDictionary } from "@/features/dictionary/slice";
+import { setOxford3000 } from "@/features/dictionary/slice";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { isFirebaseApiError } from "@/features/auth/types";
-import getOrCreateOxfordDictionary from "@/features/auth/utils/ensureDictionary";
+import getStorageOrFetch from "@/utils/getStorageOrFetch";
+import { LSOxford3000Config } from "@/features/dictionary/utils/constants";
 
 function useGoogleAuth() {
   const dispatch = useAppDispatch();
@@ -16,8 +17,8 @@ function useGoogleAuth() {
   async function handleLoginWithGoogle() {
     try {
       dispatch(setGoogleRedirectStatus("loading"));
-      const oxfordDictionary = await getOrCreateOxfordDictionary();
-      dispatch(setOxfordDictionary(oxfordDictionary));
+      const oxfordDictionary = await getStorageOrFetch(LSOxford3000Config);
+      dispatch(setOxford3000(oxfordDictionary));
       await loginWithGoogle();
     } catch (error) {
       if (isFirebaseApiError(error)) {

@@ -17,10 +17,13 @@ import type {
 } from "./types.ts";
 import { type User as FirebaseUser } from "firebase/auth";
 import { setUser } from "@/features/auth/slice";
-import { setOxfordDictionary } from "@/features/dictionary/slice";
+import { setOxford3000 } from "@/features/dictionary/slice";
 import { auth } from "@/config/firebase";
 import { isFirebaseApiError } from "./types.ts";
-import getOrCreateOxfordDictionary from "@/features/auth/utils/ensureDictionary";
+import getStorageOrFetch from "@/utils/getStorageOrFetch";
+import { LSOxford3000Config } from "@/features/dictionary/utils/constants";
+import { LSAIEverydayPhraseConfig } from "@/features/home/utils/constants";
+import { setAIEverydayPhrase } from "@/features/home/slice";
 
 function handleAuthError(error: unknown): AuthErrorResponse {
   const code = isFirebaseApiError(error) ? error.code : "auth/unexpected-error";
@@ -59,11 +62,14 @@ const authApi = baseApi.injectEndpoints({
         }
       },
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        const oxfordDictionary = await getOrCreateOxfordDictionary();
-        dispatch(setOxfordDictionary(oxfordDictionary));
-
         const { data } = await queryFulfilled;
         dispatch(setUser(data));
+
+        const AIEverydayPhrase = await getStorageOrFetch(LSAIEverydayPhraseConfig);
+        dispatch(setAIEverydayPhrase(AIEverydayPhrase));
+
+        const oxford3000 = await getStorageOrFetch(LSOxford3000Config);
+        dispatch(setOxford3000(oxford3000));
       },
     }),
 
@@ -93,7 +99,8 @@ const authApi = baseApi.injectEndpoints({
       queryFn: async () => {
         try {
           await deleteAccount();
-          localStorage.clear();
+          localStorage.removeItem("oxford-dictionary");
+          localStorage.removeItem("AI-everyday-phrase");
           return { data: null };
         } catch (error) {
           return handleAuthError(error);
@@ -105,9 +112,11 @@ const authApi = baseApi.injectEndpoints({
       queryFn: async (password) => {
         try {
           const providerId = auth.currentUser!.providerData[0].providerId;
-          if (providerId === "password") await reauthDeleteWithPassword(password);
+          if (providerId === "password")
+            await reauthDeleteWithPassword(password);
           if (providerId === "google.com") await reauthDeleteWithGoogle();
-          localStorage.clear();
+          localStorage.removeItem("oxford-dictionary");
+          localStorage.removeItem("AI-everyday-phrase");
           return { data: null };
         } catch (error) {
           return handleAuthError(error);
