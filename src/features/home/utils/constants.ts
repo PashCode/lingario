@@ -1,8 +1,9 @@
-import type { LSAIEverydayPhraseValues } from "@/features/home/types";
-import { getAIEverydayPhrase } from "@/features/home/services";
+import type { LSPhraseWithDictWordValues } from "@/features/home/types";
+import { getGeminiPhrase } from "@/features/home/services";
+import { PHRASE_WITH_DICTIONARY_WORD } from "@/utils/storageAndSession/constants";
 
-export const LSAIEverydayPhraseConfig: LSAIEverydayPhraseValues = {
-  storageKey: "AI-everyday-phrase",
+export const LSPhraseWithDictWordConfig: LSPhraseWithDictWordValues = {
+  storageKey: PHRASE_WITH_DICTIONARY_WORD,
   defaultStorageValue: "[]",
-  initialData: getAIEverydayPhrase,
+  initialData: getGeminiPhrase,
 };

@@ -2,26 +2,27 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { HomeState } from "@/features/home/types";
 
 const initialState: HomeState = {
-  AIEverydayPhrase: "",
+  phraseWithDictWord: "",
 };
 
 const homeSlice = createSlice({
   name: "home",
   initialState,
   reducers: {
-    setAIEverydayPhrase: (state, action) => {
-      state.AIEverydayPhrase = action.payload;
+    setPhraseWithDictWord: ( state, action) => {
+      state.phraseWithDictWord = action.payload;
     },
-    clearAIEverydayPhrase: (state) => {
-      state.AIEverydayPhrase = "";
+    clearPhraseWithDictWord: ( state) => {
+      state.phraseWithDictWord = "";
     },
   },
   selectors: {
-    selectAIEverydayPhrase: (state) => state.AIEverydayPhrase,
+
+    selectPhraseWithDictWord: ( state) => state.phraseWithDictWord,
   },
 });
 
-export const { setAIEverydayPhrase, clearAIEverydayPhrase } = homeSlice.actions;
-export const { selectAIEverydayPhrase } = homeSlice.selectors;
+export const { setPhraseWithDictWord, clearPhraseWithDictWord } = homeSlice.actions;
+export const { selectPhraseWithDictWord } = homeSlice.selectors;
 
 export default homeSlice.reducer;

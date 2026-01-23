@@ -20,10 +20,14 @@ import { setUser } from "@/features/auth/slice";
 import { setOxford3000 } from "@/features/dictionary/slice";
 import { auth } from "@/config/firebase";
 import { isFirebaseApiError } from "./types.ts";
-import getStorageOrFetch from "@/utils/getStorageOrFetch";
+import getOrSetStorage from "@/utils/storageAndSession/getOrSetStorage";
 import { LSOxford3000Config } from "@/features/dictionary/utils/constants";
-import { LSAIEverydayPhraseConfig } from "@/features/home/utils/constants";
-import { setAIEverydayPhrase } from "@/features/home/slice";
+import { LSPhraseWithDictWordConfig } from "@/features/home/utils/constants";
+import { setPhraseWithDictWord } from "@/features/home/slice";
+import {
+  PHRASE_WITH_DICTIONARY_WORD,
+  OXFORD_3000,
+} from "@/utils/storageAndSession/constants";
 
 function handleAuthError(error: unknown): AuthErrorResponse {
   const code = isFirebaseApiError(error) ? error.code : "auth/unexpected-error";
@@ -65,10 +69,10 @@ const authApi = baseApi.injectEndpoints({
         const { data } = await queryFulfilled;
         dispatch(setUser(data));
 
-        const AIEverydayPhrase = await getStorageOrFetch(LSAIEverydayPhraseConfig);
-        dispatch(setAIEverydayPhrase(AIEverydayPhrase));
+        const phrase = await getOrSetStorage(LSPhraseWithDictWordConfig);
+        dispatch(setPhraseWithDictWord(phrase));
 
-        const oxford3000 = await getStorageOrFetch(LSOxford3000Config);
+        const oxford3000 = await getOrSetStorage(LSOxford3000Config);
         dispatch(setOxford3000(oxford3000));
       },
     }),
@@ -99,8 +103,8 @@ const authApi = baseApi.injectEndpoints({
       queryFn: async () => {
         try {
           await deleteAccount();
-          localStorage.removeItem("oxford-dictionary");
-          localStorage.removeItem("AI-everyday-phrase");
+          localStorage.removeItem(OXFORD_3000);
+          localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD);
           return { data: null };
         } catch (error) {
           return handleAuthError(error);
@@ -112,11 +116,10 @@ const authApi = baseApi.injectEndpoints({
       queryFn: async (password) => {
         try {
           const providerId = auth.currentUser!.providerData[0].providerId;
-          if (providerId === "password")
-            await reauthDeleteWithPassword(password);
+          if (providerId === "password") await reauthDeleteWithPassword(password);
           if (providerId === "google.com") await reauthDeleteWithGoogle();
-          localStorage.removeItem("oxford-dictionary");
-          localStorage.removeItem("AI-everyday-phrase");
+          localStorage.removeItem(OXFORD_3000);
+          localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD);
           return { data: null };
         } catch (error) {
           return handleAuthError(error);

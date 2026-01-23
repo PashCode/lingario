@@ -1,19 +1,19 @@
 import { useAppSelector } from "@/app/store";
-import { selectOxfordDictionary } from "@/features/dictionary/slice";
+import { selectOxford3000 } from "@/features/dictionary/slice";
 
 function ShowDictionary() {
-  const oxfordDictionary = useAppSelector(selectOxfordDictionary);
+  const oxfordD3000 = useAppSelector(selectOxford3000);
 
   return (
     <div className="flex flex-col">
       <h1>
-        {!oxfordDictionary.length
+        {!oxfordD3000.length
           ? "Завантаження словника..."
           : "PUBLIC OXFORD 3000"}
       </h1>
       {/*З приводу такого завантаження хз. на першому рендері воно відображає "Завантаження словника...", а потім при ререндерах глобальний лоадінг з компоненту GlobalLoading*/}
       <div>
-        {oxfordDictionary.map((word, index) => {
+        {oxfordD3000.map((word, index) => {
           return (
             <div key={index}>
               <div className="flex">

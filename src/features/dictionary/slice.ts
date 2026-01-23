@@ -17,11 +17,11 @@ const dictionarySlice = createSlice({
     },
   },
   selectors: {
-    selectOxfordDictionary: (state) => state.oxford3000,
+    selectOxford3000: ( state) => state.oxford3000,
   },
 });
 
 export const { setOxford3000, clearOxford3000 } = dictionarySlice.actions;
-export const { selectOxfordDictionary } = dictionarySlice.selectors;
+export const { selectOxford3000 } = dictionarySlice.selectors;
 
 export default dictionarySlice.reducer;

@@ -2,24 +2,29 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/config/firebase";
 import { clearUser, setUser } from "@/features/auth/slice";
-import { clearOxford3000 } from "@/features/dictionary/slice";
-import { clearAIEverydayPhrase } from "@/features/home/slice";
-import { setOxford3000 } from "@/features/dictionary/slice";
+import { clearOxford3000, setOxford3000 } from "@/features/dictionary/slice";
+import {
+  clearPhraseWithDictWord,
+  setPhraseWithDictWord,
+} from "@/features/home/slice";
 import { useAppDispatch } from "@/app/store";
-import getStorageOrFetch from "@/utils/getStorageOrFetch";
+import getOrSetStorage from "@/utils/storageAndSession/getOrSetStorage";
 import { LSOxford3000Config } from "@/features/dictionary/utils/constants";
-import { setAIEverydayPhrase } from "@/features/home/slice";
-import { LSAIEverydayPhraseConfig } from "@/features/home/utils/constants";
+import { LSPhraseWithDictWordConfig } from "@/features/home/utils/constants";
+import getOrSetSession from "@/utils/storageAndSession/getOrSetSession";
+import { PHRASE_WITH_DICTIONARY_WORD } from "@/utils/storageAndSession/constants";
 
 const useAuthListener = () => {
   const dispatch = useAppDispatch();
+  const isActiveSession = getOrSetSession();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
         dispatch(clearUser());
         dispatch(clearOxford3000());
-        dispatch(clearAIEverydayPhrase());
+        dispatch(clearPhraseWithDictWord());
+        localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD);
         return;
       }
 
@@ -36,17 +41,20 @@ const useAuthListener = () => {
             emailVerified: user.emailVerified,
           }),
         );
-        getStorageOrFetch(LSAIEverydayPhraseConfig).then((AIEverydayPhrase) => {
-          dispatch(setAIEverydayPhrase(AIEverydayPhrase));
+        if (!isActiveSession) {
+          localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD);
+        }
+        getOrSetStorage(LSPhraseWithDictWordConfig).then((phrase) => {
+          dispatch(setPhraseWithDictWord(phrase));
         });
-        getStorageOrFetch(LSOxford3000Config).then((oxfordDictionary) => {
-          dispatch(setOxford3000(oxfordDictionary));
+        getOrSetStorage(LSOxford3000Config).then((oxford3000) => {
+          dispatch(setOxford3000(oxford3000));
         });
       }
     });
 
     return () => unsubscribe();
-  }, [dispatch]);
+  }, [dispatch, isActiveSession]);
 };
 
 export default useAuthListener;

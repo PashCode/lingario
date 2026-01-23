@@ -1,8 +1,8 @@
 import type { LSOxford3000Values } from "@/features/dictionary/types";
-import type { LSAIEverydayPhraseValues } from "@/features/home/types";
+import type { LSPhraseWithDictWordValues } from "@/features/home/types";
 
-async function getStorageOrFetch(
-  config: LSOxford3000Values | LSAIEverydayPhraseValues,
+async function getOrSetStorage(
+  config: LSOxford3000Values | LSPhraseWithDictWordValues,
 ) {
   const existingValues = JSON.parse(
     localStorage.getItem(config.storageKey) || config.defaultStorageValue,
@@ -22,4 +22,4 @@ async function getStorageOrFetch(
   return newValues;
 }
 
-export default getStorageOrFetch;
+export default getOrSetStorage;

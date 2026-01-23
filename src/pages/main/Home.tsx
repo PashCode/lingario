@@ -1,12 +1,12 @@
 import TestInfo from "@/features/home/components/TestInfo";
-import AIEverydayPhrase from "@/features/home/components/AIEverydayPhrase";
+import GeminiPhrase from "@/features/home/components/GeminiPhrase";
 
 function Home() {
   return (
     <>
       <div>HOME</div>
       <TestInfo />
-      <AIEverydayPhrase />
+      <GeminiPhrase />
     </>
   );
 }

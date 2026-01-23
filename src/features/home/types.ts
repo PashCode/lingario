@@ -1,8 +1,8 @@
 export interface HomeState {
-  AIEverydayPhrase: ""
+  phraseWithDictWord: ""
 }
 
-export interface LSAIEverydayPhraseValues {
+export interface LSPhraseWithDictWordValues {
   storageKey: string;
   defaultStorageValue: string;
   initialData: () => Promise<string | undefined>;
