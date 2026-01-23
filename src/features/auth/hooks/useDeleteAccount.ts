@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { toast } from "sonner";
+import { isFirebaseApiError } from "@/features/auth/types";
 import {
   useDeleteAccountMutation,
   useReauthDeleteAccountMutation,
 } from "@/features/auth/authApi";
-import { isFirebaseApiError } from "@/features/auth/types";
 
 function useDeleteAccount() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -14,9 +14,11 @@ function useDeleteAccount() {
 
   async function handleDelete(password: string): Promise<void> {
     try {
-      await reauth(password).unwrap();
+      // reauth to verify user (password / googleAuth)
+      await reauth(password).unwrap(); // RTK Query "unwrap()" allows the catch block to handle errors.
+      // delete account after successful verification
       await deleteAccount().unwrap();
-      toast.success("Акаунт видалено успішно");
+      toast.success("Акаунт успішно видалено");
     } catch (error) {
       if (isFirebaseApiError(error)) {
         const ignoreError = [
@@ -24,12 +26,12 @@ function useDeleteAccount() {
           "auth/cancelled-popup-request",
         ];
 
-        if (error.code === "auth/invalid-credential") {
-          toast.error("Неправильний пароль");
+        if (ignoreError.includes(error.code)) {
           return;
         }
 
-        if (ignoreError.includes(error.code)) {
+        if (error.code === "auth/invalid-credential") {
+          toast.error("Неправильний пароль");
           return;
         }
 

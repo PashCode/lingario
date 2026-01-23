@@ -16,8 +16,9 @@ import type { LoginParams, RegisterParams } from "@/features/auth/types";
 
 export async function register({ email, name, password }: RegisterParams) {
   const { user } = await createUserWithEmailAndPassword(auth, email, password);
+  // updateProfile is required because "createUserWithEmailAndPassword" doesn't support name.
   await updateProfile(user, { displayName: name });
-  // await sendEmailVerification(user);
+  // TODO: await sendEmailVerification(user);
   return user;
 }
 
@@ -39,6 +40,7 @@ export async function deleteAccount() {
   await deleteUser(auth.currentUser);
 }
 
+// firebase requires fresh credentials if the login session is too old.
 export async function reauthDeleteWithPassword(password: string) {
   if (!auth.currentUser?.email) return;
 
@@ -49,8 +51,10 @@ export async function reauthDeleteWithPassword(password: string) {
   await reauthenticateWithCredential(auth.currentUser, credentials);
 }
 
+// firebase requires fresh credentials if the login session is too old.
 export async function reauthDeleteWithGoogle() {
   if (!auth.currentUser) return;
+
   return await reauthenticateWithPopup(
     auth.currentUser,
     new GoogleAuthProvider(),

@@ -1,11 +1,11 @@
 import { toast } from "sonner";
 import { loginWithGoogle } from "@/features/auth/services";
+import { useAppDispatch, useAppSelector } from "@/app/store";
+import { isFirebaseApiError } from "@/features/auth/types";
 import {
   selectGoogleRedirectStatus,
   setGoogleRedirectStatus,
 } from "@/features/auth/slice";
-import { useAppDispatch, useAppSelector } from "@/app/store";
-import { isFirebaseApiError } from "@/features/auth/types";
 
 function useGoogleAuth() {
   const dispatch = useAppDispatch();

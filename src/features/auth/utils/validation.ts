@@ -1,12 +1,13 @@
 import { AUTH_ERRORS } from "./constants";
+import getAuthErrorMessage from "@/features/auth/utils/errors";
 import type {
   LoginParams,
   RegisterParams,
   ValidationErrors,
 } from "@/features/auth/types";
-import getAuthErrorMessage from "@/features/auth/utils/errors";
 
 function getEmailError(email: string): string | undefined {
+  // supports standard and Cyrillic domains
   const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Zа-яА-ЯіІїЇєЄґҐ]{2,}$/;
 
   if (!email.trim())

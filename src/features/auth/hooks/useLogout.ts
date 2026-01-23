@@ -7,7 +7,7 @@ function useLogout() {
 
   async function handleLogout() {
     try {
-      await logout().unwrap();
+      await logout().unwrap(); // RTK Query "unwrap()" allows the catch block to handle errors.
       toast.success("Ви успішно вийшли з акаунту");
     } catch (error) {
       if (isFirebaseApiError(error)) {

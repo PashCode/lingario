@@ -28,11 +28,13 @@ function greetUser(userCredentials: UserCredential) {
 }
 
 export const useGoogleRedirect = () => {
+  // this hook runs only when the user is redirected back from Google Auth.
   useEffect(() => {
     const processRedirect = async () => {
+      // if the user just opened the app normally, this returns null.
+      // the credentials return only if we came back from a Google Auth redirect.
       const userCredentials = await checkRedirectResult();
       if (!userCredentials) return;
-
       greetUser(userCredentials);
     };
 

@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "@/features/auth/slice";
-import dictionaryReducer from "@/features/dictionary/slice"
-import homeReducer from "@/features/home/slice"
-import baseApi from "@/shared/api/baseApi";
 import { useDispatch, useSelector } from "react-redux";
+import baseApi from "@/shared/api/baseApi";
+import authReducer from "@/features/auth/slice";
+import homeReducer from "@/features/home/slice";
+import dictionaryReducer from "@/features/dictionary/slice";
 
 const store = configureStore({
   reducer: {
