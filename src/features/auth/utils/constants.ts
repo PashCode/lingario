@@ -3,6 +3,7 @@ export const AUTH_ERRORS = {
   INVALID_EMAIL: "auth/invalid-email",
   MISSING_PASSWORD: "auth/missing-password",
   WEAK_PASSWORD: "auth/weak-password",
+  NO_SPACES_PASSWORD: "auth/no-spaces-password",
   OPERATION_NOT_ALLOWED: "auth/operation-not-allowed",
 
   USER_NOT_FOUND: "auth/user-not-found",
