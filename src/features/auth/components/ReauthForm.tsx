@@ -1,3 +1,4 @@
+import TestLoader from "@/shared/components/ui/TestLoader";
 import { useState, type FormEvent, type ChangeEvent } from "react";
 import Input from "@/shared/components/ui/Input";
 import Button from "@/shared/components/ui/Button";
@@ -16,6 +17,7 @@ function ReauthForm({ handleDelete, isLoading, onCancel }: ReauthFormParams) {
   }
 
   async function handleSubmit(e: FormEvent) {
+    // if registration is via password, validate it
     if (providerId === "password") {
       e.preventDefault();
       const errors = validateReAuthenticatedPassword(password);
@@ -58,7 +60,7 @@ function ReauthForm({ handleDelete, isLoading, onCancel }: ReauthFormParams) {
 
           <div className="flex gap-2">
             <Button
-              text={isLoading ? "Завантаження..." : "Видалити"}
+              text={isLoading ? <TestLoader text="Видалення"/> : "Видалити"}
               disabled={isLoading}
               className="w-full cursor-pointer border-2 bg-red-600 text-white"
             />

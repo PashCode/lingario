@@ -1,15 +1,11 @@
+import TestLoader from "@/shared/components/ui/TestLoader";
 import Input from "@/shared/components/ui/Input";
 import Button from "@/shared/components/ui/Button";
 import useLogin from "@/features/auth/hooks/useLogin";
 
 function LoginForm() {
-  const {
-    handleChangeInput,
-    handleSubmitForm,
-    inputErrors,
-    isLoading,
-    user,
-  } = useLogin();
+  const { handleChangeInput, handleSubmitForm, inputErrors, isLoading, user } =
+    useLogin();
 
   return (
     <div className="flex h-full w-full flex-col items-center">
@@ -47,7 +43,7 @@ function LoginForm() {
         />
 
         <Button
-          text={isLoading ? "Завантаження..." : "Увійти"}
+          text={isLoading ? <TestLoader text="Увійти" /> : "Увійти"}
           disabled={isLoading}
           className="cursor-pointer border-2 bg-green-600 disabled:bg-neutral-500"
         />

@@ -1,3 +1,4 @@
+import TestLoader from "@/shared/components/ui/TestLoader";
 import Input from "@/shared/components/ui/Input";
 import Button from "@/shared/components/ui/Button";
 import useRegister from "@/features/auth/hooks/useRegister";
@@ -61,7 +62,7 @@ function RegisterForm() {
         />
 
         <Button
-          text={isLoading ? "Завантаження..." : "Зареєструватись"}
+          text={isLoading ? <TestLoader text="Завантаження"/> : "Зареєструватись"}
           disabled={isLoading}
           className="cursor-pointer border-2 bg-green-600 disabled:bg-neutral-500"
         />

@@ -1,3 +1,4 @@
+import TestLoader from "@/shared/components/ui/TestLoader";
 import Button from "@/shared/components/ui/Button";
 import useGoogleAuth from "@/features/auth/hooks/useGoogleAuth";
 
@@ -9,7 +10,7 @@ function GoogleAuth() {
       <Button
         text={
           redirectLoadingStatus === "loading"
-            ? "Завантаження..."
+            ? <TestLoader text="Завантаження"/>
             : "Увійти через Google"
         }
         disabled={redirectLoadingStatus === "loading"}
