@@ -25,8 +25,8 @@ import { LSOxford3000Config } from "@/features/dictionary/utils/constants";
 import { LSPhraseWithDictWordConfig } from "@/features/home/utils/constants";
 import { setPhraseWithDictWord } from "@/features/home/slice";
 import {
-  PHRASE_WITH_DICTIONARY_WORD,
-  OXFORD_3000,
+  PHRASE_WITH_DICTIONARY_WORD_KEY,
+  OXFORD_3000_KEY,
 } from "@/utils/storageAndSession/constants";
 
 function handleAuthError(error: unknown): AuthErrorResponse {
@@ -103,8 +103,8 @@ const authApi = baseApi.injectEndpoints({
       queryFn: async () => {
         try {
           await deleteAccount();
-          localStorage.removeItem(OXFORD_3000);
-          localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD);
+          localStorage.removeItem(OXFORD_3000_KEY);
+          localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD_KEY);
           return { data: null };
         } catch (error) {
           return handleAuthError(error);
@@ -118,8 +118,8 @@ const authApi = baseApi.injectEndpoints({
           const providerId = auth.currentUser!.providerData[0].providerId;
           if (providerId === "password") await reauthDeleteWithPassword(password);
           if (providerId === "google.com") await reauthDeleteWithGoogle();
-          localStorage.removeItem(OXFORD_3000);
-          localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD);
+          localStorage.removeItem(OXFORD_3000_KEY);
+          localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD_KEY);
           return { data: null };
         } catch (error) {
           return handleAuthError(error);

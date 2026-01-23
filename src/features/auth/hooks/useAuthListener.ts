@@ -12,7 +12,7 @@ import getOrSetStorage from "@/utils/storageAndSession/getOrSetStorage";
 import { LSOxford3000Config } from "@/features/dictionary/utils/constants";
 import { LSPhraseWithDictWordConfig } from "@/features/home/utils/constants";
 import getOrSetSession from "@/utils/storageAndSession/getOrSetSession";
-import { PHRASE_WITH_DICTIONARY_WORD } from "@/utils/storageAndSession/constants";
+import { PHRASE_WITH_DICTIONARY_WORD_KEY } from "@/utils/storageAndSession/constants";
 
 const useAuthListener = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ const useAuthListener = () => {
         dispatch(clearUser());
         dispatch(clearOxford3000());
         dispatch(clearPhraseWithDictWord());
-        localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD);
+        localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD_KEY);
         return;
       }
 
@@ -42,7 +42,7 @@ const useAuthListener = () => {
           }),
         );
         if (!isActiveSession) {
-          localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD);
+          localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD_KEY);
         }
         getOrSetStorage(LSPhraseWithDictWordConfig).then((phrase) => {
           dispatch(setPhraseWithDictWord(phrase));
