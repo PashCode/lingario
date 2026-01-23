@@ -1,12 +1,12 @@
 import { type ChangeEvent, type FormEvent, useState } from "react";
+import { toast } from "sonner";
+import { useLoginUserMutation } from "@/features/auth/authApi";
+import { validateLogin } from "@/features/auth/utils/validation";
 import {
   isFirebaseApiError,
   type LoginParams,
   type ValidationErrors,
 } from "@/features/auth/types.ts";
-import { validateLogin } from "@/features/auth/utils/validation";
-import { useLoginUserMutation } from "@/features/auth/authApi";
-import { toast } from "sonner";
 
 function useLogin() {
   const [user, setUser] = useState<LoginParams>({ email: "", password: "" });
@@ -16,8 +16,10 @@ function useLogin() {
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setUser((prevUser) => ({ ...prevUser, [name]: value }));
+
+    // clear validation error dynamically when the user types
     if (inputErrors[name as keyof ValidationErrors]) {
-      setInputErrors((prevError) => ({ ...prevError, [name]: undefined }));
+      setInputErrors((prevError) => ({ ...prevError, [name]: "" }));
     }
   }
 
@@ -26,10 +28,12 @@ function useLogin() {
 
     const errors = validateLogin(user);
     setInputErrors(errors);
-    if (Object.keys(errors).length > 0) return;
+
+    const hasErrors = Object.values(errors).every((error) => error === undefined);
+    if (!hasErrors) return;
 
     try {
-      await login(user).unwrap();
+      await login(user).unwrap(); // RTK Query "unwrap()" allows the catch block to handle errors.
       toast.success("З поверненням");
     } catch (error) {
       if (isFirebaseApiError(error)) {

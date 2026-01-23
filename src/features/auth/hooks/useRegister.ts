@@ -20,6 +20,8 @@ function useRegister() {
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setUser((prevUser) => ({ ...prevUser, [name]: value }));
+
+    // clear validation error dynamically when the user types
     if (inputErrors[name as keyof ValidationErrors]) {
       setInputErrors((prevError) => ({ ...prevError, [name]: undefined }));
     }
@@ -30,10 +32,12 @@ function useRegister() {
 
     const errors = validateRegister(user);
     setInputErrors(errors);
-    if (Object.keys(errors).length > 0) return;
+
+    const hasErrors = Object.values(errors).every((error) => error === undefined);
+    if (!hasErrors) return;
 
     try {
-      await register(user).unwrap();
+      await register(user).unwrap(); // RTK Query "unwrap()" allows the catch block to handle errors.
       toast.success("Ласкаво просимо");
     } catch (error) {
       if (isFirebaseApiError(error)) {
