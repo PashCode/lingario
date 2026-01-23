@@ -3,7 +3,6 @@ import { selectOxfordDictionary } from "@/features/dictionary/slice";
 
 function ShowDictionary() {
   const oxfordDictionary = useAppSelector(selectOxfordDictionary);
-  console.log(oxfordDictionary);
 
   return (
     <div className="flex flex-col">
