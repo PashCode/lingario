@@ -1,5 +1,7 @@
 import LogoutButton from "@/features/auth/components/LogoutButton";
 import DeleteAccount from "@/features/auth/components/DeleteAccount";
+// import { useAppSelector } from "@/app/store";
+// import { selectOxford3000 } from "@/features/dictionary/slice";
 // import {
 //   collection,
 //   addDoc,
@@ -13,6 +15,7 @@ import DeleteAccount from "@/features/auth/components/DeleteAccount";
 // import { useEffect, useState } from "react";
 
 function Profile() {
+  // const oxfordD3000 = useAppSelector(selectOxford3000);
   // const [data, setData] = useState({});
   //
   // useEffect(() => {
@@ -59,6 +62,23 @@ function Profile() {
       <div>PROFILE</div>
       <LogoutButton />
       <DeleteAccount />
+
+      {/*{oxfordD3000.length ? (*/}
+      {/*    <div className="border-4 border-amber-600">*/}
+      {/*      <h1>*/}
+      {/*        Слово: {oxfordD3000[10].e} <br />*/}
+      {/*        Переклад: {oxfordD3000[10].u} <br />*/}
+      {/*        Рівень: {oxfordD3000[10].l}*/}
+      {/*      </h1>*/}
+
+      {/*      <div className="flex gap-2">*/}
+      {/*        <button className="cursor-pointer bg-green-500">Додати</button>*/}
+      {/*        <button className="cursor-pointer bg-red-500">Видалити</button>*/}
+      {/*      </div>*/}
+      {/*    </div>*/}
+      {/*) : (*/}
+      {/*  "undefined"*/}
+      {/*)}*/}
       {/*<hr />*/}
       {/*<Button onClick={loadData} text="Завантажити дані у DB" />*/}
       {/*<hr />*/}

@@ -1,7 +1,7 @@
-import ShowDictionary from "@/features/dictionary/features/ShowDictionary";
+import DisplayOxford3000 from "@/features/dictionary/features/displayOxford3000";
 
 function Oxford3000() {
-  return <ShowDictionary />;
+  return <DisplayOxford3000 />;
 }
 
 export default Oxford3000;
