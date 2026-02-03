@@ -1,4 +1,4 @@
-import DisplayOxford3000 from "@/features/dictionary/features/displayOxford3000";
+import DisplayOxford3000 from "@/features/dictionary/public/features/displayOxford3000";
 
 function Oxford3000() {
   return <DisplayOxford3000 />;

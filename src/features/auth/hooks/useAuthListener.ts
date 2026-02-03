@@ -5,8 +5,8 @@ import { useEffect } from "react";
 import { useAppDispatch } from "@/app/store";
 import { auth } from "@/config/firebase";
 import { clearUser, setUser } from "@/features/auth/slice";
-import { clearOxford3000, setOxford3000 } from"@/features/dictionary/slice";
-import { LSOxford3000Config } from "@/features/dictionary/utils/constants";
+import { clearOxford3000, setOxford3000 } from "@/features/dictionary/public/slice";
+import { LSOxford3000Config } from "@/features/dictionary/public/utils/constants";
 import { LSPhraseWithDictWordConfig } from"@/features/home/utils/constants";
 import { PHRASE_WITH_DICTIONARY_WORD_KEY } from"@/utils/storageAndSession/constants";
 import {

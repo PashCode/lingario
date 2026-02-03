@@ -1,4 +1,4 @@
-import type { LSOxford3000Values } from "@/features/dictionary/types";
+import type { LSOxford3000Values } from "@/features/dictionary/public/types";
 import type { LSPhraseWithDictWordValues } from "@/features/home/types";
 
 async function getOrSetStorage(

@@ -1,4 +1,4 @@
-export interface DictionaryState {
+export interface PublicDictionaryState {
   oxford3000: Array<Oxford3000Values>;
 }
 
@@ -11,5 +11,5 @@ export interface Oxford3000Values {
 export interface LSOxford3000Values {
   storageKey: string;
   defaultStorageValue: string;
-  initialData: () => Promise<DictionaryState>;
+  initialData: () => Promise<PublicDictionaryState>;
 }

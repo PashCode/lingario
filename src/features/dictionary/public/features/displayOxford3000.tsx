@@ -1,23 +1,46 @@
 import { useAppSelector } from "@/app/store";
-import { selectOxford3000 } from "@/features/dictionary/slice";
+import SearchWord from "@/features/dictionary/public/features/SearchWord";
+import useSearchWord from "@/features/dictionary/public/hooks/useSearchWord";
+import { selectOxford3000 } from "@/features/dictionary/public/slice";
 import { Virtuoso } from "react-virtuoso";
 
 function DisplayOxford3000() {
-  const oxfordD3000 = useAppSelector(selectOxford3000);
+  const oxford3000 = useAppSelector(selectOxford3000);
+  const {
+    getFilteredWords,
+    searchWord,
+    setSearchWord,
+    isSearchOpen,
+    setIsSearchOpen,
+  } = useSearchWord();
 
-  if (!oxfordD3000.length) {
+  const filteredWords = getFilteredWords();
+
+  if (!oxford3000.length) {
     return <h1>Завантаження словника...</h1>;
   }
 
   return (
     <div className="w-full pr-2 pl-2">
-      <div className="sticky top-0 z-1 flex h-1/12 items-center bg-white">
+      <div className="sticky top-0 z-1 flex h-1/12 items-center justify-evenly bg-white">
         <h1 className="text-xl font-bold">PUBLIC OXFORD 3000</h1>
+        <SearchWord
+          onChange={setSearchWord}
+          value={searchWord}
+          isSearchClick={isSearchOpen}
+          setIsSearchClick={setIsSearchOpen}
+        />
       </div>
 
+      {!filteredWords.length && (
+        <div className="flex items-center justify-center">
+          <h1 className="text-2xl font-bold">Такого слова немає в словнику</h1>
+        </div>
+      )}
+
       <Virtuoso
-        data={oxfordD3000}
-        totalCount={oxfordD3000.length}
+        data={filteredWords}
+        totalCount={filteredWords.length}
         itemContent={(_, word) => {
           return (
             <div className="mb-4 rounded border-4 border-amber-600 p-2">
