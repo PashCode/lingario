@@ -2,6 +2,7 @@ import { useAppSelector } from "@/app/store";
 import SearchWord from "@/features/dictionary/public/features/SearchWord";
 import useSearchWord from "@/features/dictionary/public/hooks/useSearchWord";
 import { selectOxford3000 } from "@/features/dictionary/public/slice";
+import Input from "@/shared/components/ui/Input";
 import { Virtuoso } from "react-virtuoso";
 
 function DisplayOxford3000() {
@@ -12,7 +13,13 @@ function DisplayOxford3000() {
     setSearchWord,
     isSearchOpen,
     setIsSearchOpen,
+    sortOrder,
+    setSortOrder,
+    sortLevel,
+    setSortLevel,
   } = useSearchWord();
+
+
 
   const filteredWords = getFilteredWords();
 
@@ -23,7 +30,80 @@ function DisplayOxford3000() {
   return (
     <div className="w-full pr-2 pl-2">
       <div className="sticky top-0 z-1 flex h-1/12 items-center justify-evenly bg-white">
-        <h1 className="text-xl font-bold">PUBLIC OXFORD 3000</h1>
+        <h1 className="font-bold">PUBLIC OXFORD 3000</h1>
+
+        <div className="flex gap-2">
+          <span>
+            <Input
+              type="radio"
+              labelText="A1"
+              checked={sortLevel === "A1"}
+              onChange={() => setSortLevel("A1")}
+              htmlFor={""}
+              errorMessage={undefined}
+              name="sortLevel"
+            />
+          </span>
+          <span>
+            <Input
+              type="radio"
+              labelText="A2"
+              checked={sortLevel === "A2"}
+              onChange={() => setSortLevel("A2")}
+              htmlFor={""}
+              errorMessage={undefined}
+              name="sortLevel"
+            />
+          </span>
+          <span>
+            <Input
+              type="radio"
+              labelText="B1"
+              checked={sortLevel === "B1"}
+              onChange={() => setSortLevel("B1")}
+              htmlFor={""}
+              errorMessage={undefined}
+              name="sortLevel"
+            />
+          </span>
+          <span>
+            <Input
+              type="radio"
+              labelText="B2"
+              checked={sortLevel === "B2"}
+              onChange={() => setSortLevel("B2")}
+              htmlFor={""}
+              errorMessage={undefined}
+              name="sortLevel"
+            />
+          </span>
+        </div>
+
+        <div className="flex gap-2">
+          <span>
+            <Input
+              type="radio"
+              labelText="A-Z"
+              checked={sortOrder === "asc"}
+              onChange={() => setSortOrder("asc")}
+              htmlFor={""}
+              errorMessage={undefined}
+              name="sortGroup"
+            />
+          </span>
+          <span>
+            <Input
+              type="radio"
+              labelText="Z-A"
+              checked={sortOrder === "desc"}
+              onChange={() => setSortOrder("desc")}
+              htmlFor={""}
+              errorMessage={undefined}
+              name="sortGroup"
+            />
+          </span>
+        </div>
+
         <SearchWord
           onChange={setSearchWord}
           value={searchWord}
