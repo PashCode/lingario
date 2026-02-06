@@ -1,7 +1,7 @@
 import LogoutButton from "@/features/auth/components/LogoutButton";
 import DeleteAccount from "@/features/auth/components/DeleteAccount";
 // import { useAppSelector } from "@/app/store";
-// import { selectOxford3000 } from "@/features/dictionary/slice";
+// import { selectOxford3000 } from "@/components/dictionary/slice";
 // import {
 //   collection,
 //   addDoc,

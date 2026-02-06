@@ -2,20 +2,20 @@ import Input from "@/shared/components/ui/Input";
 import Button from "@/shared/components/ui/Button";
 import type { Dispatch, SetStateAction } from "react";
 
-function SearchWord({
+function SearchInput( {
   onChange,
   value,
-  isSearchClick,
+  isSearchOpen,
   setIsSearchClick,
 }: {
   onChange: Dispatch<SetStateAction<string>>;
   value: string;
-  isSearchClick: boolean;
+  isSearchOpen: boolean;
   setIsSearchClick: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
     <>
-      {isSearchClick ? (
+      {isSearchOpen ? (
         <Input
           labelText="Введіть слово"
           htmlFor={""}
@@ -31,4 +31,4 @@ function SearchWord({
   );
 }
 
-export default SearchWord;
+export default SearchInput;

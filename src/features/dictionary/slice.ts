@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PublicDictionaryState } from "@/features/dictionary/public/types";
+import type { PublicDictionaryState } from "@/features/dictionary/types";
 
 const initialState: PublicDictionaryState = {
   oxford3000: [],

@@ -1,5 +1,5 @@
-import { getOxford3000FromDB } from "@/features/dictionary/public/services";
-import type { LSOxford3000Values } from "@/features/dictionary/public/types";
+import { getOxford3000FromDB } from "@/features/dictionary/services";
+import type { LSOxford3000Values } from "@/features/dictionary/types";
 import { OXFORD_3000_KEY } from "@/utils/storageAndSession/constants";
 
 export const LSOxford3000Config: LSOxford3000Values = {

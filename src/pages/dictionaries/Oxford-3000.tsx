@@ -1,7 +1,7 @@
-import DisplayOxford3000 from "@/features/dictionary/public/features/displayOxford3000";
+import Oxford3000List from "@/features/dictionary/components/Oxford3000List";
 
 function Oxford3000() {
-  return <DisplayOxford3000 />;
+  return <Oxford3000List />;
 }
 
 export default Oxford3000;
