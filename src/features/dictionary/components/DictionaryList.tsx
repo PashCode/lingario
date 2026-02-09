@@ -38,7 +38,7 @@ function DictionaryList({ filteredWords }: OxfordListProps) {
               <Button
                 text={<PronounceButton />}
                 onClick={() => pronounceWord(englishWord)}
-                className="cursor-pointer disabled:text-gray-400"
+                className="cursor-pointer disabled:text-transparent"
                 disabled={isPlaying}
               />
             </div>

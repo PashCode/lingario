@@ -9,11 +9,8 @@ import Welcome from "@/pages/Welcome";
 import NotFound from "@/pages/NotFound";
 import Auth from "@/pages/auth/Auth";
 import ResetPassword from "@/pages/auth/ResetPassword";
-import PersonalMain from "@/pages/dictionaries/personal/PersonalMain";
+import PersonalWords from "@/pages/dictionaries/PersonalWords";
 import Oxford3000 from "@/pages/dictionaries/Oxford-3000";
-import OxfordDictionary from "@/pages/dictionaries/personal/OxfordDictionary";
-import PersonalDictionary from "@/pages/dictionaries/personal/PersonalDictionary";
-import AddNewWord from "@/pages/dictionaries/personal/AddNewWord";
 import Session from "@/pages/exercises/Session";
 import MainSettings from "@/pages/exercises/MainSettings";
 import RepeatSettings from "@/pages/exercises/RepeatSettings";
@@ -46,7 +43,6 @@ const router = createBrowserRouter([
           { path: ROUTES.DICTIONARIES.ROOT, element: <Dictionaries />, },
           { path: ROUTES.EXERCISES.ROOT, element: <Exercises />, },
           { path: ROUTES.PROFILE, element: <Profile />, },
-          { path: ROUTES.DICTIONARIES.PERSONAL.ROOT, element: <PersonalMain />, },
         ],
       },
 
@@ -54,9 +50,7 @@ const router = createBrowserRouter([
         element: <FullScreenLayout />,
         children: [
           { path: ROUTES.DICTIONARIES.PUBLIC.OXFORD_3000, element: <Oxford3000 />, },
-          { path: ROUTES.DICTIONARIES.PERSONAL.OXFORD_WORDS, element: <OxfordDictionary />, },
-          { path: ROUTES.DICTIONARIES.PERSONAL.CUSTOM_WORDS, element: <PersonalDictionary />, },
-          { path: ROUTES.DICTIONARIES.PERSONAL.ADD_NEW_WORD, element: <AddNewWord />, },
+          { path: ROUTES.DICTIONARIES.PERSONAL.ROOT, element: <PersonalWords />, },
           { path: ROUTES.EXERCISES.SETTINGS.MAIN, element: <MainSettings /> },
           { path: ROUTES.EXERCISES.SETTINGS.REPEAT, element: <RepeatSettings />, },
           { path: ROUTES.EXERCISES.SESSION, element: <Session /> },

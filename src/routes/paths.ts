@@ -16,9 +16,6 @@ export const ROUTES = {
     },
     PERSONAL: {
       ROOT: "/dictionaries/personal",
-      OXFORD_WORDS: "/dictionaries/personal/oxford",
-      CUSTOM_WORDS: "/dictionaries/personal/custom",
-      ADD_NEW_WORD: "/dictionaries/personal/add",
     },
   },
 
