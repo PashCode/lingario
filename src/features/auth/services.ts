@@ -13,8 +13,8 @@ import {
 } from "firebase/auth";
 import { auth } from "@/config/firebase";
 import type { LoginParams, RegisterParams } from "@/features/auth/types";
-// import { addDoc, collection } from "firebase/firestore";
-// import {db} from "@/config/firebase"
+import { getDoc, setDoc, doc } from "firebase/firestore";
+import { db } from "@/config/firebase";
 
 export async function register({ email, name, password }: RegisterParams) {
   const { user } = await createUserWithEmailAndPassword(auth, email, password);
@@ -63,7 +63,14 @@ export async function reauthDeleteWithGoogle() {
   );
 }
 
-// export async function addNewUserToDB(uid: any) {
-//   const docRef = await addDoc(collection(db, "users"), { userID: uid });
-//   return docRef
-// }
+export async function addNewUserToDB(uid: string) {
+  const docRef = doc(db, "users", uid);
+  await setDoc(docRef, { userID: uid }, { merge: true });
+  return docRef;
+}
+
+export async function checkDBUserExist(uid: string) {
+  const docRef = doc(db, "users", uid);
+  const docSnap = await getDoc(docRef);
+  return docSnap.exists()
+}

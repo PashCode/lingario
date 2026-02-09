@@ -1,6 +1,7 @@
 import baseApi from "@/shared/api/baseApi";
 import {
-  // addNewUserToDB,
+  addNewUserToDB,
+  checkDBUserExist,
   deleteAccount,
   login,
   logout,
@@ -31,9 +32,7 @@ import {
 } from "@/utils/storageAndSession/constants";
 
 function handleAuthError(error: unknown): AuthErrorResponse {
-  const code = isFirebaseApiError(error)
-    ? error.code
-    : "auth/unexpected-error";
+  const code = isFirebaseApiError(error) ? error.code : "auth/unexpected-error";
 
   return {
     error: {
@@ -71,22 +70,22 @@ const authApi = baseApi.injectEndpoints({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         const { data } = await queryFulfilled;
         dispatch(setUser(data));
-        // await addNewUserToDB(data.uid);
+        await addNewUserToDB(data.uid);
 
         const phrase = await getOrSetStorage(LSPhraseWithDictWordConfig);
         dispatch(setPhraseWithDictWord(phrase));
 
         const oxford3000 = await getOrSetStorage(LSOxford3000Config);
         dispatch(setOxford3000(oxford3000));
-
-
       },
     }),
 
     loginUser: builder.mutation<null, LoginParams>({
       queryFn: async ({ email, password }) => {
         try {
-          await login({ email, password });
+          const firebaseUser = await login({ email, password });
+          const isDBUserExist = await checkDBUserExist(firebaseUser.uid);
+          if (!isDBUserExist) await addNewUserToDB(firebaseUser.uid);
           return { data: null };
         } catch (error) {
           return handleAuthError(error);
@@ -122,7 +121,8 @@ const authApi = baseApi.injectEndpoints({
       queryFn: async (password) => {
         try {
           const providerId = auth.currentUser!.providerData[0].providerId;
-          if (providerId === "password") await reauthDeleteWithPassword(password);
+          if (providerId === "password")
+            await reauthDeleteWithPassword(password);
           if (providerId === "google.com") await reauthDeleteWithGoogle();
           localStorage.removeItem(OXFORD_3000_KEY);
           localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD_KEY);

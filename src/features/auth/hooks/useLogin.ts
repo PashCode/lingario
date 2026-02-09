@@ -29,7 +29,9 @@ function useLogin() {
     const errors = validateLogin(user);
     setInputErrors(errors);
 
-    const hasErrors = Object.values(errors).every((error) => error === undefined);
+    const hasErrors = Object.values(errors).every(
+      (error) => error === undefined,
+    );
     if (!hasErrors) return;
 
     try {
@@ -37,6 +39,7 @@ function useLogin() {
       toast.success("З поверненням");
     } catch (error) {
       if (isFirebaseApiError(error)) {
+        console.error(error);
         toast.error(error.message);
       }
     }
