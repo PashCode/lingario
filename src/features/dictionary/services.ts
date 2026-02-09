@@ -3,10 +3,10 @@ import type {
   fetchTTSResponse,
 } from "@/features/dictionary/types";
 import { getDownloadURL } from "firebase/storage";
-import { oxford3000Storage } from "@/config/firebase";
+import { oxford3000Storage, auth } from "@/config/firebase";
 import { googleTTS } from "@/config/gemini";
-// import { db } from "@/config/firebase";
-// import { addDoc, collection } from "firebase/firestore";
+import { db } from "@/config/firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 export async function getOxford3000FromDB() {
   const oxford3000Link = await getDownloadURL(oxford3000Storage);
@@ -48,10 +48,14 @@ export async function fetchPronunciation(
   }
 }
 
-//
-// export async function addToPersonalDict() {
-//   const docRef = await addDoc(collection(db, 'users'), {name: '1'})
-//   console.log(docRef);
-// }
-//
-// addToPersonalDict().then((res) => console.log(res));
+export async function addToPersonalDict(wordObject) {
+  if (!auth.currentUser) return;
+  const docRef = doc(
+    db,
+    "users",
+    auth.currentUser.uid,
+    "dictionary",
+    wordObject.id,
+  );
+  await setDoc(docRef, wordObject);
+}
