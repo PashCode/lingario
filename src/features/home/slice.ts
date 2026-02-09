@@ -17,7 +17,6 @@ const homeSlice = createSlice({
     },
   },
   selectors: {
-
     selectPhraseWithDictWord: ( state) => state.phraseWithDictWord,
   },
 });

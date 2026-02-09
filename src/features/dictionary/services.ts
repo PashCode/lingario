@@ -4,7 +4,8 @@ import type {
 } from "@/features/dictionary/types";
 import { getDownloadURL } from "firebase/storage";
 import { oxford3000Storage, auth } from "@/config/firebase";
-import { googleTTS } from "@/config/gemini";
+import { googleTTS, geminiAI } from "@/config/gemini";
+import type { GenerateContentResponse } from "@google/genai";
 import { db } from "@/config/firebase";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -58,4 +59,20 @@ export async function addToPersonalDict(wordObject) {
     wordObject.id,
   );
   await setDoc(docRef, wordObject);
+}
+
+export async function addPhraseToPersonalWord(word: string, level) {
+  const response: GenerateContentResponse =
+    await geminiAI.models.generateContent({
+      model: "gemini-2.5-flash-lite",
+      contents:
+        `Task: Create one grammatically correct sentence ${level} level.` +
+        "Length: No more then 10 words\n" +
+        `Vocabulary: With this word: ${word}` +
+        "Topic: Random everyday theme\n" +
+        "Output: Sentence only, no additional text\n" +
+        "\n",
+    });
+
+  return response.text;
 }

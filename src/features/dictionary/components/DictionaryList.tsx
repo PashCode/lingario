@@ -1,5 +1,8 @@
 import PronounceButton from "@/features/dictionary/components/PronounceButton";
-import { addToPersonalDict } from "@/features/dictionary/services";
+import {
+  addPhraseToPersonalWord,
+  addToPersonalDict,
+} from "@/features/dictionary/services";
 import type { OxfordListProps } from "@/features/dictionary/types";
 import { Virtuoso } from "react-virtuoso";
 import usePronounceWord from "@/features/dictionary/hooks/usePronounceWord";
@@ -24,27 +27,37 @@ function DictionaryList({ filteredWords }: OxfordListProps) {
 
             <div className="mt-2 flex items-center gap-2">
               <Button
+                onClick={async () => {
+                  await addToPersonalDict({
+                    id: word.e,
+                    word: word.e,
+                    translation: word.u,
+                    level: word.l,
+                    addedAt: serverTimestamp(),
+                    progress: "studied",
+                    score: 2,
+                  });
+                }}
                 text="Знаю"
                 className="cursor-pointer rounded bg-green-500 px-2 py-1 text-white"
               />
 
               <Button
-                onClick={() =>
-                  addToPersonalDict({
+                onClick={async () => {
+                  const phrase = await addPhraseToPersonalWord(word.e, word.l);
+
+                  await addToPersonalDict({
                     id: word.e,
                     word: word.e,
                     translation: word.u,
                     level: word.l,
                     addedAt: serverTimestamp(),
                     nextRepeat: serverTimestamp(),
-                    examples: [
-                      "I like apples",
-                      "Green apple is sour",
-                    ],
-                    progress: 'new',
+                    phrase: phrase,
+                    progress: "new",
                     score: 1,
-                  })
-                }
+                  });
+                }}
                 text="Не знаю"
                 className="cursor-pointer rounded bg-red-500 px-2 py-1 text-white"
               />
