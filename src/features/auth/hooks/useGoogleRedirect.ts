@@ -1,3 +1,4 @@
+import { addNewUserToDB, checkDBUserExist } from "@/features/auth/services";
 import { useEffect } from "react";
 import {
   getAdditionalUserInfo,
@@ -35,6 +36,10 @@ export const useGoogleRedirect = () => {
       // the credentials return only if we came back from a Google Auth redirect.
       const userCredentials = await checkRedirectResult();
       if (!userCredentials) return;
+
+      const isDBUserExist = await checkDBUserExist(userCredentials.user.uid);
+      if (!isDBUserExist) await addNewUserToDB(userCredentials.user.uid);
+
       greetUser(userCredentials);
     };
 

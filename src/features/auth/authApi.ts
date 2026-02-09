@@ -1,7 +1,6 @@
 import baseApi from "@/shared/api/baseApi";
 import {
   addNewUserToDB,
-  checkDBUserExist,
   deleteAccount,
   login,
   logout,
@@ -26,10 +25,6 @@ import getOrSetStorage from "@/utils/storageAndSession/getOrSetStorage";
 import { LSOxford3000Config } from "@/features/dictionary/utils/constants";
 import { LSPhraseWithDictWordConfig } from "@/features/home/utils/constants";
 import { setPhraseWithDictWord } from "@/features/home/slice";
-import {
-  PHRASE_WITH_DICTIONARY_WORD_KEY,
-  OXFORD_3000_KEY,
-} from "@/utils/storageAndSession/constants";
 
 function handleAuthError(error: unknown): AuthErrorResponse {
   const code = isFirebaseApiError(error) ? error.code : "auth/unexpected-error";
@@ -83,9 +78,7 @@ const authApi = baseApi.injectEndpoints({
     loginUser: builder.mutation<null, LoginParams>({
       queryFn: async ({ email, password }) => {
         try {
-          const firebaseUser = await login({ email, password });
-          const isDBUserExist = await checkDBUserExist(firebaseUser.uid);
-          if (!isDBUserExist) await addNewUserToDB(firebaseUser.uid);
+          await login({ email, password });
           return { data: null };
         } catch (error) {
           return handleAuthError(error);
@@ -108,8 +101,6 @@ const authApi = baseApi.injectEndpoints({
       queryFn: async () => {
         try {
           await deleteAccount();
-          localStorage.removeItem(OXFORD_3000_KEY);
-          localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD_KEY);
           return { data: null };
         } catch (error) {
           return handleAuthError(error);
@@ -121,11 +112,8 @@ const authApi = baseApi.injectEndpoints({
       queryFn: async (password) => {
         try {
           const providerId = auth.currentUser!.providerData[0].providerId;
-          if (providerId === "password")
-            await reauthDeleteWithPassword(password);
+          if (providerId === "password") await reauthDeleteWithPassword(password);
           if (providerId === "google.com") await reauthDeleteWithGoogle();
-          localStorage.removeItem(OXFORD_3000_KEY);
-          localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD_KEY);
           return { data: null };
         } catch (error) {
           return handleAuthError(error);
