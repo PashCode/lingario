@@ -23,6 +23,12 @@ function DictionaryList({ dictionary }: DictionaryListProps) {
               <b>Слово:</b> {word.englishWord} <br />
               <b>Переклад:</b> {word.translation} <br />
               <b>Рівень:</b> {word.level}
+              <br />
+              {word.phrase && (
+                <>
+                  <b>Фраза:</b> {word.phrase}
+                </>
+              )}
             </h1>
 
             <div className="mt-2 flex items-center gap-2">

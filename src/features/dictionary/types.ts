@@ -14,6 +14,7 @@ export interface Oxford3000Values {
   englishWord: string;
   translation: string;
   level: string;
+  phrase?: string;
 }
 
 export interface DictionaryListProps {
