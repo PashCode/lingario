@@ -1,33 +1,31 @@
-import { useAppSelector } from "@/app/store";
-import { selectOxford3000 } from "@/features/dictionary/slice";
 import type {
+  Oxford3000Values,
   sortWordsLevel,
   sortWordsOrder,
 } from "@/features/dictionary/types";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
-function useWordsFiltering() {
-  const oxford3000 = useAppSelector(selectOxford3000);
+function useWordsFiltering(dictionary: Array<Oxford3000Values>) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchWord, setSearchWord] = useState("");
   const [sortOrder, setSortOrder] = useState<sortWordsOrder>("asc");
   const [sortLevel, setSortLevel] = useState<sortWordsLevel>(null);
 
-  function getFilteredWords() {
-    return oxford3000
+  const filteredWords = useMemo(() => {
+    return dictionary
       .filter((word) => {
-        return word.e.includes(searchWord.toLowerCase().trim());
+        return word.englishWord.includes(searchWord.toLowerCase().trim());
       })
       .sort((a, b) => {
-        if (sortOrder === "asc") return a.e.localeCompare(b.e);
-        return b.e.localeCompare(a.e);
+        if (sortOrder === "asc")
+          return a.englishWord.localeCompare(b.englishWord);
+        return b.englishWord.localeCompare(a.englishWord);
       })
       .filter((word) => {
         if (sortLevel === null) return true;
-        return word.l === sortLevel;
+        return word.level === sortLevel;
       });
-  }
-  const filteredWords = getFilteredWords()
+  }, [dictionary, sortLevel, sortOrder, searchWord]);
 
   function resetAllFilters() {
     setSearchWord("");

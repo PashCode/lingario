@@ -19,7 +19,7 @@ function Oxford3000List() {
     setSortOrder,
     sortLevel,
     setSortLevel,
-  } = useWordsFiltering();
+  } = useWordsFiltering(oxford3000);
 
   if (!oxford3000.length) {
     return <h1>Завантаження словника...</h1>;
@@ -38,8 +38,8 @@ function Oxford3000List() {
         isSearchOpen={isSearchOpen}
         setIsSearchOpen={setIsSearchOpen}
       />
-      <WordNotFound filteredWords={filteredWords} />
-      <DictionaryList filteredWords={filteredWords} />
+      <WordNotFound dictionary={filteredWords} />
+      <DictionaryList dictionary={filteredWords} />
     </div>
   );
 }

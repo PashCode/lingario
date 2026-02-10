@@ -3,36 +3,36 @@ import {
   addPhraseToPersonalWord,
   addToPersonalDict,
 } from "@/features/dictionary/services";
-import type { OxfordListProps } from "@/features/dictionary/types";
+import type { DictionaryListProps } from "@/features/dictionary/types";
 import { Virtuoso } from "react-virtuoso";
 import usePronounceWord from "@/features/dictionary/hooks/usePronounceWord";
 import Button from "@/shared/components/ui/Button";
 import { serverTimestamp } from "firebase/firestore";
 
-function DictionaryList({ filteredWords }: OxfordListProps) {
+function DictionaryList({ dictionary }: DictionaryListProps) {
   const { isPlaying, pronounceWord } = usePronounceWord();
 
   return (
     <Virtuoso
-      data={filteredWords}
-      totalCount={filteredWords.length}
+      data={dictionary}
+      totalCount={dictionary.length}
       itemContent={(_, word) => {
         return (
           <div className="english-word mb-4 rounded border-4 border-amber-600 p-2">
             <h1>
-              <b>Слово:</b> {word.e} <br />
-              <b>Переклад:</b> {word.u} <br />
-              <b>Рівень:</b> {word.l}
+              <b>Слово:</b> {word.englishWord} <br />
+              <b>Переклад:</b> {word.translation} <br />
+              <b>Рівень:</b> {word.level}
             </h1>
 
             <div className="mt-2 flex items-center gap-2">
               <Button
                 onClick={async () => {
                   await addToPersonalDict({
-                    id: word.e,
-                    word: word.e,
-                    translation: word.u,
-                    level: word.l,
+                    id: word.englishWord,
+                    englishWord: word.englishWord,
+                    translation: word.translation,
+                    level: word.level,
                     addedAt: serverTimestamp(),
                     progress: "studied",
                     score: 2,
@@ -44,13 +44,16 @@ function DictionaryList({ filteredWords }: OxfordListProps) {
 
               <Button
                 onClick={async () => {
-                  const phrase = await addPhraseToPersonalWord(word.e, word.l);
+                  const phrase = await addPhraseToPersonalWord(
+                    word.englishWord,
+                    word.level,
+                  );
 
                   await addToPersonalDict({
-                    id: word.e,
-                    word: word.e,
-                    translation: word.u,
-                    level: word.l,
+                    id: word.englishWord,
+                    englishWord: word.englishWord,
+                    translation: word.translation,
+                    level: word.level,
                     addedAt: serverTimestamp(),
                     nextRepeat: serverTimestamp(),
                     phrase: phrase,
@@ -64,7 +67,7 @@ function DictionaryList({ filteredWords }: OxfordListProps) {
 
               <Button
                 text={<PronounceButton />}
-                onClick={() => pronounceWord(word.e)}
+                onClick={() => pronounceWord(word.englishWord)}
                 className="cursor-pointer disabled:text-transparent"
                 disabled={isPlaying}
               />

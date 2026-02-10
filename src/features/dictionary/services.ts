@@ -1,4 +1,5 @@
 import type {
+  DBOxford3000Values,
   fetchTTSProps,
   fetchTTSResponse,
 } from "@/features/dictionary/types";
@@ -11,8 +12,16 @@ import { doc, setDoc } from "firebase/firestore";
 
 export async function getOxford3000FromDB() {
   const oxford3000Link = await getDownloadURL(oxford3000Storage);
-  const oxford3000Dictionary = await fetch(oxford3000Link);
-  return await oxford3000Dictionary.json();
+  const response = await fetch(oxford3000Link);
+  const oxford3000Dictionary = await response.json();
+
+  return oxford3000Dictionary.map((word: DBOxford3000Values) => {
+    return {
+      englishWord: word.e,
+      translation: word.u,
+      level: word.l,
+    };
+  });
 }
 
 export async function fetchPronunciation(
@@ -49,7 +58,7 @@ export async function fetchPronunciation(
   }
 }
 
-export async function addToPersonalDict(wordObject) {
+export async function addToPersonalDict(wordObject: any) {
   if (!auth.currentUser) return;
   const docRef = doc(
     db,
@@ -61,7 +70,7 @@ export async function addToPersonalDict(wordObject) {
   await setDoc(docRef, wordObject);
 }
 
-export async function addPhraseToPersonalWord(word: string, level) {
+export async function addPhraseToPersonalWord(word: string, level: string) {
   const response: GenerateContentResponse =
     await geminiAI.models.generateContent({
       model: "gemini-2.5-flash-lite",

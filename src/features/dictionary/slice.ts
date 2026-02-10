@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PublicDictionaryState } from "@/features/dictionary/types";
+import type { DictionaryState } from "@/features/dictionary/types";
 
-const initialState: PublicDictionaryState = {
+const initialState: DictionaryState = {
   oxford3000: [],
 };
 
@@ -17,7 +17,7 @@ const dictionarySlice = createSlice({
     },
   },
   selectors: {
-    selectOxford3000: ( state) => state.oxford3000,
+    selectOxford3000: (state) => state.oxford3000,
   },
 });
 
