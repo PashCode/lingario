@@ -19,6 +19,8 @@ function Oxford3000List() {
     setSortOrder,
     sortLevel,
     setSortLevel,
+    sortProgress,
+    setSortProgress,
   } = useWordsFiltering(oxford3000);
 
   if (!oxford3000.length) {
@@ -37,6 +39,9 @@ function Oxford3000List() {
         setSearchWord={setSearchWord}
         isSearchOpen={isSearchOpen}
         setIsSearchOpen={setIsSearchOpen}
+        sortProgress={sortProgress}
+        setSortProgress={setSortProgress}
+        typeDictionary="public"
       />
       <WordNotFound dictionary={filteredWords} />
       <DictionaryList dictionary={filteredWords} />

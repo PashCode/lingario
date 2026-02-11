@@ -5,7 +5,7 @@ import { Howl } from "howler";
 function usePronounceWord() {
   const [isPlaying, setIsPlaying] = useState(false);
 
-  async function pronounceWord(text: string) {
+  async function pronounceText( text: string | undefined) {
     const data = await fetchPronunciation(text);
     if (!data) return;
 
@@ -23,7 +23,7 @@ function usePronounceWord() {
     audio.play();
   }
 
-  return { isPlaying, pronounceWord };
+  return { isPlaying, pronounceText };
 }
 
 export default usePronounceWord;

@@ -18,10 +18,12 @@ function PersonalDictionary() {
     setSortOrder,
     sortLevel,
     setSortLevel,
+    sortProgress,
+    setSortProgress,
   } = useWordsFiltering(personalWords);
 
   if (!personalWords.length) {
-    return <h1>Завантаження словника...</h1>;
+    return <h1>Поки що тут немає слів...</h1>;
   }
 
   return (
@@ -36,6 +38,9 @@ function PersonalDictionary() {
         setSearchWord={setSearchWord}
         isSearchOpen={isSearchOpen}
         setIsSearchOpen={setIsSearchOpen}
+        sortProgress={sortProgress}
+        setSortProgress={setSortProgress}
+        typeDictionary="personal"
       />
       <WordNotFound dictionary={filteredWords} />
       <DictionaryList dictionary={filteredWords} />

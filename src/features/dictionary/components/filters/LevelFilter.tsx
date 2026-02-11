@@ -1,3 +1,4 @@
+import { toggleFilters } from "@/features/dictionary/utils/toggleFilters";
 import Input from "@/shared/components/ui/Input";
 import type { FilterLevelProps } from "@/features/dictionary/types";
 
@@ -8,9 +9,11 @@ function LevelFilter({ sortLevel, setSortLevel }: FilterLevelProps) {
         <Input
           type="radio"
           labelText="A1"
+          htmlFor="sortA1"
+          id="sortA1"
           checked={sortLevel === "A1"}
-          onChange={() => setSortLevel("A1")}
-          htmlFor={""}
+          onChange={() => {}}
+          onClick={() => toggleFilters("A1", sortLevel, setSortLevel)}
           errorMessage={undefined}
           name="sortLevel"
         />
@@ -19,9 +22,11 @@ function LevelFilter({ sortLevel, setSortLevel }: FilterLevelProps) {
         <Input
           type="radio"
           labelText="A2"
+          htmlFor="sortA2"
+          id="sortA2"
           checked={sortLevel === "A2"}
-          onChange={() => setSortLevel("A2")}
-          htmlFor={""}
+          onChange={() => {}}
+          onClick={() => toggleFilters("A2", sortLevel, setSortLevel)}
           errorMessage={undefined}
           name="sortLevel"
         />
@@ -30,9 +35,11 @@ function LevelFilter({ sortLevel, setSortLevel }: FilterLevelProps) {
         <Input
           type="radio"
           labelText="B1"
+          htmlFor="sortB1"
+          id="sortB1"
           checked={sortLevel === "B1"}
-          onChange={() => setSortLevel("B1")}
-          htmlFor={""}
+          onChange={() => {}}
+          onClick={() => toggleFilters("B1", sortLevel, setSortLevel)}
           errorMessage={undefined}
           name="sortLevel"
         />
@@ -41,9 +48,11 @@ function LevelFilter({ sortLevel, setSortLevel }: FilterLevelProps) {
         <Input
           type="radio"
           labelText="B2"
+          htmlFor="sortB2"
+          id="sortB2"
           checked={sortLevel === "B2"}
-          onChange={() => setSortLevel("B2")}
-          htmlFor={""}
+          onChange={() => {}}
+          onClick={() => toggleFilters("B2", sortLevel, setSortLevel)}
           errorMessage={undefined}
           name="sortLevel"
         />

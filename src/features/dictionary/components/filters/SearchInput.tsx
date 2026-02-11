@@ -1,18 +1,13 @@
+import type { searchInputProps } from "@/features/dictionary/types";
 import Input from "@/shared/components/ui/Input";
 import Button from "@/shared/components/ui/Button";
-import type { Dispatch, SetStateAction } from "react";
 
-function SearchInput( {
+function SearchInput({
   onChange,
   value,
   isSearchOpen,
-  setIsSearchClick,
-}: {
-  onChange: Dispatch<SetStateAction<string>>;
-  value: string;
-  isSearchOpen: boolean;
-  setIsSearchClick: Dispatch<SetStateAction<boolean>>;
-}) {
+  setIsSearchOpen,
+}: searchInputProps) {
   return (
     <>
       {isSearchOpen ? (
@@ -25,7 +20,7 @@ function SearchInput( {
           value={value}
         />
       ) : (
-        <Button onClick={() => setIsSearchClick(true)} text="Знайти слово" />
+        <Button onClick={() => setIsSearchOpen(true)} text="Знайти слово" />
       )}
     </>
   );
