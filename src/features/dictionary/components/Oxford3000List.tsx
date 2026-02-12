@@ -1,12 +1,12 @@
-import { useAppSelector } from "@/app/store";
 import DictionaryList from "@/features/dictionary/components/DictionaryList";
 import WordNotFound from "@/features/dictionary/components/WordNotFound";
+import useAvailableWords from "@/features/dictionary/hooks/useAvailableWords";
 import useWordsFiltering from "@/features/dictionary/hooks/useWordsFiltering";
-import { selectOxford3000 } from "@/features/dictionary/slice";
 import Filters from "@/features/dictionary/components/filters/Filters";
+import GlobalLoading from "@/shared/components/ui/GlobalLoading";
 
 function Oxford3000List() {
-  const oxford3000 = useAppSelector(selectOxford3000);
+  const availableWords = useAvailableWords();
 
   const {
     filteredWords,
@@ -21,10 +21,11 @@ function Oxford3000List() {
     setSortLevel,
     sortProgress,
     setSortProgress,
-  } = useWordsFiltering(oxford3000);
+  } = useWordsFiltering(availableWords);
 
-  if (!oxford3000.length) {
-    return <h1>Завантаження словника...</h1>;
+  if (!availableWords.length) {
+    return <GlobalLoading text="Завантаження словника" />;
+    // return <h1>Завантаження словника...</h1>;
   }
 
   return (

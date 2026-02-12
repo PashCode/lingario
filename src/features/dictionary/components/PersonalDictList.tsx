@@ -5,7 +5,7 @@ import Filters from "@/features/dictionary/components/filters/Filters";
 import useDictSnapshot from "@/features/dictionary/hooks/useDictSnapshot";
 
 function PersonalDictionary() {
-  const personalWords = useDictSnapshot();
+  const { personalDictionary } = useDictSnapshot();
 
   const {
     filteredWords,
@@ -20,9 +20,9 @@ function PersonalDictionary() {
     setSortLevel,
     sortProgress,
     setSortProgress,
-  } = useWordsFiltering(personalWords);
+  } = useWordsFiltering(personalDictionary);
 
-  if (!personalWords.length) {
+  if (!personalDictionary.length) {
     return <h1>Поки що тут немає слів...</h1>;
   }
 

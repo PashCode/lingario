@@ -4,26 +4,30 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 function useDictSnapshot() {
-  const [personalWords, setPersonalWords] = useState<Array<Oxford3000Values>>(
-    [],
-  );
+  const [personalDictionary, setPersonalDictionary] = useState<
+    Array<Oxford3000Values>
+  >([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!auth.currentUser) return;
+    if (!auth.currentUser) {
+      return;
+    }
 
     const unsubscribe = onSnapshot(
       collection(db, "users", auth.currentUser.uid, "dictionary"),
       (snapshot) => {
         if (snapshot.docs) {
-          const personalWordsArray = snapshot.docs.map((word) => word.data());
-          setPersonalWords(personalWordsArray as Array<Oxford3000Values>);
+          const personalDictArray = snapshot.docs.map((word) => word.data());
+          setPersonalDictionary(personalDictArray as Array<Oxford3000Values>);
         }
+        setIsLoading(false);
       },
     );
     return unsubscribe;
   }, []);
 
-  return personalWords;
+  return { personalDictionary, isLoading };
 }
 
 export default useDictSnapshot;
