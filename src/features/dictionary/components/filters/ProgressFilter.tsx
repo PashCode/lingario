@@ -6,51 +6,30 @@ function ProgressFilter({
   sortProgress,
   setSortProgress,
 }: FilterProgressProps) {
+  const progresses = [
+    { sort: "new", label: "Нові" },
+    { sort: "in progress", label: "В процесі" },
+    { sort: "studied", label: "Вивчені" },
+  ] as const;
+
   return (
     <div className="flex gap-2">
-      <span>
-        <Input
-          type="radio"
-          labelText="Нові"
-          htmlFor="sortNew"
-          id="sortNew"
-          checked={sortProgress === "new"}
-          onChange={() => {}}
-          onClick={() => toggleFilters("new", sortProgress, setSortProgress)}
-          errorMessage={undefined}
-          name="sortProgress"
-        />
-      </span>
-      <span>
-        <Input
-          type="radio"
-          labelText="В процесі"
-          htmlFor="sortInProgress"
-          id="sortInProgress"
-          checked={sortProgress === "in progress"}
-          onChange={() => {}}
-          onClick={() =>
-            toggleFilters("in progress", sortProgress, setSortProgress)
-          }
-          errorMessage={undefined}
-          name="sortProgress"
-        />
-      </span>
-      <span>
-        <Input
-          type="radio"
-          labelText="Вивчені"
-          htmlFor="studied"
-          id="studied"
-          checked={sortProgress === "studied"}
-          onChange={() => {}}
-          onClick={() =>
-            toggleFilters("studied", sortProgress, setSortProgress)
-          }
-          errorMessage={undefined}
-          name="sortProgress"
-        />
-      </span>
+      {progresses.map((progress) => {
+        return (
+          <Input
+            type="radio"
+            labelText={progress.label}
+            htmlFor={`sort${progress.sort}`}
+            id={`sort${progress.sort}`}
+            checked={sortProgress === progress.sort}
+            onChange={() => {}}
+            onClick={() => toggleFilters(progress.sort, sortProgress, setSortProgress) }
+            errorMessage={undefined}
+            name="sortProgress"
+            key={progress.sort}
+          />
+        );
+      })}
     </div>
   );
 }

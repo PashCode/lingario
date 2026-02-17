@@ -3,34 +3,29 @@ import type { FilterOrderProps } from "@/features/dictionary/types";
 import { toggleFilters } from "@/features/dictionary/utils/toggleFilters";
 
 function OrderFilter({ sortOrder, setSortOrder }: FilterOrderProps) {
+  const orders = [
+    { sort: "asc", label: "A-Z" },
+    { sort: "desc", label: "Z-A" },
+  ] as const;
+
   return (
     <div className="flex gap-2">
-      <span>
-        <Input
-          type="radio"
-          labelText="A-Z"
-          htmlFor="sortAZ"
-          id="sortAZ"
-          name="sortOrder"
-          checked={sortOrder === "asc"}
-          onChange={() => {}}
-          onClick={() => toggleFilters("asc", sortOrder, setSortOrder)}
-          errorMessage={undefined}
-        />
-      </span>
-      <span>
-        <Input
-          type="radio"
-          labelText="Z-A"
-          htmlFor="sortZA"
-          id="sortZA"
-          checked={sortOrder === "desc"}
-          onChange={() => {}}
-          onClick={() => toggleFilters("desc", sortOrder, setSortOrder)}
-          errorMessage={undefined}
-          name="sortOrder"
-        />
-      </span>
+      {orders.map((order) => {
+        return (
+          <Input
+            type="radio"
+            labelText={order.label}
+            htmlFor={`sort${order.sort}`}
+            id={`sort${order.sort}`}
+            name="sortOrder"
+            checked={sortOrder === order.sort}
+            onChange={() => {}}
+            onClick={() => toggleFilters(order.sort, sortOrder, setSortOrder)}
+            errorMessage={undefined}
+            key={order.sort}
+          />
+        );
+      })}
     </div>
   );
 }
