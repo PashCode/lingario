@@ -8,7 +8,7 @@ import { oxford3000Storage, auth } from "@/config/firebase";
 import { googleTTS, geminiAI } from "@/config/gemini";
 import type { GenerateContentResponse } from "@google/genai";
 import { db } from "@/config/firebase";
-import { doc, setDoc, deleteDoc } from "firebase/firestore";
+import { doc, setDoc, deleteDoc, updateDoc } from "firebase/firestore";
 
 export async function getOxford3000FromDB() {
   const oxford3000Link = await getDownloadURL(oxford3000Storage);
@@ -60,6 +60,7 @@ export async function fetchPronunciation(
 
 export async function addToPersonalDict(wordObject: any) {
   if (!auth.currentUser) return;
+
   const docRef = doc(
     db,
     "users",
@@ -67,7 +68,17 @@ export async function addToPersonalDict(wordObject: any) {
     "dictionary",
     wordObject.id,
   );
+
   await setDoc(docRef, wordObject);
+
+  if (wordObject.progress === "new" || wordObject.progress === "in progress") {
+    const phrase = await addPhraseToPersonalWord(
+      wordObject.englishWord,
+      wordObject.level,
+    );
+
+    await updateDoc(docRef, { phrase });
+  }
 }
 
 export async function deleteFromPersonalDict(id: any) {

@@ -1,6 +1,5 @@
 import PronounceButton from "@/features/dictionary/components/PronounceButton";
 import {
-  addPhraseToPersonalWord,
   addToPersonalDict,
   deleteFromPersonalDict,
 } from "@/features/dictionary/services";
@@ -9,9 +8,11 @@ import { Virtuoso } from "react-virtuoso";
 import usePronounceWord from "@/features/dictionary/hooks/usePronounceWord";
 import Button from "@/shared/components/ui/Button";
 import { serverTimestamp } from "firebase/firestore";
+import useDisableBtn from "@/features/dictionary/hooks/useDisableBtn";
 
 function DictionaryList({ dictionary }: DictionaryListProps) {
   const { isPlaying, pronounceText } = usePronounceWord();
+  const { isDisabled, setIsDisabled } = useDisableBtn();
 
   const borderColors: Record<string, string> = {
     new: "border-blue-500",
@@ -25,6 +26,7 @@ function DictionaryList({ dictionary }: DictionaryListProps) {
       itemContent={(_, word) => {
         const activeBorderColor =
           (word.progress && borderColors[word.progress]) || "border-amber-600";
+
         return (
           <div
             className={`english-word ${activeBorderColor} mb-4 rounded border-4 p-2`}
@@ -36,7 +38,9 @@ function DictionaryList({ dictionary }: DictionaryListProps) {
               {word.phrase && (
                 <div>
                   <div className="flex items-center">
-                    <b>Фраза:</b> {word.phrase}
+                    <div>
+                      <b>Фраза:</b> {word.phrase}
+                    </div>
                     <Button
                       text={<PronounceButton size="20" />}
                       onClick={() => pronounceText(word.phrase)}
@@ -56,7 +60,9 @@ function DictionaryList({ dictionary }: DictionaryListProps) {
             <div className="mt-2 flex items-center gap-2">
               {!word.addedAt && (
                 <Button
+                  disabled={word.englishWord === isDisabled}
                   onClick={async () => {
+                    setIsDisabled(word.englishWord);
                     await addToPersonalDict({
                       id: word.englishWord,
                       englishWord: word.englishWord,
@@ -68,35 +74,33 @@ function DictionaryList({ dictionary }: DictionaryListProps) {
                     });
                   }}
                   text="Знаю"
-                  className="cursor-pointer rounded bg-green-500 px-2 py-1 text-white"
+                  className="cursor-pointer rounded bg-green-500 px-2 py-1 text-white disabled:bg-gray-500"
                 />
               )}
 
               <Button
+                disabled={word.englishWord === isDisabled}
                 onClick={
                   word.addedAt
                     ? () => deleteFromPersonalDict(word.id)
                     : async () => {
-                        const phrase = await addPhraseToPersonalWord(
-                          word.englishWord,
-                          word.level,
-                        );
+                        setIsDisabled(word.englishWord);
 
                         await addToPersonalDict({
                           id: word.englishWord,
                           englishWord: word.englishWord,
                           translation: word.translation,
                           level: word.level,
+                          phrase: "creating...",
                           addedAt: serverTimestamp(),
                           nextRepeat: serverTimestamp(),
-                          phrase: phrase,
                           progress: "new",
                           score: 1,
                         });
                       }
                 }
                 text={word.addedAt ? "Видалити" : "Не знаю"}
-                className="cursor-pointer rounded bg-red-500 px-2 py-1 text-white"
+                className="cursor-pointer rounded bg-red-500 px-2 py-1 text-white disabled:bg-gray-500"
               />
 
               <Button
