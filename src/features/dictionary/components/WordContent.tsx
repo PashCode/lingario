@@ -2,6 +2,7 @@ import PronounceButton from "@/features/dictionary/components/PronounceButton";
 import type { WordContentProps } from "@/features/dictionary/types";
 import Button from "@/shared/components/ui/Button";
 import { progressHandler } from "@/features/dictionary/utils/helpers.ts";
+import ReactMarkdown from 'react-markdown';
 
 function WordContent(props: WordContentProps) {
   const {
@@ -23,8 +24,8 @@ function WordContent(props: WordContentProps) {
       {phrase && (
         <div>
           <div className="flex items-center">
-            <div>
-              <b>Фраза:</b> {phrase}
+            <div className="flex">
+              <b>Фраза: </b>&nbsp;<ReactMarkdown>{phrase}</ReactMarkdown>
             </div>
             <Button
               text={
@@ -34,7 +35,7 @@ function WordContent(props: WordContentProps) {
                   text={phrase}
                 />
               }
-              onClick={() => pronounceText(phrase)}
+              onClick={() => pronounceText(phrase.replace(/\*\*/g, ""))}
               className="cursor-pointer"
               disabled={isPlaying}
             />
