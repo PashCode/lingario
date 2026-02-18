@@ -7,7 +7,6 @@ import type {
 import { getDownloadURL } from "firebase/storage";
 import { oxford3000Storage, auth } from "@/config/firebase";
 import { googleTTS, geminiAI } from "@/config/gemini";
-import type { GenerateContentResponse } from "@google/genai";
 import { db } from "@/config/firebase";
 import { doc, setDoc, deleteDoc, updateDoc } from "firebase/firestore";
 
@@ -66,10 +65,8 @@ export async function addWordToPersonalDict(
 
   const docRef = doc(
     db,
-    "users",
-    auth.currentUser.uid,
-    "dictionary",
-    wordData.id,
+    "users", auth.currentUser.uid,
+    "dictionary", wordData.id,
   );
 
   await setDoc(docRef, wordData);
@@ -79,7 +76,6 @@ export async function addWordToPersonalDict(
       wordData.englishWord,
       wordData.level,
     );
-
     await updateDoc(docRef, { phrase });
   }
 }
@@ -92,17 +88,28 @@ export async function deleteWordFromPersonalDict(id: string) {
 }
 
 export async function createPhraseForPersonalDict(word: string, level: string) {
-  const response: GenerateContentResponse =
-    await geminiAI.models.generateContent({
-      model: "gemini-2.5-flash-lite",
-      contents:
-        `Task: Create one grammatically correct sentence ${level} level.` +
-        "Length: No more then 10 words\n" +
-        `Vocabulary: With this word: ${word}` +
-        "Topic: Random everyday theme\n" +
-        "Output: Sentence only, no additional text\n" +
-        "\n",
-    });
+  const response = await geminiAI.models.generateContent({
+    model: "gemini-2.5-flash-lite",
+    config: {
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: "object",
+        properties: {
+          sentence: { type: "string" },
+        },
+        required: ["sentence"],
+      },
+      temperature: 1,
+      maxOutputTokens: 50,
+    },
+    contents:
+      `Task: Create one grammatically correct sentence ${level} level.\n` +
+      "Length: No more than 10 words\n" +
+      `Vocabulary: Use the word "${word}" and wrap it in double asterisks (like ***${word}***)\n` +
+      "Topic: Random everyday theme\n",
+  });
 
-  return response.text;
+  if (!response.text) return;
+  const parsed = JSON.parse(response.text);
+  return parsed.sentence;
 }
