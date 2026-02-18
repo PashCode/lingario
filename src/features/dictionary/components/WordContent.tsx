@@ -32,7 +32,7 @@ function WordContent(props: WordContentProps) {
                 <PronounceButton
                   size="20"
                   currentPronounce={currentPronounce}
-                  text={phrase}
+                  text={phrase.replace(/\*\*/g, "")}
                 />
               }
               onClick={() => pronounceText(phrase.replace(/\*\*/g, ""))}
