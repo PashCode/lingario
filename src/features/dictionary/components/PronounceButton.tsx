@@ -6,8 +6,7 @@ function PronounceButton({
   currentPronounce,
   text,
 }: PronounceButtonProps) {
-  console.log(text);
-  console.log(currentPronounce);
+
   return text === currentPronounce ? (
     <HiOutlineSpeakerWave size={size} />
   ) : (

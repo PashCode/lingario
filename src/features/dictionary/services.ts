@@ -105,7 +105,7 @@ export async function createPhraseForPersonalDict(word: string, level: string) {
     contents:
       `Task: Create one grammatically correct sentence ${level} level.\n` +
       "Length: No more than 10 words\n" +
-      `Vocabulary: Use the word "${word}" and wrap it in double asterisks (like ***${word}***)\n` +
+      `Vocabulary: Use the word "${word}" and wrap it in triple asterisks (like ***${word}***)\n` +
       "Topic: Random everyday theme\n",
   });
 
