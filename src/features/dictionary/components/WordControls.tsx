@@ -6,6 +6,7 @@ import {
 import Button from "@/shared/components/ui/Button";
 import { serverTimestamp } from "firebase/firestore";
 import type { WordControlsProps } from "@/features/dictionary/types";
+import { toast } from "sonner";
 
 function WordControls(props: WordControlsProps) {
   const {
@@ -21,7 +22,7 @@ function WordControls(props: WordControlsProps) {
     setProcessingWord,
   } = props;
 
-  const inPersonalDictionary = addedAt
+  const inPersonalDictionary = addedAt;
 
   return (
     <div className="mt-2 flex items-center gap-2">
@@ -40,6 +41,9 @@ function WordControls(props: WordControlsProps) {
               score: 2,
             });
             setProcessingWord(null);
+            toast.success("Додано...", {
+              duration: 1000,
+            });
           }}
           disabled={englishWord === processingWord}
           text="Знаю"
@@ -50,10 +54,17 @@ function WordControls(props: WordControlsProps) {
       <Button
         onClick={
           inPersonalDictionary
-            ? () => deleteWordFromPersonalDict(id)
+            ? () => {
+              toast.success("Видалено...", {
+                duration: 1000,
+              });
+                return deleteWordFromPersonalDict(id);
+              }
             : async () => {
                 setProcessingWord(englishWord);
-
+              toast.success("Додано...", {
+                duration: 1000,
+              });
                 await addWordToPersonalDict({
                   id: englishWord,
                   englishWord: englishWord,
@@ -65,6 +76,7 @@ function WordControls(props: WordControlsProps) {
                   progress: "new",
                   score: 1,
                 });
+
                 setProcessingWord(null);
               }
         }
