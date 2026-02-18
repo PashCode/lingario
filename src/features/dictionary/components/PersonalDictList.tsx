@@ -3,9 +3,10 @@ import WordNotFound from "@/features/dictionary/components/WordNotFound";
 import useWordsFiltering from "@/features/dictionary/hooks/useWordsFiltering";
 import Filters from "@/features/dictionary/components/filters/Filters";
 import useDictSnapshot from "@/features/dictionary/hooks/useDictSnapshot";
+import GlobalLoading from "@/shared/components/ui/GlobalLoading.tsx";
 
 function PersonalDictionary() {
-  const { personalDictionary } = useDictSnapshot();
+  const { personalDictionary, isDictLoading } = useDictSnapshot();
 
   const {
     filteredWords,
@@ -21,6 +22,10 @@ function PersonalDictionary() {
     sortProgress,
     setSortProgress,
   } = useWordsFiltering(personalDictionary);
+
+  if (isDictLoading) {
+    return <GlobalLoading text="Завантаження словника..." />;
+  }
 
   if (!personalDictionary.length) {
     return <h1>Поки що тут немає слів...</h1>;

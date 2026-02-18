@@ -37,6 +37,7 @@ function Filters(props: FiltersProps) {
         value={searchWord}
         isSearchOpen={isSearchOpen}
         setIsSearchOpen={setIsSearchOpen}
+        setSearchWord={setSearchWord}
       />
     </div>
   );

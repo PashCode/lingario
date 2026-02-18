@@ -1,7 +1,8 @@
 import type {
+  AddWordToPersonalDictProps,
   DBOxford3000Values,
-  fetchTTSProps,
-  fetchTTSResponse,
+  FetchTTSProps,
+  FetchTTSResponse,
 } from "@/features/dictionary/types";
 import { getDownloadURL } from "firebase/storage";
 import { oxford3000Storage, auth } from "@/config/firebase";
@@ -25,8 +26,8 @@ export async function getOxford3000FromDB() {
 }
 
 export async function fetchPronunciation(
-  text: fetchTTSProps = "Audio error, please try again later ",
-): Promise<fetchTTSResponse | undefined> {
+  text: FetchTTSProps,
+): Promise<FetchTTSResponse | undefined> {
   const API_KEY = googleTTS.apiKey;
   const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${API_KEY}`;
 
@@ -58,7 +59,9 @@ export async function fetchPronunciation(
   }
 }
 
-export async function addToPersonalDict(wordObject: any) {
+export async function addWordToPersonalDict(
+  wordData: AddWordToPersonalDictProps,
+) {
   if (!auth.currentUser) return;
 
   const docRef = doc(
@@ -66,28 +69,29 @@ export async function addToPersonalDict(wordObject: any) {
     "users",
     auth.currentUser.uid,
     "dictionary",
-    wordObject.id,
+    wordData.id,
   );
 
-  await setDoc(docRef, wordObject);
+  await setDoc(docRef, wordData);
 
-  if (wordObject.progress === "new" || wordObject.progress === "in progress") {
-    const phrase = await addPhraseToPersonalWord(
-      wordObject.englishWord,
-      wordObject.level,
+  if (wordData.progress === "new" || wordData.progress === "in progress") {
+    const phrase = await createPhraseForPersonalDict(
+      wordData.englishWord,
+      wordData.level,
     );
 
     await updateDoc(docRef, { phrase });
   }
 }
 
-export async function deleteFromPersonalDict(id: any) {
+export async function deleteWordFromPersonalDict(id: string) {
   if (!auth.currentUser) return;
+
   const docRef = doc(db, "users", auth.currentUser.uid, "dictionary", id);
   await deleteDoc(docRef);
 }
 
-export async function addPhraseToPersonalWord(word: string, level: string) {
+export async function createPhraseForPersonalDict(word: string, level: string) {
   const response: GenerateContentResponse =
     await geminiAI.models.generateContent({
       model: "gemini-2.5-flash-lite",

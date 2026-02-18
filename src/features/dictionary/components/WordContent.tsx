@@ -1,7 +1,9 @@
 import PronounceButton from "@/features/dictionary/components/PronounceButton";
+import type { WordContentProps } from "@/features/dictionary/types";
 import Button from "@/shared/components/ui/Button";
+import { progressHandler } from "@/features/dictionary/utils/helpers.ts";
 
-function WordContent(props) {
+function WordContent(props: WordContentProps) {
   const {
     englishWord,
     translation,
@@ -9,6 +11,7 @@ function WordContent(props) {
     phrase,
     progress,
     isPlaying,
+    currentPronounce,
     pronounceText,
   } = props;
 
@@ -24,9 +27,15 @@ function WordContent(props) {
               <b>Фраза:</b> {phrase}
             </div>
             <Button
-              text={<PronounceButton size="20" />}
+              text={
+                <PronounceButton
+                  size="20"
+                  currentPronounce={currentPronounce}
+                  text={phrase}
+                />
+              }
               onClick={() => pronounceText(phrase)}
-              className="cursor-pointer disabled:text-transparent"
+              className="cursor-pointer"
               disabled={isPlaying}
             />
           </div>
@@ -34,7 +43,7 @@ function WordContent(props) {
       )}
       {progress && (
         <div>
-          <b>Прогрес:</b> {progress}
+          <b>Прогрес:</b> {progressHandler(progress)}
         </div>
       )}
     </div>

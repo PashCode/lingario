@@ -7,7 +7,7 @@ function useDictSnapshot() {
   const [personalDictionary, setPersonalDictionary] = useState<
     Array<Oxford3000Values>
   >([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isDictLoading, setIsDictLoading] = useState(true);
 
   useEffect(() => {
     if (!auth.currentUser) {
@@ -21,13 +21,13 @@ function useDictSnapshot() {
           const personalDictArray = snapshot.docs.map((word) => word.data());
           setPersonalDictionary(personalDictArray as Array<Oxford3000Values>);
         }
-        setIsLoading(false);
+        setIsDictLoading(false);
       },
     );
     return unsubscribe;
   }, []);
 
-  return { personalDictionary, isLoading };
+  return { personalDictionary, isDictLoading };
 }
 
 export default useDictSnapshot;

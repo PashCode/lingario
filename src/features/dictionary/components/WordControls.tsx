@@ -1,33 +1,36 @@
 import PronounceButton from "@/features/dictionary/components/PronounceButton";
 import {
-  addToPersonalDict,
-  deleteFromPersonalDict
+  addWordToPersonalDict,
+  deleteWordFromPersonalDict,
 } from "@/features/dictionary/services";
 import Button from "@/shared/components/ui/Button";
 import { serverTimestamp } from "firebase/firestore";
+import type { WordControlsProps } from "@/features/dictionary/types";
 
-function WordControls( props) {
+function WordControls(props: WordControlsProps) {
   const {
     englishWord,
     translation,
     level,
-    isPlaying,
-    pronounceText,
     addedAt,
     id,
-    isDisabled,
-    setIsDisabled,
+    isPlaying,
+    currentPronounce,
+    pronounceText,
+    processingWord,
+    setProcessingWord,
   } = props;
+
+  const inPersonalDictionary = addedAt
 
   return (
     <div className="mt-2 flex items-center gap-2">
-      {!addedAt && (
+      {!inPersonalDictionary && (
         <Button
-          disabled={englishWord === isDisabled}
           onClick={async () => {
-            setIsDisabled(englishWord);
+            setProcessingWord(englishWord);
 
-            await addToPersonalDict({
+            await addWordToPersonalDict({
               id: englishWord,
               englishWord: englishWord,
               translation: translation,
@@ -36,21 +39,22 @@ function WordControls( props) {
               progress: "studied",
               score: 2,
             });
+            setProcessingWord(null);
           }}
+          disabled={englishWord === processingWord}
           text="Знаю"
-          className="cursor-pointer rounded bg-green-500 px-2 py-1 text-white disabled:bg-gray-500"
+          className="cursor-pointer rounded bg-green-500 px-2 py-1 text-white disabled:bg-gray-500 disabled:delay-100"
         />
       )}
 
       <Button
-        disabled={englishWord === isDisabled}
         onClick={
-          addedAt
-            ? () => deleteFromPersonalDict(id)
+          inPersonalDictionary
+            ? () => deleteWordFromPersonalDict(id)
             : async () => {
-                setIsDisabled(englishWord);
+                setProcessingWord(englishWord);
 
-                await addToPersonalDict({
+                await addWordToPersonalDict({
                   id: englishWord,
                   englishWord: englishWord,
                   translation: translation,
@@ -61,16 +65,24 @@ function WordControls( props) {
                   progress: "new",
                   score: 1,
                 });
+                setProcessingWord(null);
               }
         }
-        text={addedAt ? "Видалити" : "Не знаю"}
-        className="cursor-pointer rounded bg-red-500 px-2 py-1 text-white disabled:bg-gray-500"
+        disabled={englishWord === processingWord}
+        text={inPersonalDictionary ? "Видалити" : "Не знаю"}
+        className="cursor-pointer rounded bg-red-500 px-2 py-1 text-white disabled:bg-gray-500 disabled:delay-100"
       />
 
       <Button
-        text={<PronounceButton size="30" />}
+        text={
+          <PronounceButton
+            size="30"
+            currentPronounce={currentPronounce}
+            text={englishWord}
+          />
+        }
         onClick={() => pronounceText(englishWord)}
-        className="cursor-pointer disabled:text-transparent"
+        className="cursor-pointer"
         disabled={isPlaying}
       />
     </div>

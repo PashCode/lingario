@@ -1,17 +1,17 @@
 import type {
   Oxford3000Values,
-  sortWordProgress,
-  sortWordsLevel,
-  sortWordsOrder,
+  SortWordProgress,
+  SortWordsLevel,
+  SortWordsOrder,
 } from "@/features/dictionary/types";
 import { useMemo, useState } from "react";
 
 function useWordsFiltering(dictionary: Array<Oxford3000Values>) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchWord, setSearchWord] = useState("");
-  const [sortOrder, setSortOrder] = useState<sortWordsOrder>(null);
-  const [sortLevel, setSortLevel] = useState<sortWordsLevel>(null);
-  const [sortProgress, setSortProgress] = useState<sortWordProgress>(null);
+  const [sortOrder, setSortOrder] = useState<SortWordsOrder>(null);
+  const [sortLevel, setSortLevel] = useState<SortWordsLevel>(null);
+  const [sortProgress, setSortProgress] = useState<SortWordProgress>(null);
 
   const filteredWords = useMemo(() => {
     return dictionary

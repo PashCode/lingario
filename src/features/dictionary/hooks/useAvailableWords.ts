@@ -4,9 +4,9 @@ import { selectOxford3000 } from "@/features/dictionary/slice";
 
 function useAvailableWords() {
   const oxford3000 = useAppSelector(selectOxford3000);
-  const { personalDictionary, isLoading } = useDictSnapshot();
+  const { personalDictionary, isDictLoading } = useDictSnapshot();
 
-  if (isLoading) return [];
+  if (isDictLoading) return [];
 
   const personalWords = new Set(
     personalDictionary.map((word) => word.englishWord),

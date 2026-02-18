@@ -4,9 +4,12 @@ import { Howl } from "howler";
 
 function usePronounceWord() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentPronounce, setCurrentPronounce] = useState<undefined | string>(
+    "",
+  );
 
-  async function pronounceText( text: string | undefined) {
-    const data = await fetchPronunciation(text);
+  async function pronounceText(text: string | undefined) {
+    const data = await fetchPronunciation(text || "Audio error, please try again later");
     if (!data) return;
 
     const audio = new Howl({
@@ -15,15 +18,17 @@ function usePronounceWord() {
       html5: true,
       onplay: function () {
         setIsPlaying(true);
+        setCurrentPronounce(text);
       },
       onend: function () {
         setIsPlaying(false);
+        setCurrentPronounce("");
       },
     });
     audio.play();
   }
 
-  return { isPlaying, pronounceText };
+  return { isPlaying, currentPronounce, pronounceText };
 }
 
 export default usePronounceWord;

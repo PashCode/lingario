@@ -1,4 +1,4 @@
-import type { searchInputProps } from "@/features/dictionary/types";
+import type { SearchInputProps } from "@/features/dictionary/types";
 import Input from "@/shared/components/ui/Input";
 import Button from "@/shared/components/ui/Button";
 
@@ -7,12 +7,14 @@ function SearchInput({
   value,
   isSearchOpen,
   setIsSearchOpen,
-}: searchInputProps) {
+  setSearchWord,
+}: SearchInputProps) {
   return (
     <>
       {isSearchOpen ? (
         <Input
-          labelText="Введіть слово"
+          labelText=""
+          placeholder="Введіть слово"
           htmlFor={""}
           errorMessage={undefined}
           className="border-2 border-blue-600"
@@ -21,6 +23,16 @@ function SearchInput({
         />
       ) : (
         <Button onClick={() => setIsSearchOpen(true)} text="Знайти слово" />
+      )}
+
+      {isSearchOpen && (
+        <Button
+          text="Х"
+          onClick={() => {
+            setIsSearchOpen(false);
+            setSearchWord("");
+          }}
+        />
       )}
     </>
   );

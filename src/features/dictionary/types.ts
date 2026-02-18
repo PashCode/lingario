@@ -1,5 +1,5 @@
 import useWordsFiltering from "@/features/dictionary/hooks/useWordsFiltering";
-import { Timestamp } from "firebase/firestore";
+import { Timestamp, FieldValue } from "firebase/firestore";
 
 export interface DictionaryState {
   oxford3000: Array<Oxford3000Values>;
@@ -42,19 +42,62 @@ export type FilterOrderProps = Pick<FiltersReturn, "sortOrder" | "setSortOrder">
 export type FilterProgressProps = Pick<FiltersReturn, "sortProgress" | "setSortProgress">;
 export type FilterResetProps = Pick<FiltersReturn, "resetAllFilters">;
 
-export type sortWordsLevel = "A1" | "A2" | "B1" | "B2" | null;
-export type sortWordsOrder = "asc" | "desc" | null;
-export type sortWordProgress = "new" | "in progress" | "studied" | null;
+export type SortWordsLevel = "A1" | "A2" | "B1" | "B2" | null;
+export type SortWordsOrder = "asc" | "desc" | null;
+export type SortWordProgress = "new" | "in progress" | "studied" | null;
 
-export type fetchTTSProps = string | undefined | null;
+export type FetchTTSProps = string | undefined | null;
 
-export interface fetchTTSResponse {
+export interface FetchTTSResponse {
   audioContent: string;
 }
 
-export interface searchInputProps {
+export interface SearchInputProps {
   onChange: (param: string) => void;
   value: string;
   isSearchOpen: boolean;
+  setSearchWord: (param: string) => void;
   setIsSearchOpen: (param: boolean) => void;
+}
+
+export interface WordControlsProps {
+  englishWord: string;
+  translation: string;
+  level: string;
+  addedAt?: Timestamp;
+  id: string;
+  isPlaying: boolean;
+  currentPronounce: string | undefined;
+  pronounceText: (text: string | undefined) => void;
+  processingWord: null | string;
+  setProcessingWord: (value: null | string) => void;
+}
+
+export interface WordContentProps {
+  englishWord: string;
+  translation: string;
+  level: string;
+  phrase?: string;
+  progress?: string;
+  isPlaying: boolean;
+  currentPronounce: string | undefined;
+  pronounceText: (text: string | undefined) => void;
+}
+
+export interface AddWordToPersonalDictProps {
+  id: string;
+  englishWord: string;
+  translation: string;
+  level: string;
+  addedAt: FieldValue;
+  progress: string;
+  score: number;
+  phrase?: string;
+  nextRepeat?: FieldValue;
+}
+
+export interface PronounceButtonProps {
+  size: string;
+  currentPronounce: string | undefined;
+  text: string;
 }

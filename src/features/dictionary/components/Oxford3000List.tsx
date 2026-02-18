@@ -24,8 +24,7 @@ function Oxford3000List() {
   } = useWordsFiltering(availableWords);
 
   if (!availableWords.length) {
-    return <GlobalLoading text="Завантаження словника" />;
-    // return <h1>Завантаження словника...</h1>;
+    return <GlobalLoading text="Завантаження словника..." />;
   }
 
   return (

@@ -1,14 +1,14 @@
 import WordControls from "@/features/dictionary/components/WordControls";
 import type { DictionaryListProps } from "@/features/dictionary/types";
-import { getBorderColor } from "@/features/dictionary/utils/helpers";
+import { setBorderColor } from "@/features/dictionary/utils/helpers";
 import { Virtuoso } from "react-virtuoso";
 import usePronounceWord from "@/features/dictionary/hooks/usePronounceWord";
-import useDisableBtn from "@/features/dictionary/hooks/useDisableBtn";
+import useProcessingWord from "@/features/dictionary/hooks/useProcessingWord.ts";
 import WordContent from "@/features/dictionary/components/WordContent";
 
 function DictionaryList({ dictionary }: DictionaryListProps) {
-  const { isPlaying, pronounceText } = usePronounceWord();
-  const { isDisabled, setIsDisabled } = useDisableBtn();
+  const { isPlaying, currentPronounce, pronounceText } = usePronounceWord();
+  const { processingWord, setProcessingWord } = useProcessingWord();
 
   return (
     <Virtuoso
@@ -17,7 +17,7 @@ function DictionaryList({ dictionary }: DictionaryListProps) {
       itemContent={(_, word) => {
         return (
           <div
-            className={`english-word ${getBorderColor(word.progress)} mb-4 rounded border-4 p-2`}
+            className={`english-word ${setBorderColor(word.progress)} mb-4 rounded border-4 p-2`}
           >
             <WordContent
               englishWord={word.englishWord}
@@ -27,20 +27,20 @@ function DictionaryList({ dictionary }: DictionaryListProps) {
               phrase={word.phrase}
               isPlaying={isPlaying}
               pronounceText={pronounceText}
+              currentPronounce={currentPronounce}
             />
 
             <WordControls
               englishWord={word.englishWord}
               translation={word.translation}
               level={word.level}
-              progress={word.progress}
-              phrase={word.phrase}
               addedAt={word.addedAt}
               id={word.englishWord}
               pronounceText={pronounceText}
               isPlaying={isPlaying}
-              isDisabled={isDisabled}
-              setIsDisabled={setIsDisabled}
+              processingWord={processingWord}
+              setProcessingWord={setProcessingWord}
+              currentPronounce={currentPronounce}
             />
           </div>
         );
