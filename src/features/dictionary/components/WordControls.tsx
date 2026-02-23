@@ -54,17 +54,17 @@ function WordControls(props: WordControlsProps) {
       <Button
         onClick={
           inPersonalDictionary
-            ? () => {
-              toast.success("Видалено...", {
-                duration: 1000,
-              });
-                return deleteWordFromPersonalDict(id);
+            ? async () => {
+               await deleteWordFromPersonalDict(id);
+                toast.success("Видалено...", {
+                  duration: 1000,
+                });
               }
             : async () => {
                 setProcessingWord(englishWord);
-              toast.success("Додано...", {
-                duration: 1000,
-              });
+                toast.success("Додано...", {
+                  duration: 1000,
+                });
                 await addWordToPersonalDict({
                   id: englishWord,
                   englishWord: englishWord,

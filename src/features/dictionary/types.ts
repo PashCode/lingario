@@ -101,3 +101,26 @@ export interface PronounceButtonProps {
   currentPronounce: string | undefined;
   text: string;
 }
+
+export interface LevelStats {
+  A1: number;
+  A2: number;
+  B1: number;
+  B2: number;
+}
+
+export interface LevelStatsWithTotal extends LevelStats {
+  allWords: number;
+}
+
+export interface StatListProps {
+  oxford3000Total: LevelStats;
+  oxford3000Added: LevelStatsWithTotal;
+}
+
+export interface PersonalDictStatsData {
+  allWords: number;
+  newWords: number;
+  inProgress: number;
+  studied: number;
+}
