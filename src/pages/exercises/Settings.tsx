@@ -1,7 +1,7 @@
 import { ROUTES } from "@/routes/paths.ts";
 import { NavLink } from "react-router-dom";
 
-function MainSettings() {
+function Settings() {
   return (
     <>
     <div>MAIN SETTINGS</div>
@@ -16,4 +16,4 @@ function MainSettings() {
   );
 }
 
-export default MainSettings;
+export default Settings;

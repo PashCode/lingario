@@ -1,9 +1,9 @@
 import { ROUTES } from "@/routes/paths.ts";
 import { NavLink } from "react-router-dom";
 import Oxford3000Stats
-  from "@/features/dictionary/components/Oxford3000Stats.tsx";
+  from "@/features/dictionaries/components/Oxford3000Stats.tsx";
 import PersonalDictStats
-  from "@/features/dictionary/components/PersonalDictStats.tsx";
+  from "@/features/dictionaries/components/PersonalDictStats.tsx";
 
 function Dictionaries() {
   return (

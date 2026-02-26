@@ -1,4 +1,4 @@
-import PersonalDictionary from "@/features/dictionary/components/PersonalDictList";
+import PersonalDictionary from "@/features/dictionaries/components/PersonalDictList";
 
 function PersonalWords() {
   return <PersonalDictionary />;

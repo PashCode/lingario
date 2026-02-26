@@ -12,8 +12,7 @@ import ResetPassword from "@/pages/auth/ResetPassword";
 import PersonalWords from "@/pages/dictionaries/PersonalWords";
 import Oxford3000 from "@/pages/dictionaries/Oxford-3000";
 import Session from "@/pages/exercises/Session";
-import MainSettings from "@/pages/exercises/MainSettings";
-import RepeatSettings from "@/pages/exercises/RepeatSettings";
+import Settings from "@/pages/exercises/Settings";
 import ProtectedRoute from "./protectedRoute";
 import PublicRoute from "./publicRoute";
 import { ROUTES } from "./paths";
@@ -51,8 +50,7 @@ const router = createBrowserRouter([
         children: [
           { path: ROUTES.DICTIONARIES.PUBLIC.OXFORD_3000, element: <Oxford3000 />, },
           { path: ROUTES.DICTIONARIES.PERSONAL.ROOT, element: <PersonalWords />, },
-          { path: ROUTES.EXERCISES.SETTINGS.MAIN, element: <MainSettings /> },
-          { path: ROUTES.EXERCISES.SETTINGS.REPEAT, element: <RepeatSettings />, },
+          { path: ROUTES.EXERCISES.SETTINGS, element: <Settings /> },
           { path: ROUTES.EXERCISES.SESSION, element: <Session /> },
         ],
       },

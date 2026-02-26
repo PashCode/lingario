@@ -18,11 +18,11 @@ import type {
 } from "./types.ts";
 import { type User as FirebaseUser } from "firebase/auth";
 import { setUser } from "@/features/auth/slice";
-import { setOxford3000 } from "@/features/dictionary/slice";
+import { setOxford3000 } from "@/features/dictionaries/slice";
 import { auth } from "@/config/firebase";
 import { isFirebaseApiError } from "./types.ts";
 import getOrSetStorage from "@/utils/storageAndSession/getOrSetStorage";
-import { LSOxford3000Config } from "@/features/dictionary/utils/constants";
+import { LSOxford3000Config } from "@/features/dictionaries/utils/constants";
 import { LSPhraseWithDictWordConfig } from "@/features/home/utils/constants";
 import { setPhraseWithDictWord } from "@/features/home/slice";
 
