@@ -1,8 +1,9 @@
-import useDictSnapshot from "@/features/dictionary/hooks/useDictSnapshot.ts";
+import useDictSnapshot from "@/shared/hooks/useDictSnapshot";
 import TestLoader from "@/shared/components/ui/TestLoader";
+import type { Oxford3000Values } from "@/features/dictionary/types";
 
 function PersonalDictStats() {
-  const { personalDictionary } = useDictSnapshot();
+  const { personalDictionary } = useDictSnapshot<Oxford3000Values>();
 
   const personalDictionaryStats = {
     allWords: personalDictionary.length,
@@ -27,7 +28,7 @@ function PersonalDictStats() {
       <h1>-- Вивчені: {personalDictionaryStats.studied}</h1>
     </div>
   ) : (
-    <TestLoader text="Завантаження статистики..."/>
+    <TestLoader text="Завантаження статистики..." />
   );
 }
 

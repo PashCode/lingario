@@ -1,0 +1,33 @@
+import useDictSnapshot from "@/shared/hooks/useDictSnapshot";
+import { setNewWords, setInProgressWords } from "@/features/exercises/slice";
+import { useAppDispatch } from "@/app/store";
+import { useEffect } from "react";
+import type { ExercisesState, NewWordsValues, InProgressWordsValues } from "@/features/exercises/types";
+
+function useExerciseWords() {
+  const { personalDictionary } = useDictSnapshot<NewWordsValues | InProgressWordsValues>();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const personalWordsProgress: ExercisesState = {
+      newWords: [],
+      inProgressWords: [],
+    };
+
+    if (personalDictionary.length > 0) {
+      personalDictionary.forEach((word) => {
+        if (word.progress === "new") {
+          personalWordsProgress.newWords.push(word);
+        }
+        if (word.progress === "in progress") {
+          personalWordsProgress.inProgressWords.push(word);
+        }
+      });
+    }
+
+    dispatch(setNewWords(personalWordsProgress.newWords));
+    dispatch(setInProgressWords(personalWordsProgress.inProgressWords));
+  }, [personalDictionary, dispatch]);
+}
+
+export default useExerciseWords;

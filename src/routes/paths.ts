@@ -22,9 +22,6 @@ export const ROUTES = {
   EXERCISES: {
     ROOT: "/exercises",
     SESSION: "/exercises/session",
-    SETTINGS: {
-      MAIN: "/exercises/settings/main",
-      REPEAT: "/exercises/settings/repeat",
-    },
+    SETTINGS: "/exercises/settings",
   },
 };

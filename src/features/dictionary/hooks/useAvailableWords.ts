@@ -1,10 +1,11 @@
 import { useAppSelector } from "@/app/store";
-import useDictSnapshot from "@/features/dictionary/hooks/useDictSnapshot";
+import useDictSnapshot from "@/shared/hooks/useDictSnapshot";
 import { selectOxford3000 } from "@/features/dictionary/slice";
+import type { Oxford3000Values } from "@/features/dictionary/types";
 
 function useAvailableWords() {
   const oxford3000 = useAppSelector(selectOxford3000);
-  const { personalDictionary, isDictLoading } = useDictSnapshot();
+  const { personalDictionary, isDictLoading } = useDictSnapshot<Oxford3000Values>();
 
   if (isDictLoading) return [];
 

@@ -2,11 +2,12 @@ import DictionaryList from "@/features/dictionary/components/DictionaryList";
 import WordNotFound from "@/features/dictionary/components/WordNotFound";
 import useWordsFiltering from "@/features/dictionary/hooks/useWordsFiltering";
 import Filters from "@/features/dictionary/components/filters/Filters";
-import useDictSnapshot from "@/features/dictionary/hooks/useDictSnapshot";
+import useDictSnapshot from "@/shared/hooks/useDictSnapshot";
 import GlobalLoading from "@/shared/components/ui/GlobalLoading.tsx";
+import type { Oxford3000Values } from "@/features/dictionary/types";
 
 function PersonalDictionary() {
-  const { personalDictionary, isDictLoading } = useDictSnapshot();
+  const { personalDictionary, isDictLoading } = useDictSnapshot<Oxford3000Values>();
 
   const {
     filteredWords,

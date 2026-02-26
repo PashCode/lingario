@@ -4,12 +4,14 @@ import baseApi from "@/shared/api/baseApi";
 import authReducer from "@/features/auth/slice";
 import homeReducer from "@/features/home/slice";
 import dictionaryReducer from "@/features/dictionary/slice";
+import exercisesReducer from "@/features/exercises/slice";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    dictionary: dictionaryReducer,
     home: homeReducer,
+    dictionary: dictionaryReducer,
+    exercises: exercisesReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
