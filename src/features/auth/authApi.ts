@@ -21,7 +21,7 @@ import { setUser } from "@/features/auth/slice";
 import { setOxford3000 } from "@/features/dictionaries/slice";
 import { auth } from "@/config/firebase";
 import { isFirebaseApiError } from "./types.ts";
-import getOrSetStorage from "@/utils/storageAndSession/getOrSetStorage";
+import getOrSetStorage from "@/shared/utils/storageAndSession/getOrSetStorage";
 import { LSOxford3000Config } from "@/features/dictionaries/utils/constants";
 import { LSPhraseWithDictWordConfig } from "@/features/home/utils/constants";
 import { setPhraseWithDictWord } from "@/features/home/slice";

@@ -1,5 +1,5 @@
-import getOrSetSession from "@/utils/storageAndSession/getOrSetSession";
-import getOrSetStorage from "@/utils/storageAndSession/getOrSetStorage";
+import getOrSetSession from "@/shared/utils/storageAndSession/getOrSetSession";
+import getOrSetStorage from "@/shared/utils/storageAndSession/getOrSetStorage";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/app/store";
@@ -8,7 +8,7 @@ import { clearUser, setUser } from "@/features/auth/slice";
 import { clearOxford3000, setOxford3000 } from "@/features/dictionaries/slice";
 import { LSOxford3000Config } from "@/features/dictionaries/utils/constants";
 import { LSPhraseWithDictWordConfig } from"@/features/home/utils/constants";
-import { PHRASE_WITH_DICTIONARY_WORD_KEY } from"@/utils/storageAndSession/constants";
+import { PHRASE_WITH_DICTIONARY_WORD_KEY } from "@/shared/utils/storageAndSession/constants";
 import {
   clearPhraseWithDictWord,
   setPhraseWithDictWord,

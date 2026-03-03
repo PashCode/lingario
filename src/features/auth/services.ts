@@ -1,7 +1,7 @@
 import {
   OXFORD_3000_KEY,
   PHRASE_WITH_DICTIONARY_WORD_KEY,
-} from "@/utils/storageAndSession/constants";
+} from "@/shared/utils/storageAndSession/constants";
 import {
   createUserWithEmailAndPassword,
   deleteUser,

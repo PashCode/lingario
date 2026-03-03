@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { fetchPronunciation } from "@/features/dictionaries/services";
+import {fetchPronunciation} from "@/shared/services";
 import { Howl } from "howler";
 
-function usePronounceWord() {
+function usePronounceText() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPronounce, setCurrentPronounce] = useState<undefined | string>(
     "",
   );
 
   async function pronounceText(text: string | undefined) {
-    const data = await fetchPronunciation(text || "Audio error, please try again later");
+    const data = await fetchPronunciation(
+      text || "Audio error, please try again later",
+    );
     if (!data) return;
 
     const audio = new Howl({
@@ -31,4 +33,4 @@ function usePronounceWord() {
   return { isPlaying, currentPronounce, pronounceText };
 }
 
-export default usePronounceWord;
+export default usePronounceText;

@@ -1,4 +1,4 @@
-import { SESSION_KEY } from "@/utils/storageAndSession/constants";
+import { SESSION_KEY } from "@/shared/utils/storageAndSession/constants";
 
 function getOrSetSession() {
   const isSessionActive = sessionStorage.getItem(SESSION_KEY);
