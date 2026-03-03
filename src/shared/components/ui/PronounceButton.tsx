@@ -1,5 +1,5 @@
 import { HiSpeakerWave, HiOutlineSpeakerWave } from "react-icons/hi2";
-import type { PronounceButtonProps } from "@/features/dictionaries/types.ts";
+import type {PronounceButtonProps} from "@/shared/types/types";
 
 function PronounceButton({
   size,

@@ -1,4 +1,4 @@
-import PronounceButton from "@/features/dictionaries/components/PronounceButton";
+import PronounceButton from "@/shared/components/ui/PronounceButton";
 import {
   addWordToPersonalDict,
   deleteWordFromPersonalDict,

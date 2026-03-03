@@ -1,4 +1,4 @@
-import PronounceButton from "@/features/dictionaries/components/PronounceButton";
+import PronounceButton from "@/shared/components/ui/PronounceButton";
 import type { WordContentProps } from "@/features/dictionaries/types";
 import Button from "@/shared/components/ui/Button";
 import { progressHandler } from "@/features/dictionaries/utils/helpers.ts";
