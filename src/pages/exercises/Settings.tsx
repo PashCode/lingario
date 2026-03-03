@@ -1,7 +1,10 @@
 import { ROUTES } from "@/routes/paths.ts";
 import { NavLink } from "react-router-dom";
+import useExerciseWords from "@/features/exercises/hooks/useExerciseWords";
 
 function Settings() {
+  useExerciseWords();
+
   return (
     <>
     <div>MAIN SETTINGS</div>

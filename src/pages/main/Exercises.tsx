@@ -6,6 +6,7 @@ import useExerciseWords from "@/features/exercises/hooks/useExerciseWords";
 
 function Exercises() {
   useExerciseWords();
+
   return (
     <div>
       <div className="flex w-full gap-10">

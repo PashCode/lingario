@@ -96,12 +96,6 @@ export interface AddWordToPersonalDictProps {
   nextRepeat?: FieldValue;
 }
 
-export interface PronounceButtonProps {
-  size: string;
-  currentPronounce: string | undefined;
-  text: string;
-}
-
 export interface LevelStats {
   A1: number;
   A2: number;
