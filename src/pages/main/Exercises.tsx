@@ -20,6 +20,7 @@ function Exercises() {
           <NavLink
             to={ROUTES.EXERCISES.SETTINGS}
             className="border-2 bg-blue-300"
+            state={{ exerciseType: "new-words" }}
           >
             Почати вивчення
           </NavLink>
@@ -29,12 +30,13 @@ function Exercises() {
           <h1>ІНТЕРВАЛЬНІ ПОВТОРЕННЯ</h1>
 
           <div>
-            <RepeatWordsStats/>
+            <RepeatWordsStats />
           </div>
 
           <NavLink
             to={ROUTES.EXERCISES.SETTINGS}
             className="w-1 border-2 bg-blue-300"
+            state={{ exerciseType: "repeat-words" }}
           >
             Почати повторення
           </NavLink>
