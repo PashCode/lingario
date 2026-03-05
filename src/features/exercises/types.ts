@@ -2,7 +2,7 @@ import { Timestamp } from "firebase/firestore";
 
 export interface ExercisesState {
   newWords: Array<NewWordsValues>;
-  inProgressWords: Array<InProgressWordsValues>;
+  repeatWords: Array<InProgressWordsValues>;
 }
 
 export interface BaseWordsValues {

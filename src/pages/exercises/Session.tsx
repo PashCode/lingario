@@ -1,11 +1,28 @@
-import FlashCards from "@/features/exercises/components/FlashCards";
+import { useLocation } from "react-router-dom";
+import useExercisesSettings from "@/features/exercises/hooks/useExercisesSettings";
 
 function Session() {
-  return (
+  const location = useLocation();
+  const exercisesConfig = useExercisesSettings(location.state);
+  console.log(exercisesConfig);
+
+  return exercisesConfig.isReady ? (
     <div className="flex flex-col">
-    <div>SESSION</div>
-    <FlashCards/>
+      <div>SESSION</div>
+      {exercisesConfig.readyExercises.map((Exercise) => {
+        return (
+          <Exercise
+            words={exercisesConfig.words.words}
+            wordsCount={exercisesConfig.words.count}
+            key={exercisesConfig.words.words.map((id) => console.log(id.id))}
+            voice={exercisesConfig.pronunciation.voice}
+            gender={exercisesConfig.pronunciation.gender}
+          />
+        );
+      })}
     </div>
+  ) : (
+    <h1>Loading</h1>
   );
 }
 

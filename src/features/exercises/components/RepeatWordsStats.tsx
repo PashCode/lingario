@@ -1,9 +1,9 @@
 import TestLoader from "@/shared/components/ui/TestLoader";
 import { useAppSelector } from "@/app/store";
-import { selectInProgressWordsCount } from "@/features/exercises/slice";
+import { selectRepeatWordsCount } from "@/features/exercises/slice";
 
 function RepeatWordsStats() {
-  const count = useAppSelector(selectInProgressWordsCount);
+  const count = useAppSelector(selectRepeatWordsCount);
 
   return count > 0 ? (
     <div className="border-2 border-orange-400">

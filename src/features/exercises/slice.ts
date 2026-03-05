@@ -3,7 +3,7 @@ import type { ExercisesState } from "@/features/exercises/types";
 
 const initialState: ExercisesState = {
   newWords: [],
-  inProgressWords: [],
+  repeatWords: [],
 };
 
 const exercisesSlice = createSlice({
@@ -13,25 +13,25 @@ const exercisesSlice = createSlice({
     setNewWords: (state, action) => {
       state.newWords = action.payload;
     },
-    setInProgressWords: (state, action) => {
-      state.inProgressWords = action.payload;
+    setRepeatWords: (state, action) => {
+      state.repeatWords = action.payload;
     },
   },
   selectors: {
     selectNewWords: (state) => state.newWords,
     selectNewWordsCount: (state) => state.newWords.length,
-    selectInProgressWords: (state) => state.inProgressWords,
-    selectInProgressWordsCount: (state) => state.inProgressWords.length,
+    selectRepeatWords: (state) => state.repeatWords,
+    selectRepeatWordsCount: (state) => state.repeatWords.length,
   },
 });
 
-export const { setNewWords, setInProgressWords } = exercisesSlice.actions;
+export const { setNewWords, setRepeatWords } = exercisesSlice.actions;
 
 export const {
   selectNewWords,
   selectNewWordsCount,
-  selectInProgressWords,
-  selectInProgressWordsCount,
+  selectRepeatWords,
+  selectRepeatWordsCount,
 } = exercisesSlice.selectors;
 
 export default exercisesSlice.reducer;

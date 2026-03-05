@@ -1,38 +1,19 @@
-import { useAppSelector } from "@/app/store";
-import {
-  selectInProgressWords,
-  selectNewWords,
-} from "@/features/exercises/slice";
 import { useState } from "react";
 import { HiArrowPathRoundedSquare } from "react-icons/hi2";
 import usePronounceText from "@/shared/hooks/usePronounceText";
 import PronounceButton from "@/shared/components/ui/PronounceButton";
 import Button from "@/shared/components/ui/Button";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { ROUTES } from "@/routes/paths";
 
-function FlashCards() {
+function FlashCards({ words, wordsCount, voice, gender }) {
+  console.log(voice, gender);
   const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
   const [isFrontSide, setIsFrontSide] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
+  console.log(words, wordsCount);
 
-  const location = useLocation();
-  const newWords = useAppSelector(selectNewWords);
-  const repeatWords = useAppSelector(selectInProgressWords);
-
-  function wordsType() {
-    switch (location?.state?.exerciseType) {
-      case "new-words":
-        return newWords;
-      case "repeat-words":
-        return repeatWords;
-      default:
-        return newWords;
-    }
-  }
-  const words = wordsType();
-
-  if (currentIndex < words.length) {
+  if (currentIndex < wordsCount) {
     return isFrontSide ? (
       <div
         key={words[currentIndex].id}
@@ -53,6 +34,8 @@ function FlashCards() {
               event.stopPropagation();
               void pronounceText(
                 words[currentIndex].englishWord.replaceAll("*", ""),
+                voice,
+                gender,
               );
             }}
             disabled={isPlaying}
@@ -95,7 +78,7 @@ function FlashCards() {
       </div>
     );
   } else {
-    return <Navigate to={ROUTES.EXERCISES.ROOT}/>
+    return <Navigate to={ROUTES.EXERCISES.ROOT} />;
   }
 }
 

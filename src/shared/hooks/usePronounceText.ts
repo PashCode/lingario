@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {fetchPronunciation} from "@/shared/services";
+import { fetchPronunciation } from "@/shared/services";
 import { Howl } from "howler";
 
 function usePronounceText() {
@@ -8,10 +8,18 @@ function usePronounceText() {
     "",
   );
 
-  async function pronounceText(text: string | undefined) {
+  async function pronounceText(
+    text: string | undefined,
+    voice?: string | undefined,
+    gender?: string | undefined,
+  ) {
+
     const data = await fetchPronunciation(
       text || "Audio error, please try again later",
+      voice || "en-US-Neural2-D",
+      gender || "MALE",
     );
+
     if (!data) return;
 
     const audio = new Howl({
