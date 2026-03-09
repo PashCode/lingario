@@ -5,8 +5,9 @@ import PronounceButton from "@/shared/components/ui/PronounceButton";
 import Button from "@/shared/components/ui/Button";
 import { Navigate } from "react-router-dom";
 import { ROUTES } from "@/routes/paths";
+import { changeWordScore } from "@/features/exercises/services";
 
-function FlashCards({ words, wordsCount, voice, gender }) {
+function FlashCards({ words, wordsCount, voice, gender }: any) {
   console.log(voice, gender);
   const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
   const [isFrontSide, setIsFrontSide] = useState(true);
@@ -58,6 +59,7 @@ function FlashCards({ words, wordsCount, voice, gender }) {
                 event.stopPropagation();
                 setCurrentIndex((prevState) => prevState + 1);
                 setIsFrontSide(true);
+                void changeWordScore(words[currentIndex], "increase");
               }}
               className="cursor-pointer"
             />
@@ -67,6 +69,7 @@ function FlashCards({ words, wordsCount, voice, gender }) {
                 event.stopPropagation();
                 setCurrentIndex((prevState) => prevState + 1);
                 setIsFrontSide(true);
+                void changeWordScore(words[currentIndex], "decrease");
               }}
               className="cursor-pointer"
             />

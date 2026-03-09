@@ -9,12 +9,12 @@ function Session() {
   return exercisesConfig.isReady ? (
     <div className="flex flex-col">
       <div>SESSION</div>
-      {exercisesConfig.readyExercises.map((Exercise) => {
+      {exercisesConfig.readyExercises.map((Exercise: any) => {
         return (
           <Exercise
             words={exercisesConfig.words.words}
             wordsCount={exercisesConfig.words.count}
-            key={exercisesConfig.words.words.map((id) => console.log(id.id))}
+            key={exercisesConfig.words.words.map((id: any) => console.log(id.id))}
             voice={exercisesConfig.pronunciation.voice}
             gender={exercisesConfig.pronunciation.gender}
           />

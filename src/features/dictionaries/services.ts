@@ -46,6 +46,7 @@ export async function addWordToPersonalDict(
 
 export async function deleteWordFromPersonalDict(id: string) {
   if (!auth.currentUser) return;
+  console.log(id);
 
   const docRef = doc(db, "users", auth.currentUser.uid, "dictionary", id);
   await deleteDoc(docRef);
