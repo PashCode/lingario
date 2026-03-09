@@ -4,6 +4,7 @@ import type { ExercisesState } from "@/features/exercises/types";
 const initialState: ExercisesState = {
   newWords: [],
   repeatWords: [],
+  exercisesConfig: {},
 };
 
 const exercisesSlice = createSlice({
@@ -16,22 +17,28 @@ const exercisesSlice = createSlice({
     setRepeatWords: (state, action) => {
       state.repeatWords = action.payload;
     },
+    setExercisesConfig: (state, action) => {
+      state.exercisesConfig = action.payload;
+    },
   },
   selectors: {
     selectNewWords: (state) => state.newWords,
     selectNewWordsCount: (state) => state.newWords.length,
     selectRepeatWords: (state) => state.repeatWords,
     selectRepeatWordsCount: (state) => state.repeatWords.length,
+    selectExercisesConfig: (state) => state.exercisesConfig,
   },
 });
 
-export const { setNewWords, setRepeatWords } = exercisesSlice.actions;
+export const { setNewWords, setRepeatWords, setExercisesConfig } =
+  exercisesSlice.actions;
 
 export const {
   selectNewWords,
   selectNewWordsCount,
   selectRepeatWords,
   selectRepeatWordsCount,
+  selectExercisesConfig,
 } = exercisesSlice.selectors;
 
 export default exercisesSlice.reducer;

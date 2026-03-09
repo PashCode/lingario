@@ -1,21 +1,27 @@
-import { useAppSelector } from "@/app/store";
-import { selectNewWords, selectRepeatWords } from "@/features/exercises/slice";
+import { useAppSelector, useAppDispatch } from "@/app/store";
+import {
+  selectNewWords,
+  selectRepeatWords,
+  setExercisesConfig,
+} from "@/features/exercises/slice";
 import { NavLink, useLocation } from "react-router-dom";
 import { ROUTES } from "@/routes/paths";
+import useExercisesSettings from "@/features/exercises/hooks/useExercisesSettings";
 
 export function Settings() {
   const newWords = useAppSelector(selectNewWords);
   const repeatWords = useAppSelector(selectRepeatWords);
+  const dispatch = useAppDispatch();
   const exerciseType = useLocation().state?.exerciseType;
   const words = exerciseType === "repeat-words" ? repeatWords : newWords;
 
-  const config = {
+  const config = useExercisesSettings({
     pronunciation: { voice: "en-US-Neural2-H", gender: "FEMALE" },
-    words: { words: words, count: words.length },
+    words: [...words],
     exercisesTypes: { flashCards: true },
     readyExercises: [],
     isReady: false,
-  };
+  });
 
   return (
     <div className="flex flex-col items-center gap-10">
@@ -24,7 +30,7 @@ export function Settings() {
         <NavLink
           to={ROUTES.EXERCISES.SESSION}
           className="border-2 bg-blue-300"
-          state={config}
+          onClick={() => dispatch(setExercisesConfig(config))}
         >
           ПОЧАТИ ТРЕНУВАННЯ
         </NavLink>

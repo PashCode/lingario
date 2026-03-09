@@ -3,7 +3,10 @@ import { Timestamp } from "firebase/firestore";
 export interface ExercisesState {
   newWords: Array<NewWordsValues>;
   repeatWords: Array<InProgressWordsValues>;
+  exercisesConfig: any;
 }
+
+
 
 export interface BaseWordsValues {
   englishWord: string;

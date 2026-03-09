@@ -1,20 +1,17 @@
-import { useLocation } from "react-router-dom";
-import useExercisesSettings from "@/features/exercises/hooks/useExercisesSettings";
+import { selectExercisesConfig } from "@/features/exercises/slice";
+import { useAppSelector } from "@/app/store";
 
 function Session() {
-  const location = useLocation();
-  const exercisesConfig = useExercisesSettings(location.state);
-  console.log(exercisesConfig);
+  const exercisesConfig = useAppSelector(selectExercisesConfig);
 
   return exercisesConfig.isReady ? (
     <div className="flex flex-col">
-      <div>SESSION</div>
       {exercisesConfig.readyExercises.map((Exercise: any) => {
         return (
           <Exercise
-            words={exercisesConfig.words.words}
-            wordsCount={exercisesConfig.words.count}
-            key={exercisesConfig.words.words.map((id: any) => console.log(id.id))}
+            words={exercisesConfig.words}
+            wordsCount={exercisesConfig.words.length}
+            key={exercisesConfig.words.map((id: any) => console.log(id.id))}
             voice={exercisesConfig.pronunciation.voice}
             gender={exercisesConfig.pronunciation.gender}
           />

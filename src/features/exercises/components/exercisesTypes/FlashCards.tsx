@@ -8,11 +8,9 @@ import { ROUTES } from "@/routes/paths";
 import { changeWordScore } from "@/features/exercises/services";
 
 function FlashCards({ words, wordsCount, voice, gender }: any) {
-  console.log(voice, gender);
   const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
   const [isFrontSide, setIsFrontSide] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  console.log(words, wordsCount);
 
   if (currentIndex < wordsCount) {
     return isFrontSide ? (
