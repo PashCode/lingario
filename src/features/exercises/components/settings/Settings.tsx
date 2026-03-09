@@ -7,6 +7,7 @@ import {
 import { NavLink, useLocation } from "react-router-dom";
 import { ROUTES } from "@/routes/paths";
 import useExercisesSettings from "@/features/exercises/hooks/useExercisesSettings";
+import type { ExerciseConfigValues } from "@/features/exercises/types";
 
 export function Settings() {
   const newWords = useAppSelector(selectNewWords);
@@ -15,13 +16,15 @@ export function Settings() {
   const exerciseType = useLocation().state?.exerciseType;
   const words = exerciseType === "repeat-words" ? repeatWords : newWords;
 
-  const config = useExercisesSettings({
+  const config: ExerciseConfigValues = useExercisesSettings({
     pronunciation: { voice: "en-US-Neural2-H", gender: "FEMALE" },
     words: [...words],
-    exercisesTypes: { flashCards: true },
+    exercisesTypes: { flashCard: true, wordMatching: true },
     readyExercises: [],
     isReady: false,
   });
+
+
 
   return (
     <div className="flex flex-col items-center gap-10">

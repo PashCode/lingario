@@ -6,8 +6,6 @@ export interface ExercisesState {
   exercisesConfig: any;
 }
 
-
-
 export interface BaseWordsValues {
   englishWord: string;
   translation: string;
@@ -24,3 +22,11 @@ export interface NewWordsValues extends BaseWordsValues {
 }
 
 export type InProgressWordsValues = NewWordsValues;
+
+export interface ExerciseConfigValues {
+  pronunciation: { voice: ""; gender: "" };
+  words: Array<NewWordsValues | InProgressWordsValues>;
+  exercisesTypes: { flashCards: boolean };
+  readyExercises: [];
+  isReady: boolean;
+}

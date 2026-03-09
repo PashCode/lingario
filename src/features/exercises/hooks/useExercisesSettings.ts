@@ -1,11 +1,15 @@
-import FlashCards from "@/features/exercises/components/exercisesTypes/FlashCards";
+import type { ExerciseConfigValues } from "@/features/exercises/types";
 
-function useExercisesSettings(config: any) {
-  if (config.exercisesTypes.flashCards) {
-    config.readyExercises.push(FlashCards);
-    config.isReady = true;
+function useExercisesSettings(config: ExerciseConfigValues) {
+  for (let i = 0; i < config.words.length; i++) {
+    for (const exerciseType in config.exercisesTypes) {
+      config.readyExercises.push(exerciseType);
+    }
   }
 
+
+
+  config.isReady = true;
   return config;
 }
 
