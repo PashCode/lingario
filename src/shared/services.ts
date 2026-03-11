@@ -12,11 +12,6 @@ export async function fetchPronunciation(
   const API_KEY = googleTTS.apiKey;
   const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${API_KEY}`;
 
-  // const voiceConfig = {
-  //   male: { voice: "en-US-Neural2-D", gender: "MALE" },
-  //   female: { voice: "en-US-Neural2-H", gender: "FEMALE" },
-  // };
-
   try {
     const response = await fetch(url, {
       method: "POST",

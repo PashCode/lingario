@@ -5,13 +5,19 @@ import PronounceButton from "@/shared/components/ui/PronounceButton";
 import Button from "@/shared/components/ui/Button";
 import { changeWordScore } from "@/features/exercises/services";
 
-function FlashCard({ word, voice, gender, setCurrentIndex }: any) {
+function FlashCard({
+  exerciseData,
+  voice,
+  gender,
+  currentIndex,
+  setCurrentIndex,
+}: any) {
   const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
   const [isFrontSide, setIsFrontSide] = useState(true);
 
   return isFrontSide ? (
     <div
-      key={word.id}
+      key={exerciseData[currentIndex].word.id}
       className="front-side border-2"
       onClick={() => setIsFrontSide(false)}
     >
@@ -21,22 +27,25 @@ function FlashCard({ word, voice, gender, setCurrentIndex }: any) {
             <PronounceButton
               size="20"
               currentPronounce={currentPronounce}
-              text={word.englishWord.replaceAll("*", "")}
+              text={exerciseData[currentIndex].word.englishWord.replaceAll(
+                "*",
+                "",
+              )}
             />
           }
           className="cursor-pointer"
           onClick={(event) => {
             event.stopPropagation();
             void pronounceText(
-              word.englishWord.replaceAll("*", ""),
+              exerciseData[currentIndex].word.englishWord.replaceAll("*", ""),
               voice,
               gender,
             );
           }}
           disabled={isPlaying}
         />
-        <h1>{word.englishWord}</h1>
-        <h1>{word.phrase.replaceAll("*", "")}</h1>
+        <h1>{exerciseData[currentIndex].word.englishWord}</h1>
+        <h1>{exerciseData[currentIndex].word.phrase.replaceAll("*", "")}</h1>
         <span>
           <HiArrowPathRoundedSquare />
         </span>
@@ -45,7 +54,7 @@ function FlashCard({ word, voice, gender, setCurrentIndex }: any) {
   ) : (
     <div className="back-side border-2" onClick={() => setIsFrontSide(true)}>
       <div className="flex h-150 w-100 flex-col items-center justify-center bg-gray-500">
-        <h1>{word.translation}</h1>
+        <h1>{exerciseData[currentIndex].word.translation}</h1>
         <div>
           <Button
             text="Знаю"
@@ -53,7 +62,10 @@ function FlashCard({ word, voice, gender, setCurrentIndex }: any) {
               event.stopPropagation();
               setCurrentIndex((prevState) => prevState + 1);
               setIsFrontSide(true);
-              void changeWordScore(word, "increase");
+              void changeWordScore(
+                exerciseData[currentIndex].word,
+                "increase",
+              );
             }}
             className="cursor-pointer"
           />
@@ -63,7 +75,10 @@ function FlashCard({ word, voice, gender, setCurrentIndex }: any) {
               event.stopPropagation();
               setCurrentIndex((prevState) => prevState + 1);
               setIsFrontSide(true);
-              void changeWordScore(word, "decrease");
+              void changeWordScore(
+                exerciseData[currentIndex].word,
+                "decrease",
+              );
             }}
             className="cursor-pointer"
           />

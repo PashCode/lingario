@@ -8,7 +8,7 @@ import type {
   InProgressWordsValues,
 } from "@/features/exercises/types";
 
-function useExerciseWords() {
+function useExercisesWords() {
   const { personalDictionary } = useDictSnapshot<
     NewWordsValues | InProgressWordsValues
   >();
@@ -36,4 +36,4 @@ function useExerciseWords() {
   }, [personalDictionary, dispatch]);
 }
 
-export default useExerciseWords;
+export default useExercisesWords;

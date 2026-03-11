@@ -1,30 +1,25 @@
-import { useAppSelector, useAppDispatch } from "@/app/store";
-import {
-  selectNewWords,
-  selectRepeatWords,
-  setExercisesConfig,
-} from "@/features/exercises/slice";
-import { NavLink, useLocation } from "react-router-dom";
+import { setExercisesConfig } from "@/features/exercises/slice";
+import { NavLink } from "react-router-dom";
 import { ROUTES } from "@/routes/paths";
 import useExercisesSettings from "@/features/exercises/hooks/useExercisesSettings";
-import type { ExerciseConfigValues } from "@/features/exercises/types";
+import Pronunciation from "@/features/exercises/components/settings/Pronunciation";
+import { useAppDispatch } from "@/app/store";
+import WordsCount from "@/features/exercises/components/settings/WordsCount";
+import ExercisesType from "@/features/exercises/components/settings/exercisesType";
 
 export function Settings() {
-  const newWords = useAppSelector(selectNewWords);
-  const repeatWords = useAppSelector(selectRepeatWords);
+  const {
+    exercisesConfig,
+    pronunciation,
+    setPronunciation,
+    wordsCount,
+    setWordsCount,
+    selectedExercises,
+    setSelectedExercises,
+  } = useExercisesSettings();
   const dispatch = useAppDispatch();
-  const exerciseType = useLocation().state?.exerciseType;
-  const words = exerciseType === "repeat-words" ? repeatWords : newWords;
 
-  const config: ExerciseConfigValues = useExercisesSettings({
-    pronunciation: { voice: "en-US-Neural2-H", gender: "FEMALE" },
-    words: [...words],
-    exercisesTypes: { flashCard: true, wordMatching: true },
-    readyExercises: [],
-    isReady: false,
-  });
-
-
+  // console.log(exercisesConfig);
 
   return (
     <div className="flex flex-col items-center gap-10">
@@ -33,7 +28,7 @@ export function Settings() {
         <NavLink
           to={ROUTES.EXERCISES.SESSION}
           className="border-2 bg-blue-300"
-          onClick={() => dispatch(setExercisesConfig(config))}
+          onClick={() => dispatch(setExercisesConfig(exercisesConfig))}
         >
           ПОЧАТИ ТРЕНУВАННЯ
         </NavLink>
@@ -42,15 +37,26 @@ export function Settings() {
       <div className="flex gap-3">
         <div>Очистити вибір</div>
         <div>Обрати все</div>
-        <div>Чоловічий / Жіночий</div>
-        <div>Кількість слів +1 -1</div>
+
+        <Pronunciation
+          pronunciation={pronunciation}
+          setPronunciation={setPronunciation}
+        />
+
+        <WordsCount
+          words={exercisesConfig.words}
+          wordsCount={wordsCount}
+          setWordsCount={setWordsCount}
+        />
       </div>
 
       <div>
-        <div>Флеш картки</div>
-        <div>Обрати слово</div>
-        <div>Зібрати слово</div>
-        <div>Знайти пари</div>
+        {/*<div>Зібрати слово</div>*/}
+        {/*<div>Знайти пари</div>*/}
+        <ExercisesType
+          selectedExercises={selectedExercises}
+          setSelectedExercises={setSelectedExercises}
+        />
       </div>
     </div>
   );

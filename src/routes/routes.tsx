@@ -41,6 +41,7 @@ const router = createBrowserRouter([
           { path: ROUTES.HOME, element: <Home />, },
           { path: ROUTES.DICTIONARIES.ROOT, element: <Dictionaries />, },
           { path: ROUTES.EXERCISES.ROOT, element: <Exercises />, },
+          { path: ROUTES.EXERCISES.SETTINGS, element: <Settings /> },
           { path: ROUTES.PROFILE, element: <Profile />, },
         ],
       },
@@ -50,7 +51,6 @@ const router = createBrowserRouter([
         children: [
           { path: ROUTES.DICTIONARIES.PUBLIC.OXFORD_3000, element: <Oxford3000 />, },
           { path: ROUTES.DICTIONARIES.PERSONAL.ROOT, element: <PersonalWords />, },
-          { path: ROUTES.EXERCISES.SETTINGS, element: <Settings /> },
           { path: ROUTES.EXERCISES.SESSION, element: <Session /> },
         ],
       },

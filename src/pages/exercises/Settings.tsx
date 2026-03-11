@@ -1,8 +1,8 @@
-import useExerciseWords from "@/features/exercises/hooks/useExerciseWords";
+import useExercisesWords from "@/features/exercises/hooks/useExercisesWords";
 import { Settings as SettingsComponent } from "@/features/exercises/components/settings/Settings";
 
 function Settings() {
-  useExerciseWords();
+  useExercisesWords();
   return <SettingsComponent />;
 }
 

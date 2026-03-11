@@ -24,9 +24,8 @@ export interface NewWordsValues extends BaseWordsValues {
 export type InProgressWordsValues = NewWordsValues;
 
 export interface ExerciseConfigValues {
-  pronunciation: { voice: ""; gender: "" };
+  pronunciation: { voice: string; gender: string };
   words: Array<NewWordsValues | InProgressWordsValues>;
-  exercisesTypes: { flashCards: boolean };
-  readyExercises: [];
+  exercisesTypes: { flashCard: boolean; wordMatching: boolean };
   isReady: boolean;
 }
