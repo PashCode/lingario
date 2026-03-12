@@ -16,16 +16,14 @@ function WordsCount({ words, wordsCount, setWordsCount }) {
         text="+1"
         className="cursor-pointer border-2 disabled:bg-gray-500"
         onClick={() => setWordsCount((prev) => prev + 1)}
-        disabled={wordsCount === 15}
+        disabled={wordsCount === words.length}
       ></Button>
 
-      <p>
-        {wordsCount <= words.length && wordsCount < 15 ? (
-          wordsCount
-        ) : (
-          <span>багато</span>
-        )}
-      </p>
+      <p>{
+        wordsCount < words.length
+        ? wordsCount
+        : <span>{words.length} - це всі слова зі словника</span>
+      }</p>
     </div>
   );
 }

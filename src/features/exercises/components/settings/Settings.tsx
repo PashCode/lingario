@@ -1,5 +1,5 @@
 import { setExercisesConfig } from "@/features/exercises/slice";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { ROUTES } from "@/routes/paths";
 import useExercisesSettings from "@/features/exercises/hooks/useExercisesSettings";
 import Pronunciation from "@/features/exercises/components/settings/Pronunciation";
@@ -7,6 +7,7 @@ import { useAppDispatch } from "@/app/store";
 import WordsCount from "@/features/exercises/components/settings/WordsCount";
 import ExercisesType from "@/features/exercises/components/settings/exercisesType";
 import SelectionControls from "@/features/exercises/components/settings/SelectionControls";
+import Button from "@/shared/components/ui/Button";
 
 export function Settings() {
   const {
@@ -17,8 +18,12 @@ export function Settings() {
     setWordsCount,
     selectedExercises,
     setSelectedExercises,
+    showError,
+    setShowError,
   } = useExercisesSettings();
+
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   // console.log(exercisesConfig);
 
@@ -26,13 +31,19 @@ export function Settings() {
     <div className="flex flex-col items-center gap-10">
       <div>
         <h1>Налаштування тренування</h1>
-        <NavLink
-          to={ROUTES.EXERCISES.SESSION}
-          className="border-2 bg-blue-300"
-          onClick={() => dispatch(setExercisesConfig(exercisesConfig))}
-        >
-          ПОЧАТИ ТРЕНУВАННЯ
-        </NavLink>
+        <Button
+          text="ПОЧАТИ ТРЕНУВАННЯ"
+          className="cursor-pointer border-2 bg-blue-300 disabled:bg-gray-500"
+          onClick={() => {
+            if (!exercisesConfig.exercisesData.length) {
+              setShowError(true);
+              return;
+            }
+            dispatch(setExercisesConfig(exercisesConfig));
+            navigate(ROUTES.EXERCISES.SESSION);
+          }}
+          // disabled={!exercisesConfig.exercisesData.length}
+        ></Button>
       </div>
 
       <div className="flex gap-3">
@@ -56,6 +67,8 @@ export function Settings() {
         <ExercisesType
           selectedExercises={selectedExercises}
           setSelectedExercises={setSelectedExercises}
+          showError={showError}
+          setShowError={setShowError}
         />
       </div>
     </div>

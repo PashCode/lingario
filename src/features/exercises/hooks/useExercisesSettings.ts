@@ -14,6 +14,7 @@ function useExercisesSettings() {
   const words = exerciseType === "repeat-words" ? repeatWords : newWords;
 
   const [wordsCount, setWordsCount] = useState(5);
+  const [showError, setShowError] = useState(false);
   const [pronunciation, setPronunciation] = useState({
     voice: "en-US-Neural2-D",
     gender: "MALE",
@@ -90,6 +91,8 @@ function useExercisesSettings() {
     setWordsCount,
     selectedExercises,
     setSelectedExercises,
+    showError,
+    setShowError,
   };
 }
 
