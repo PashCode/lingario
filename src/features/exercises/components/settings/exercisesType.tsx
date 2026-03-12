@@ -12,9 +12,11 @@ function ExercisesType({ selectedExercises, setSelectedExercises }) {
           type="checkbox"
           checked={selectedExercises.flashCard}
           onChange={() =>
-            setSelectedExercises({
-              ...selectedExercises,
-              flashCard: !selectedExercises.flashCard,
+            setSelectedExercises((prev) => {
+              return {
+                ...prev,
+                flashCard: !prev.flashCard,
+              };
             })
           }
         />
@@ -26,9 +28,11 @@ function ExercisesType({ selectedExercises, setSelectedExercises }) {
           type="checkbox"
           checked={selectedExercises.wordMatching}
           onChange={() =>
-            setSelectedExercises({
-              ...selectedExercises,
-              wordMatching: !selectedExercises.wordMatching,
+            setSelectedExercises((prev) => {
+              return {
+                ...prev,
+                wordMatching: !prev.wordMatching,
+              };
             })
           }
         />

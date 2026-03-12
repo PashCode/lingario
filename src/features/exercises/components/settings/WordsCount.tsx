@@ -6,18 +6,21 @@ function WordsCount({ words, wordsCount, setWordsCount }) {
       <p>Кількість слів: </p>
 
       <Button
-        text="+1"
-        className="cursor-pointer border-2"
-        onClick={() => setWordsCount((prev) => prev + 1)}
+        text="-1"
+        className="cursor-pointer border-2 disabled:bg-gray-500"
+        onClick={() => setWordsCount((prev) => Math.max(5, prev - 1))}
+        disabled={wordsCount === 5}
       ></Button>
 
       <Button
-        text="-1"
-        className="cursor-pointer border-2"
-        onClick={() => setWordsCount((prev) => Math.max(0, prev - 1))}
+        text="+1"
+        className="cursor-pointer border-2 disabled:bg-gray-500"
+        onClick={() => setWordsCount((prev) => prev + 1)}
+        disabled={wordsCount === 15}
       ></Button>
+
       <p>
-        {wordsCount <= words.length && wordsCount <= 15 ? (
+        {wordsCount <= words.length && wordsCount < 15 ? (
           wordsCount
         ) : (
           <span>багато</span>

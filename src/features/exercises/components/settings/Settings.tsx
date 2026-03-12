@@ -6,6 +6,7 @@ import Pronunciation from "@/features/exercises/components/settings/Pronunciatio
 import { useAppDispatch } from "@/app/store";
 import WordsCount from "@/features/exercises/components/settings/WordsCount";
 import ExercisesType from "@/features/exercises/components/settings/exercisesType";
+import SelectionControls from "@/features/exercises/components/settings/SelectionControls";
 
 export function Settings() {
   const {
@@ -35,8 +36,7 @@ export function Settings() {
       </div>
 
       <div className="flex gap-3">
-        <div>Очистити вибір</div>
-        <div>Обрати все</div>
+        <SelectionControls setSelectedExercises={setSelectedExercises} />
 
         <Pronunciation
           pronunciation={pronunciation}

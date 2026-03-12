@@ -21,7 +21,7 @@ function FlashCard({
       className="front-side border-2"
       onClick={() => setIsFrontSide(false)}
     >
-      <div className="flex h-150 w-100 flex-col items-center justify-center bg-gray-500">
+      <div className="flex h-150 w-100 flex-col items-center justify-center bg-gray-500 select-none">
         <Button
           text={
             <PronounceButton
@@ -53,7 +53,7 @@ function FlashCard({
     </div>
   ) : (
     <div className="back-side border-2" onClick={() => setIsFrontSide(true)}>
-      <div className="flex h-150 w-100 flex-col items-center justify-center bg-gray-500">
+      <div className="flex h-150 w-100 flex-col items-center justify-center bg-gray-500 select-none">
         <h1>{exerciseData[currentIndex].word.translation}</h1>
         <div>
           <Button
@@ -62,10 +62,7 @@ function FlashCard({
               event.stopPropagation();
               setCurrentIndex((prevState) => prevState + 1);
               setIsFrontSide(true);
-              void changeWordScore(
-                exerciseData[currentIndex].word,
-                "increase",
-              );
+              void changeWordScore(exerciseData[currentIndex].word, "increase");
             }}
             className="cursor-pointer"
           />
@@ -75,10 +72,7 @@ function FlashCard({
               event.stopPropagation();
               setCurrentIndex((prevState) => prevState + 1);
               setIsFrontSide(true);
-              void changeWordScore(
-                exerciseData[currentIndex].word,
-                "decrease",
-              );
+              void changeWordScore(exerciseData[currentIndex].word, "decrease");
             }}
             className="cursor-pointer"
           />

@@ -11,7 +11,7 @@ function Input(attributes: InputProps) {
   const { htmlFor, labelText, errorMessage, ...restAttributes } = attributes;
   return (
     <div>
-      <label htmlFor={htmlFor}>{labelText}</label>
+      <label className="select-none" htmlFor={htmlFor}>{labelText}</label>
       <input {...restAttributes} />
       <InputError errorMessage={errorMessage} />
     </div>

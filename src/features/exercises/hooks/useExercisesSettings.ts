@@ -5,7 +5,7 @@ import { selectNewWords, selectRepeatWords } from "@/features/exercises/slice";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
-const exercises = { flashCard: FlashCard, wordMatching: WordMatching };
+const EXERCISES = { flashCard: FlashCard, wordMatching: WordMatching };
 
 function useExercisesSettings() {
   const newWords = useAppSelector(selectNewWords);
@@ -13,7 +13,7 @@ function useExercisesSettings() {
   const exerciseType = useLocation().state?.exerciseType;
   const words = exerciseType === "repeat-words" ? repeatWords : newWords;
 
-  const [wordsCount, setWordsCount] = useState(0);
+  const [wordsCount, setWordsCount] = useState(5);
   const [pronunciation, setPronunciation] = useState({
     voice: "en-US-Neural2-D",
     gender: "MALE",
@@ -24,11 +24,11 @@ function useExercisesSettings() {
   });
 
   const exercisesSettings = {
-    pronunciation: pronunciation,
+    pronunciation,
     words: [...words],
-    exercises: selectedExercises,
-    wordsCount: wordsCount,
-    isReady: true,
+    selectedExercises,
+    wordsCount,
+    isReady: false,
   };
 
   function addWordWithExercise() {
@@ -37,36 +37,50 @@ function useExercisesSettings() {
       wordMatching: [],
     };
 
-    function pushItem(exercisesByType, wordsCount, word, exercises, key) {
+    function pushItem(word, key) {
       if (exercisesByType[key].length >= wordsCount) return;
 
       exercisesByType[key].push({
         word: word,
-        exercise: exercises[key],
+        exercise: EXERCISES[key],
       });
     }
 
-    for (const exerciseType in exercisesSettings.exercises) {
-      const key = exerciseType as keyof typeof exercisesSettings.exercises;
+    function shuffleExercises() {
+      const array = [
+        ...exercisesByType.flashCard,
+        ...exercisesByType.wordMatching,
+      ];
 
-      if (exercisesSettings.exercises[key]) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+
+      return array;
+    }
+
+    for (const exerciseType in exercisesSettings.selectedExercises) {
+      const key = exerciseType as keyof typeof exercisesSettings.selectedExercises;
+
+      if (exercisesSettings.selectedExercises[key]) {
         words.forEach((word) => {
-          pushItem(exercisesByType, wordsCount, word, exercises, key);
+          pushItem(word, key);
         });
       }
     }
 
+    const shuffledExercises = shuffleExercises();
+
     return {
       ...exercisesSettings,
-      exercisesData: [
-        ...exercisesByType.flashCard,
-        ...exercisesByType.wordMatching,
-      ],
+      exercisesData: shuffledExercises,
       isReady: true,
     };
   }
 
   const exercisesConfig = addWordWithExercise();
+  console.log(addWordWithExercise());
 
   return {
     exercisesConfig,

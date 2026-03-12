@@ -9,7 +9,7 @@ function Pronunciation({ pronunciation, setPronunciation }: any) {
           htmlFor="female-pronounce"
           name="female-pronounce"
           checked={pronunciation.gender === "FEMALE"}
-          labelText="ЖІНОЧИЙ"
+          labelText="Жіночий"
           type="radio"
           onChange={() => {
             setPronunciation({
@@ -25,7 +25,7 @@ function Pronunciation({ pronunciation, setPronunciation }: any) {
           htmlFor="male-pronounce"
           name="male-pronounce"
           checked={pronunciation.gender === "MALE"}
-          labelText="ЧОЛОВІЧИЙ"
+          labelText="Чоловічий"
           type="radio"
           onChange={() => {
             setPronunciation({
