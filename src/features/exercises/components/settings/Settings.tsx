@@ -1,5 +1,5 @@
 import { setExercisesConfig } from "@/features/exercises/slice";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/routes/paths";
 import useExercisesSettings from "@/features/exercises/hooks/useExercisesSettings";
 import Pronunciation from "@/features/exercises/components/settings/Pronunciation";
@@ -12,10 +12,10 @@ import Button from "@/shared/components/ui/Button";
 export function Settings() {
   const {
     exercisesConfig,
-    pronunciation,
-    setPronunciation,
-    wordsCount,
-    setWordsCount,
+    voiceSettings,
+    setVoiceSettings,
+    wordsLimit,
+    setWordsLimit,
     selectedExercises,
     setSelectedExercises,
     showError,
@@ -35,14 +35,13 @@ export function Settings() {
           text="ПОЧАТИ ТРЕНУВАННЯ"
           className="cursor-pointer border-2 bg-blue-300 disabled:bg-gray-500"
           onClick={() => {
-            if (!exercisesConfig.exercisesData.length) {
+            if (!exercisesConfig.sessionSequence.length) {
               setShowError(true);
               return;
             }
             dispatch(setExercisesConfig(exercisesConfig));
             navigate(ROUTES.EXERCISES.SESSION);
           }}
-          // disabled={!exercisesConfig.exercisesData.length}
         ></Button>
       </div>
 
@@ -50,14 +49,14 @@ export function Settings() {
         <SelectionControls setSelectedExercises={setSelectedExercises} />
 
         <Pronunciation
-          pronunciation={pronunciation}
-          setPronunciation={setPronunciation}
+          voiceSettings={voiceSettings}
+          setVoiceSettings={setVoiceSettings}
         />
 
         <WordsCount
-          words={exercisesConfig.words}
-          wordsCount={wordsCount}
-          setWordsCount={setWordsCount}
+          words={exercisesConfig.vocabularyWords}
+          wordsLimit={wordsLimit}
+          setWordsLimit={setWordsLimit}
         />
       </div>
 

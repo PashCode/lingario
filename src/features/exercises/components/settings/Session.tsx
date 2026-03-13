@@ -12,18 +12,15 @@ export function Session() {
     return <Navigate to={ROUTES.EXERCISES.ROOT} />;
   }
 
-  console.log(exercisesConfig);
-  const ExerciseComponent = exercisesConfig.exercisesData[currentIndex]?.exercise;
+  const ExerciseComponent = exercisesConfig.sessionSequence[currentIndex]?.exercise;
 
   return exercisesConfig.isReady ? (
-    currentIndex < exercisesConfig.exercisesData.length ? (
+    currentIndex < exercisesConfig.sessionSequence.length ? (
       <div className="flex flex-col">
         <ExerciseComponent
-          exerciseData={exercisesConfig.exercisesData}
+          exercisesConfig={exercisesConfig}
           setCurrentIndex={setCurrentIndex}
           currentIndex={currentIndex}
-          voice={exercisesConfig.pronunciation.voice}
-          gender={exercisesConfig.pronunciation.gender}
         />
       </div>
     ) : (

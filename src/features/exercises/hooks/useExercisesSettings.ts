@@ -4,6 +4,7 @@ import { useAppSelector } from "@/app/store";
 import { selectNewWords, selectRepeatWords } from "@/features/exercises/slice";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
+import type { ExerciseConfigValues } from "@/features/exercises/types";
 
 const EXERCISES = { flashCard: FlashCard, wordMatching: WordMatching };
 
@@ -13,9 +14,9 @@ function useExercisesSettings() {
   const exerciseType = useLocation().state?.exerciseType;
   const words = exerciseType === "repeat-words" ? repeatWords : newWords;
 
-  const [wordsCount, setWordsCount] = useState(5);
+  const [wordsLimit, setWordsLimit] = useState(5);
   const [showError, setShowError] = useState(false);
-  const [pronunciation, setPronunciation] = useState({
+  const [voiceSettings, setVoiceSettings] = useState({
     voice: "en-US-Neural2-D",
     gender: "MALE",
   });
@@ -24,22 +25,24 @@ function useExercisesSettings() {
     wordMatching: false,
   });
 
-  const exercisesSettings = {
-    pronunciation,
-    words: [...words],
+  const exercisesByType = {
+    flashCard: [],
+    wordMatching: [],
+  };
+
+  const exercisesSettings: ExerciseConfigValues = {
+    voiceSettings,
+    vocabularyWords: [...words],
+    sessionWords: [],
+    sessionSequence: [],
     selectedExercises,
-    wordsCount,
+    wordsLimit,
     isReady: false,
   };
 
-  function addWordWithExercise() {
-    const exercisesByType = {
-      flashCard: [],
-      wordMatching: [],
-    };
-
+  function generateSessionSequence() {
     function pushItem(word, key) {
-      if (exercisesByType[key].length >= wordsCount) return;
+      if (exercisesByType[key].length >= wordsLimit) return;
 
       exercisesByType[key].push({
         word: word,
@@ -70,25 +73,31 @@ function useExercisesSettings() {
         });
       }
     }
-
     const shuffledExercises = shuffleExercises();
 
     return {
       ...exercisesSettings,
-      exercisesData: shuffledExercises,
+      sessionSequence: shuffledExercises,
       isReady: true,
     };
   }
+  const partialConfig = generateSessionSequence();
 
-  const exercisesConfig = addWordWithExercise();
-  console.log(addWordWithExercise());
+  function addSessionWords() {
+    const sessionWordsSource = Object.values(exercisesByType).find((arr) => arr.length > 0) || [];
+    const sessionWords = sessionWordsSource?.map(({ word }) => word);
+    return { ...partialConfig, sessionWords: sessionWords };
+  }
+  const exercisesConfig = addSessionWords();
+
+  // console.log(exercisesConfig);
 
   return {
     exercisesConfig,
-    pronunciation,
-    setPronunciation,
-    wordsCount,
-    setWordsCount,
+    voiceSettings,
+    setVoiceSettings,
+    wordsLimit,
+    setWordsLimit,
     selectedExercises,
     setSelectedExercises,
     showError,
