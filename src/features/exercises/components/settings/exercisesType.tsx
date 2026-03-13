@@ -1,11 +1,12 @@
 import Input from "@/shared/components/ui/Input";
+import type { ExercisesTypeProps } from "@/features/exercises/types";
 
 function ExercisesType({
   selectedExercises,
   setSelectedExercises,
   showError,
   setShowError,
-}) {
+}: ExercisesTypeProps) {
   return (
     <div>
       {showError && <h1>Оберіть вправи</h1>}

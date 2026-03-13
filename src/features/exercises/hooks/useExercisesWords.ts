@@ -3,9 +3,9 @@ import { setNewWords, setRepeatWords } from "@/features/exercises/slice";
 import { useAppDispatch } from "@/app/store";
 import { useEffect } from "react";
 import type {
-  ExercisesState,
   NewWordsValues,
   InProgressWordsValues,
+  PersonalWordsProgressValues,
 } from "@/features/exercises/types";
 
 function useExercisesWords() {
@@ -15,7 +15,7 @@ function useExercisesWords() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const personalWordsProgress: ExercisesState = {
+    const personalWordsProgress: PersonalWordsProgressValues = {
       newWords: [],
       repeatWords: [],
     };

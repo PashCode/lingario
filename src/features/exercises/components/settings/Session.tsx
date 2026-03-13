@@ -8,7 +8,7 @@ export function Session() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const exercisesConfig = useAppSelector(selectExercisesConfig);
 
-  if (!Object.keys(exercisesConfig).length) {
+  if (!exercisesConfig.isReady) {
     return <Navigate to={ROUTES.EXERCISES.ROOT} />;
   }
 

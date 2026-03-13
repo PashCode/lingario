@@ -4,7 +4,11 @@ import { useAppSelector } from "@/app/store";
 import { selectNewWords, selectRepeatWords } from "@/features/exercises/slice";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
-import type { ExerciseConfigValues } from "@/features/exercises/types";
+import type {
+  ExerciseConfigValues,
+  ExercisesByTypeValues,
+  SessionSequenceValues,
+} from "@/features/exercises/types";
 
 const EXERCISES = { flashCard: FlashCard, wordMatching: WordMatching };
 
@@ -25,7 +29,7 @@ function useExercisesSettings() {
     wordMatching: false,
   });
 
-  const exercisesByType = {
+  const exercisesByType: ExercisesByTypeValues = {
     flashCard: [],
     wordMatching: [],
   };
@@ -41,7 +45,10 @@ function useExercisesSettings() {
   };
 
   function generateSessionSequence() {
-    function pushItem(word, key) {
+    function pushItem(
+      word: SessionSequenceValues["word"],
+      key: keyof ExercisesByTypeValues,
+    ) {
       if (exercisesByType[key].length >= wordsLimit) return;
 
       exercisesByType[key].push({
@@ -65,7 +72,8 @@ function useExercisesSettings() {
     }
 
     for (const exerciseType in exercisesSettings.selectedExercises) {
-      const key = exerciseType as keyof typeof exercisesSettings.selectedExercises;
+      const key =
+        exerciseType as keyof typeof exercisesSettings.selectedExercises;
 
       if (exercisesSettings.selectedExercises[key]) {
         words.forEach((word) => {
@@ -84,12 +92,14 @@ function useExercisesSettings() {
   const partialConfig = generateSessionSequence();
 
   function addSessionWords() {
-    const sessionWordsSource = Object.values(exercisesByType).find((arr) => arr.length > 0) || [];
-    const sessionWords = sessionWordsSource?.map(({ word }) => word);
+    const sessionWordsSource: SessionSequenceValues[] =
+      Object.values(exercisesByType).find((arr) => arr.length > 0) || [];
+
+    const sessionWords = sessionWordsSource.map(({ word }) => word);
     return { ...partialConfig, sessionWords: sessionWords };
   }
-  const exercisesConfig = addSessionWords();
 
+  const exercisesConfig = addSessionWords();
   // console.log(exercisesConfig);
 
   return {

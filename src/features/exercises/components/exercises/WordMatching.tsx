@@ -3,8 +3,13 @@ import Button from "@/shared/components/ui/Button";
 import usePronounceText from "@/shared/hooks/usePronounceText";
 import { useMemo } from "react";
 import { shuffleArray } from "@/features/exercises/utils/helpers";
+import type { ExerciseProps } from "@/features/exercises/types";
 
-function WordMatching({ exercisesConfig, currentIndex, setCurrentIndex }: any) {
+function WordMatching({
+  exercisesConfig,
+  currentIndex,
+  setCurrentIndex,
+}: ExerciseProps) {
   const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
   const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
 

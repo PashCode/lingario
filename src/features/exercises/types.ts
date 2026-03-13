@@ -1,10 +1,13 @@
 import { Timestamp } from "firebase/firestore";
+import * as React from "react";
 
 export interface ExercisesState {
   newWords: Array<NewWordsValues>;
   repeatWords: Array<InProgressWordsValues>;
-  exercisesConfig: any;
+  exercisesConfig: ExerciseConfigValues;
 }
+
+export type PersonalWordsProgressValues = Omit<ExercisesState, "exercisesConfig">;
 
 export interface BaseWordsValues {
   englishWord: string;
@@ -29,6 +32,51 @@ export interface ExerciseConfigValues {
   selectedExercises: { flashCard: boolean; wordMatching: boolean };
   wordsLimit: number;
   isReady: boolean;
-  sessionWords?: [];
-  sessionSequence?: [];
+  sessionWords: Array<NewWordsValues | InProgressWordsValues>;
+  sessionSequence: Array<SessionSequenceValues>;
+}
+
+export interface SessionSequenceValues {
+  word: NewWordsValues | InProgressWordsValues;
+  exercise: React.ComponentType<ExerciseProps>;
+}
+
+export interface ExerciseProps {
+  exercisesConfig: ExerciseConfigValues;
+  currentIndex: number;
+  setCurrentIndex: (value: number | ((prevState: number) => number)) => void;
+}
+
+export interface VoiceSettingsValues {
+  voiceSettings: ExerciseConfigValues["voiceSettings"];
+  setVoiceSettings: (props: ExerciseConfigValues["voiceSettings"]) => void;
+}
+
+export interface SelectedExercisesValues {
+  flashCard: boolean;
+  wordMatching: boolean;
+}
+
+export interface ExercisesTypeProps {
+  selectedExercises: SelectedExercisesValues;
+  setSelectedExercises: (
+    value: (prevState: SelectedExercisesValues) => SelectedExercisesValues,
+  ) => void;
+  showError: boolean;
+  setShowError: (props: boolean) => void;
+}
+
+export interface ExercisesByTypeValues {
+  flashCard: Array<SessionSequenceValues>;
+  wordMatching: Array<SessionSequenceValues>;
+}
+
+export interface WordsCountProps {
+  words: Array<NewWordsValues | InProgressWordsValues>;
+  wordsLimit: number;
+  setWordsLimit: (value: (prevState: number) => number) => void;
+}
+
+export interface SelectionControlsProps {
+  setSelectedExercises: (value: SelectedExercisesValues) => void;
 }

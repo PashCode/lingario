@@ -4,7 +4,15 @@ import type { ExercisesState } from "@/features/exercises/types";
 const initialState: ExercisesState = {
   newWords: [],
   repeatWords: [],
-  exercisesConfig: {},
+  exercisesConfig: {
+    voiceSettings: { voice: "", gender: "" },
+    vocabularyWords: [],
+    selectedExercises: { flashCard: false, wordMatching: false },
+    wordsLimit: 0,
+    isReady: false,
+    sessionWords: [],
+    sessionSequence: [],
+  },
 };
 
 const exercisesSlice = createSlice({

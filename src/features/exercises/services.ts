@@ -1,7 +1,14 @@
 import { auth, db } from "@/config/firebase";
 import { doc, updateDoc } from "firebase/firestore";
+import type {
+  InProgressWordsValues,
+  NewWordsValues,
+} from "@/features/exercises/types";
 
-export async function changeWordScore(word: any, changeType: string) {
+export async function changeWordScore(
+  word: NewWordsValues | InProgressWordsValues,
+  changeType: string,
+) {
   if (!auth.currentUser) return;
 
   const docRef = doc(

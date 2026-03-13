@@ -1,6 +1,10 @@
 import Input from "@/shared/components/ui/Input";
+import type { VoiceSettingsValues } from "@/features/exercises/types";
 
-function Pronunciation({ voiceSettings, setVoiceSettings }: any) {
+function Pronunciation({
+  voiceSettings,
+  setVoiceSettings,
+}: VoiceSettingsValues) {
   return (
     <div className="border-2 border-green-800">
       <form className="flex gap-2">

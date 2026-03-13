@@ -1,6 +1,7 @@
 import Button from "@/shared/components/ui/Button";
+import type { WordsCountProps } from "@/features/exercises/types";
 
-function WordsCount({ words, wordsLimit, setWordsLimit }) {
+function WordsCount({ words, wordsLimit, setWordsLimit }: WordsCountProps) {
   return (
     <div className="flex items-center justify-center gap-2 border-2 border-green-800">
       <p>Кількість слів: </p>
