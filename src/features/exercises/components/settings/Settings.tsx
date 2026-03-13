@@ -1,56 +1,74 @@
-import { useAppSelector, useAppDispatch } from "@/app/store";
-import {
-  selectNewWords,
-  selectRepeatWords,
-  setExercisesConfig,
-} from "@/features/exercises/slice";
-import { NavLink, useLocation } from "react-router-dom";
+import { setExercisesConfig } from "@/features/exercises/slice";
+import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/routes/paths";
 import useExercisesSettings from "@/features/exercises/hooks/useExercisesSettings";
-import type { ExerciseConfigValues } from "@/features/exercises/types";
+import Pronunciation from "@/features/exercises/components/settings/Pronunciation";
+import { useAppDispatch } from "@/app/store";
+import WordsCount from "@/features/exercises/components/settings/WordsCount";
+import ExercisesType from "@/features/exercises/components/settings/exercisesType";
+import SelectionControls from "@/features/exercises/components/settings/SelectionControls";
+import Button from "@/shared/components/ui/Button";
 
 export function Settings() {
-  const newWords = useAppSelector(selectNewWords);
-  const repeatWords = useAppSelector(selectRepeatWords);
+  const {
+    exercisesConfig,
+    voiceSettings,
+    setVoiceSettings,
+    wordsLimit,
+    setWordsLimit,
+    selectedExercises,
+    setSelectedExercises,
+    showError,
+    setShowError,
+  } = useExercisesSettings();
+
   const dispatch = useAppDispatch();
-  const exerciseType = useLocation().state?.exerciseType;
-  const words = exerciseType === "repeat-words" ? repeatWords : newWords;
+  const navigate = useNavigate();
 
-  const config: ExerciseConfigValues = useExercisesSettings({
-    pronunciation: { voice: "en-US-Neural2-H", gender: "FEMALE" },
-    words: [...words],
-    exercisesTypes: { flashCard: true, wordMatching: true },
-    readyExercises: [],
-    isReady: false,
-  });
-
-
+  // console.log(exercisesConfig);
 
   return (
     <div className="flex flex-col items-center gap-10">
       <div>
         <h1>Налаштування тренування</h1>
-        <NavLink
-          to={ROUTES.EXERCISES.SESSION}
-          className="border-2 bg-blue-300"
-          onClick={() => dispatch(setExercisesConfig(config))}
-        >
-          ПОЧАТИ ТРЕНУВАННЯ
-        </NavLink>
+        <Button
+          text="ПОЧАТИ ТРЕНУВАННЯ"
+          className="cursor-pointer border-2 bg-blue-300 disabled:bg-gray-500"
+          onClick={() => {
+            if (!exercisesConfig.sessionSequence.length) {
+              setShowError(true);
+              return;
+            }
+            dispatch(setExercisesConfig(exercisesConfig));
+            navigate(ROUTES.EXERCISES.SESSION);
+          }}
+        ></Button>
       </div>
 
       <div className="flex gap-3">
-        <div>Очистити вибір</div>
-        <div>Обрати все</div>
-        <div>Чоловічий / Жіночий</div>
-        <div>Кількість слів +1 -1</div>
+        <SelectionControls setSelectedExercises={setSelectedExercises} />
+
+        <Pronunciation
+          voiceSettings={voiceSettings}
+          setVoiceSettings={setVoiceSettings}
+        />
+
+        <WordsCount
+          words={exercisesConfig.vocabularyWords}
+          wordsLimit={wordsLimit}
+          setWordsLimit={setWordsLimit}
+        />
       </div>
 
       <div>
-        <div>Флеш картки</div>
-        <div>Обрати слово</div>
-        <div>Зібрати слово</div>
-        <div>Знайти пари</div>
+        {/*<div>Зібрати слово</div>*/}
+        {/*<div>Знайти пари</div>*/}
+        <ExercisesType
+          selectedExercises={selectedExercises}
+          setSelectedExercises={setSelectedExercises}
+          showError={showError}
+          setShowError={setShowError}
+        />
       </div>
     </div>
   );

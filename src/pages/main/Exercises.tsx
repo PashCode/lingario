@@ -2,10 +2,10 @@ import { NavLink } from "react-router-dom";
 import { ROUTES } from "@/routes/paths.ts";
 import NewWordsStats from "@/features/exercises/components/NewWordsStats";
 import RepeatWordsStats from "@/features/exercises/components/RepeatWordsStats";
-import useExerciseWords from "@/features/exercises/hooks/useExerciseWords";
+import useExercisesWords from "@/features/exercises/hooks/useExercisesWords";
 
 function Exercises() {
-  useExerciseWords();
+  useExercisesWords();
 
   return (
     <div>
