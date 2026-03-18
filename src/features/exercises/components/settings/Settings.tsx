@@ -46,7 +46,10 @@ export function Settings() {
       </div>
 
       <div className="flex gap-3">
-        <SelectionControls setSelectedExercises={setSelectedExercises} />
+        <SelectionControls
+          setSelectedExercises={setSelectedExercises}
+          setShowError={setShowError}
+        />
 
         <Pronunciation
           voiceSettings={voiceSettings}

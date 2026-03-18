@@ -1,18 +1,22 @@
 import Button from "@/shared/components/ui/Button";
 import type { SelectionControlsProps } from "@/features/exercises/types";
 
-function SelectionControls({ setSelectedExercises }: SelectionControlsProps) {
+function SelectionControls({
+  setSelectedExercises,
+  setShowError,
+}: SelectionControlsProps) {
   return (
     <div className="flex gap-2 border-2 border-green-800">
       <Button
         text="Обрати все"
         className="cursor-pointer border-2"
-        onClick={() =>
+        onClick={() => {
+          setShowError(false);
           setSelectedExercises({
             flashCard: true,
             wordMatching: true,
-          })
-        }
+          });
+        }}
       ></Button>
 
       <Button

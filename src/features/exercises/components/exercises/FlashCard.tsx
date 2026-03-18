@@ -10,49 +10,70 @@ function FlashCard({
   exercisesConfig,
   currentIndex,
   setCurrentIndex,
-}: ExerciseProps ) {
+}: ExerciseProps) {
   const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
   const [isFrontSide, setIsFrontSide] = useState(true);
+  const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
+  const currentPhrase =
+    exercisesConfig.sessionSequence[currentIndex].word.phrase;
+
+  const [btnClickedColor, setBtnClickedColor] = useState("");
 
   return isFrontSide ? (
     <div
-      key={exercisesConfig.sessionSequence[currentIndex].word.id}
+      key={currentWord.id}
       className="front-side border-2"
       onClick={() => setIsFrontSide(false)}
     >
-      <div className="flex h-150 w-100 flex-col items-center justify-center bg-gray-500 select-none">
-        <Button
-          text={
-            <PronounceButton
-              size="20"
-              currentPronounce={currentPronounce}
-              text={exercisesConfig.sessionSequence[
-                currentIndex
-              ].word.englishWord.replaceAll("*", "")}
-            />
-          }
-          className="cursor-pointer"
-          onClick={(event) => {
-            event.stopPropagation();
-            void pronounceText(
-              exercisesConfig.sessionSequence[
-                currentIndex
-              ].word.englishWord.replaceAll("*", ""),
-              exercisesConfig.voiceSettings.voice,
-              exercisesConfig.voiceSettings.gender,
-            );
-          }}
-          disabled={isPlaying}
-        />
-        <h1>
-          {exercisesConfig.sessionSequence[currentIndex].word.englishWord}
-        </h1>
-        <h1>
-          {exercisesConfig.sessionSequence[currentIndex].word.phrase.replaceAll(
-            "*",
-            "",
-          )}
-        </h1>
+      <div className="flex h-150 w-120 flex-col items-center justify-center bg-gray-500 select-none">
+        <div className="flex gap-2">
+          <h1>{currentWord.englishWord}</h1>
+
+          <Button
+            text={
+              <PronounceButton
+                size="20"
+                currentPronounce={currentPronounce}
+                text={currentWord.englishWord.replaceAll("*", "")}
+              />
+            }
+            className="cursor-pointer"
+            onClick={(event) => {
+              event.stopPropagation();
+              void pronounceText(
+                currentWord.englishWord.replaceAll("*", ""),
+                exercisesConfig.voiceSettings.voice,
+                exercisesConfig.voiceSettings.gender,
+              );
+            }}
+            disabled={isPlaying}
+          />
+        </div>
+
+        <div className="flex gap-2">
+          <h1>{currentPhrase.replaceAll("*", "")}</h1>
+
+          <Button
+            text={
+              <PronounceButton
+                size="20"
+                currentPronounce={currentPronounce}
+                text={currentPhrase.replaceAll("*", "")}
+              />
+            }
+            className="cursor-pointer"
+            onClick={(event) => {
+              event.stopPropagation();
+              void pronounceText(
+                currentPhrase.replaceAll("*", ""),
+                exercisesConfig.voiceSettings.voice,
+                exercisesConfig.voiceSettings.gender,
+              );
+            }}
+            disabled={isPlaying}
+          />
+        </div>
+
         <span>
           <HiArrowPathRoundedSquare />
         </span>
@@ -61,35 +82,37 @@ function FlashCard({
   ) : (
     <div className="back-side border-2" onClick={() => setIsFrontSide(true)}>
       <div className="flex h-150 w-100 flex-col items-center justify-center bg-gray-500 select-none">
-        <h1>
-          {exercisesConfig.sessionSequence[currentIndex].word.translation}
-        </h1>
-        <div>
+        <h1>{currentWord.translation}</h1>
+        <div className="flex gap-2">
           <Button
             text="Знаю"
             onClick={(event) => {
               event.stopPropagation();
-              setCurrentIndex((prevState) => prevState + 1);
-              setIsFrontSide(true);
-              void changeWordScore(
-                exercisesConfig.sessionSequence[currentIndex].word,
-                "increase",
-              );
+              setBtnClickedColor("know");
+              void changeWordScore(currentWord, "increase");
+
+              setTimeout(() => {
+                setBtnClickedColor("");
+                setIsFrontSide(true);
+                setCurrentIndex((prevState) => prevState + 1);
+              }, 250);
             }}
-            className="cursor-pointer"
+            className={`cursor-pointer border p-0.5 ${btnClickedColor === "know" ? "bg-green-500" : null}`}
           />
           <Button
             text="Не знаю"
             onClick={(event) => {
               event.stopPropagation();
-              setCurrentIndex((prevState) => prevState + 1);
-              setIsFrontSide(true);
-              void changeWordScore(
-                exercisesConfig.sessionSequence[currentIndex].word,
-                "decrease",
-              );
+              setBtnClickedColor("dontKnow");
+              void changeWordScore(currentWord, "decrease");
+
+              setTimeout(() => {
+                setBtnClickedColor("");
+                setIsFrontSide(true);
+                setCurrentIndex((prevState) => prevState + 1);
+              }, 250);
             }}
-            className="cursor-pointer"
+            className={`cursor-pointer border p-0.5 ${btnClickedColor === "dontKnow" ? "bg-red-500" : null}`}
           />
         </div>
         <span>

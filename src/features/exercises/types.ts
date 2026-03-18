@@ -79,4 +79,5 @@ export interface WordsCountProps {
 
 export interface SelectionControlsProps {
   setSelectedExercises: (value: SelectedExercisesValues) => void;
+  setShowError: (value: boolean) => void;
 }
