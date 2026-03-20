@@ -66,8 +66,7 @@ function useCalculateSession(
     for (const word in currentWords) {
       if (currentWords[word].score === 2)
         currentWords[word].progress = "studied";
-      else if (currentWords[word].score > 1)
-        currentWords[word].progress = "in progress";
+      else currentWords[word].progress = "in progress";
     }
   }
 
@@ -79,7 +78,7 @@ function useCalculateSession(
     }
   }, [isLastExercise]);
 
-  return { changeScore, changeRepetitionDate };
+  return changeScore;
 }
 
 export default useCalculateSession;
