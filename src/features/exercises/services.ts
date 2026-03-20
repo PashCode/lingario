@@ -1,29 +1,30 @@
 import { auth, db } from "@/config/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc } from "firebase/firestore";
 import type {
   InProgressWordsValues,
   NewWordsValues,
 } from "@/features/exercises/types";
+import type { RefObject } from "react";
+import { writeBatch } from "firebase/firestore";
 
-export async function changeWordScore(
-  word: NewWordsValues | InProgressWordsValues,
-  changeType: string,
-  multiplier: number,
-) {
+export async function saveSessionResultsToDB({
+  current: updatedWords,
+}: RefObject<Record<string, NewWordsValues | InProgressWordsValues>>) {
+
+  const batch = writeBatch(db);
   if (!auth.currentUser) return;
 
-  const docRef = doc(
-    db,
-    "users",
-    auth.currentUser.uid,
-    "dictionary",
-    word.englishWord,
-  );
+  for (const updatedWordsKey in updatedWords) {
+    const docRef = doc(
+      db,
+      "users",
+      auth.currentUser.uid,
+      "dictionary",
+      updatedWordsKey,
+    );
 
-  await updateDoc(docRef, {
-    score:
-      changeType === "increase"
-        ? word.score + (0.2 / multiplier)
-        : word.score - (0.2 / multiplier),
-  });
+    batch.update(docRef, { score: updatedWords[updatedWordsKey].score });
+  }
+
+  await batch.commit();
 }

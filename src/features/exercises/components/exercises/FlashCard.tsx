@@ -87,15 +87,19 @@ function FlashCard({
             onClick={(event) => {
               event.stopPropagation();
               setBtnClickedColor("know");
-              changeScore({
-                word: currentWord,
-                resultType: "perfect",
-                multiplier: exercisesConfig.multiplier,
-              });
               setTimeout(() => {
+                setCurrentIndex((prevState) => prevState + 1);
+
+                changeScore({
+                  word: currentWord,
+                  resultType: "perfect",
+                  multiplier: exercisesConfig.multiplier,
+                  sessionSequence: exercisesConfig.sessionSequence,
+                  currentIndex: currentIndex,
+                });
+
                 setBtnClickedColor("");
                 setIsFrontSide(true);
-                setCurrentIndex((prevState) => prevState + 1);
               }, 250);
             }}
             className={`cursor-pointer border p-0.5 ${btnClickedColor === "know" ? "bg-green-500" : null}`}
@@ -109,6 +113,8 @@ function FlashCard({
                 word: currentWord,
                 resultType: "failed",
                 multiplier: exercisesConfig.multiplier,
+                sessionSequence: exercisesConfig.sessionSequence,
+                currentIndex: currentIndex,
               });
               setTimeout(() => {
                 setBtnClickedColor("");

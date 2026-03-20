@@ -46,6 +46,8 @@ export interface ChangeScoreProps {
   word: NewWordsValues | InProgressWordsValues;
   resultType: "perfect" | "passed" | "failed";
   multiplier: number;
+  sessionSequence: Array<SessionSequenceValues>;
+  currentIndex: number;
 }
 
 export interface ExerciseProps {

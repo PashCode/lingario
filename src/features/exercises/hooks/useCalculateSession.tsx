@@ -4,6 +4,7 @@ import type {
   NewWordsValues,
 } from "@/features/exercises/types";
 import { useRef } from "react";
+import { saveSessionResultsToDB } from "@/features/exercises/services";
 
 function useCalculateSession() {
   const sessionResults = useRef<
@@ -14,8 +15,11 @@ function useCalculateSession() {
     word,
     resultType,
     multiplier,
+    sessionSequence,
+    currentIndex,
   }: ChangeScoreProps) {
     const currentScore = sessionResults.current[word.englishWord]?.score ?? word.score;
+    const isLastExercise = currentIndex === sessionSequence.length - 1;
 
     const newScore = () => {
       if (!resultType) return currentScore;
@@ -28,10 +32,12 @@ function useCalculateSession() {
 
     sessionResults.current[word.englishWord] = {
       ...word,
-      score: newScore(),
+      score: Number(Math.max(1, newScore()).toFixed(1)),
     };
 
-    console.log(sessionResults);
+    if (isLastExercise) {
+      void saveSessionResultsToDB(sessionResults);
+    }
   };
 }
 

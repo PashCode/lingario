@@ -111,6 +111,8 @@ function WordMatching({
                       word: currentWord,
                       resultType: calcMistakes(mistakesCount),
                       multiplier: exercisesConfig.multiplier,
+                      sessionSequence: exercisesConfig.sessionSequence,
+                      currentIndex: currentIndex,
                     });
                     setCurrentIndex((prevState) => prevState + 1);
                     setClickedButton("");
