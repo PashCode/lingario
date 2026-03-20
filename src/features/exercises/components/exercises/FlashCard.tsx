@@ -15,7 +15,8 @@ function FlashCard({
   const [isFrontSide, setIsFrontSide] = useState(true);
   const [btnClickedColor, setBtnClickedColor] = useState("");
   const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
-  const currentPhrase = exercisesConfig.sessionSequence[currentIndex].word.phrase;
+  const currentPhrase =
+    exercisesConfig.sessionSequence[currentIndex].word.phrase;
 
   return isFrontSide ? (
     <div
@@ -89,15 +90,7 @@ function FlashCard({
               setBtnClickedColor("know");
               setTimeout(() => {
                 setCurrentIndex((prevState) => prevState + 1);
-
-                changeScore({
-                  word: currentWord,
-                  resultType: "perfect",
-                  multiplier: exercisesConfig.multiplier,
-                  sessionSequence: exercisesConfig.sessionSequence,
-                  currentIndex: currentIndex,
-                });
-
+                changeScore({ resultType: "perfect" });
                 setBtnClickedColor("");
                 setIsFrontSide(true);
               }, 250);
@@ -109,17 +102,11 @@ function FlashCard({
             onClick={(event) => {
               event.stopPropagation();
               setBtnClickedColor("dontKnow");
-              changeScore({
-                word: currentWord,
-                resultType: "failed",
-                multiplier: exercisesConfig.multiplier,
-                sessionSequence: exercisesConfig.sessionSequence,
-                currentIndex: currentIndex,
-              });
               setTimeout(() => {
+                setCurrentIndex((prevState) => prevState + 1);
+                changeScore({ resultType: "failed" });
                 setBtnClickedColor("");
                 setIsFrontSide(true);
-                setCurrentIndex((prevState) => prevState + 1);
               }, 250);
             }}
             className={`cursor-pointer border p-0.5 ${btnClickedColor === "dontKnow" ? "bg-red-500" : null}`}

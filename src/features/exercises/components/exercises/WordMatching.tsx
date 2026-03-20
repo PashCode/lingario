@@ -107,13 +107,7 @@ function WordMatching({
 
                 if (isCorrect) {
                   setTimeout(() => {
-                    changeScore({
-                      word: currentWord,
-                      resultType: calcMistakes(mistakesCount),
-                      multiplier: exercisesConfig.multiplier,
-                      sessionSequence: exercisesConfig.sessionSequence,
-                      currentIndex: currentIndex,
-                    });
+                    changeScore({ resultType: calcMistakes(mistakesCount) });
                     setCurrentIndex((prevState) => prevState + 1);
                     setClickedButton("");
                   }, 250);

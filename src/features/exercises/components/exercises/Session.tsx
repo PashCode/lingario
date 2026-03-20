@@ -9,7 +9,10 @@ import useCalculateSession
 export function Session() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const exercisesConfig = useAppSelector(selectExercisesConfig);
-  const changeScore = useCalculateSession();
+  const { changeScore, changeRepetitionDate } = useCalculateSession(
+    exercisesConfig,
+    currentIndex,
+  );
 
   if (!exercisesConfig.isReady) {
     return <Navigate to={ROUTES.EXERCISES.ROOT} />;
@@ -25,6 +28,7 @@ export function Session() {
           setCurrentIndex={setCurrentIndex}
           currentIndex={currentIndex}
           changeScore={changeScore}
+          changeRepetitionDate={changeRepetitionDate}
         />
       </div>
     ) : (

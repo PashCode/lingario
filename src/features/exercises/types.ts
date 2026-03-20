@@ -43,11 +43,7 @@ export interface SessionSequenceValues {
 }
 
 export interface ChangeScoreProps {
-  word: NewWordsValues | InProgressWordsValues;
   resultType: "perfect" | "passed" | "failed";
-  multiplier: number;
-  sessionSequence: Array<SessionSequenceValues>;
-  currentIndex: number;
 }
 
 export interface ExerciseProps {
@@ -91,3 +87,5 @@ export interface SelectionControlsProps {
   setSelectedExercises: (value: SelectedExercisesValues) => void;
   setShowError: (value: boolean) => void;
 }
+
+export type SessionResultsValues = Record<string, NewWordsValues | InProgressWordsValues>

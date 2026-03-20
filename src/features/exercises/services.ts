@@ -14,16 +14,19 @@ export async function saveSessionResultsToDB({
   const batch = writeBatch(db);
   if (!auth.currentUser) return;
 
-  for (const updatedWordsKey in updatedWords) {
+  for (const word in updatedWords) {
     const docRef = doc(
       db,
       "users",
       auth.currentUser.uid,
       "dictionary",
-      updatedWordsKey,
+      word,
     );
 
-    batch.update(docRef, { score: updatedWords[updatedWordsKey].score });
+    batch.update(docRef, {
+      score: updatedWords[word].score,
+      nextRepeat: updatedWords[word].nextRepeat
+    });
   }
 
   await batch.commit();
