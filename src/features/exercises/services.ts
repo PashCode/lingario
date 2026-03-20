@@ -25,7 +25,8 @@ export async function saveSessionResultsToDB({
 
     batch.update(docRef, {
       score: updatedWords[word].score,
-      nextRepeat: updatedWords[word].nextRepeat
+      nextRepeat: updatedWords[word].nextRepeat,
+      progress: updatedWords[word].progress
     });
   }
 

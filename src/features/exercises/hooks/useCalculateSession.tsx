@@ -43,8 +43,8 @@ function useCalculateSession(
   function changeRepetitionDate() {
     const currentWords = sessionResults.current;
 
-    for (const sessionResultsKey in currentWords) {
-      const score = currentWords[sessionResultsKey].score;
+    for (const word in currentWords) {
+      const score = currentWords[word].score;
       const nextDate = new Date();
       let repeatAfterDays = 0;
 
@@ -53,16 +53,28 @@ function useCalculateSession(
       else if (score <= 1.6) repeatAfterDays = 5;
       else if (score <= 1.8) repeatAfterDays = 7;
       else if (score < 2) repeatAfterDays = 14;
-      else console.log("you learned this word");
+      else continue;
 
       nextDate.setDate(nextDate.getDate() + repeatAfterDays);
-      currentWords[sessionResultsKey].nextRepeat = Timestamp.fromDate(nextDate);
+      currentWords[word].nextRepeat = Timestamp.fromDate(nextDate);
+    }
+  }
+
+  function changeProgressStatus() {
+    const currentWords = sessionResults.current;
+
+    for (const word in currentWords) {
+      if (currentWords[word].score === 2)
+        currentWords[word].progress = "studied";
+      else if (currentWords[word].score > 1)
+        currentWords[word].progress = "in progress";
     }
   }
 
   useEffect(() => {
     if (isLastExercise) {
       changeRepetitionDate();
+      changeProgressStatus();
       void saveSessionResultsToDB(sessionResults);
     }
   }, [isLastExercise]);
