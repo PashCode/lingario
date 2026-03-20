@@ -23,8 +23,7 @@ export function Settings() {
   } = useExercisesSettings();
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
+  const navigate = useNavigate()
   // console.log(exercisesConfig);
 
   return (

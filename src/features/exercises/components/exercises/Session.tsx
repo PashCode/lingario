@@ -3,10 +3,13 @@ import { useAppSelector } from "@/app/store";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { ROUTES } from "@/routes/paths";
+import useCalculateSession
+  from "@/features/exercises/hooks/useCalculateSession";
 
 export function Session() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const exercisesConfig = useAppSelector(selectExercisesConfig);
+  const changeScore = useCalculateSession();
 
   if (!exercisesConfig.isReady) {
     return <Navigate to={ROUTES.EXERCISES.ROOT} />;
@@ -21,6 +24,7 @@ export function Session() {
           exercisesConfig={exercisesConfig}
           setCurrentIndex={setCurrentIndex}
           currentIndex={currentIndex}
+          changeScore={changeScore}
         />
       </div>
     ) : (

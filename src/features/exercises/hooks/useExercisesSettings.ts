@@ -42,6 +42,7 @@ function useExercisesSettings() {
     selectedExercises,
     wordsLimit,
     isReady: false,
+    multiplier: Object.values(selectedExercises).filter((value) => value).length,
   };
 
   function generateSessionSequence() {

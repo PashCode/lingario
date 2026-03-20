@@ -8,6 +8,7 @@ import type {
 export async function changeWordScore(
   word: NewWordsValues | InProgressWordsValues,
   changeType: string,
+  multiplier: number,
 ) {
   if (!auth.currentUser) return;
 
@@ -20,6 +21,9 @@ export async function changeWordScore(
   );
 
   await updateDoc(docRef, {
-    score: changeType === "increase" ? word.score + 0.2 : word.score - 0.2,
+    score:
+      changeType === "increase"
+        ? word.score + (0.2 / multiplier)
+        : word.score - (0.2 / multiplier),
   });
 }

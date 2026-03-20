@@ -21,7 +21,7 @@ function DictionaryList({ dictionary }: DictionaryListProps) {
           >
             <WordContent
               englishWord={word.englishWord}
-              translation={word.translation}
+              // translation={word.translation}
               level={word.level}
               progress={word.progress}
               phrase={word.phrase}

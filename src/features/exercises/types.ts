@@ -34,6 +34,7 @@ export interface ExerciseConfigValues {
   isReady: boolean;
   sessionWords: Array<NewWordsValues | InProgressWordsValues>;
   sessionSequence: Array<SessionSequenceValues>;
+  multiplier: number;
 }
 
 export interface SessionSequenceValues {
@@ -41,10 +42,17 @@ export interface SessionSequenceValues {
   exercise: React.ComponentType<ExerciseProps>;
 }
 
+export interface ChangeScoreProps {
+  word: NewWordsValues | InProgressWordsValues;
+  resultType: "perfect" | "passed" | "failed";
+  multiplier: number;
+}
+
 export interface ExerciseProps {
   exercisesConfig: ExerciseConfigValues;
   currentIndex: number;
   setCurrentIndex: (value: number | ((prevState: number) => number)) => void;
+  changeScore: (props: ChangeScoreProps) => void;
 }
 
 export interface VoiceSettingsValues {

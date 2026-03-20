@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 function WordContent(props: WordContentProps) {
   const {
     englishWord,
-    translation,
+    // translation,
     level,
     phrase,
     progress,
@@ -19,7 +19,7 @@ function WordContent(props: WordContentProps) {
   return (
     <div>
       <b>Слово:</b> {englishWord} <br />
-      <b>Переклад:</b> {translation} <br />
+      {/*<b>Переклад:</b> {translation} <br />*/}
       <b>Рівень:</b> {level}
       {phrase && (
         <div>

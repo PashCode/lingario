@@ -75,7 +75,7 @@ export interface WordControlsProps {
 
 export interface WordContentProps {
   englishWord: string;
-  translation: string;
+  // translation: string;
   level: string;
   phrase?: string;
   progress?: string;

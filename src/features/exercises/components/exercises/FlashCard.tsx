@@ -3,21 +3,19 @@ import { HiArrowPathRoundedSquare } from "react-icons/hi2";
 import usePronounceText from "@/shared/hooks/usePronounceText";
 import PronounceButton from "@/shared/components/ui/PronounceButton";
 import Button from "@/shared/components/ui/Button";
-import { changeWordScore } from "@/features/exercises/services";
 import type { ExerciseProps } from "@/features/exercises/types";
 
 function FlashCard({
   exercisesConfig,
   currentIndex,
   setCurrentIndex,
+  changeScore,
 }: ExerciseProps) {
   const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
   const [isFrontSide, setIsFrontSide] = useState(true);
-  const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
-  const currentPhrase =
-    exercisesConfig.sessionSequence[currentIndex].word.phrase;
-
   const [btnClickedColor, setBtnClickedColor] = useState("");
+  const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
+  const currentPhrase = exercisesConfig.sessionSequence[currentIndex].word.phrase;
 
   return isFrontSide ? (
     <div
@@ -89,8 +87,11 @@ function FlashCard({
             onClick={(event) => {
               event.stopPropagation();
               setBtnClickedColor("know");
-              void changeWordScore(currentWord, "increase");
-
+              changeScore({
+                word: currentWord,
+                resultType: "perfect",
+                multiplier: exercisesConfig.multiplier,
+              });
               setTimeout(() => {
                 setBtnClickedColor("");
                 setIsFrontSide(true);
@@ -104,8 +105,11 @@ function FlashCard({
             onClick={(event) => {
               event.stopPropagation();
               setBtnClickedColor("dontKnow");
-              void changeWordScore(currentWord, "decrease");
-
+              changeScore({
+                word: currentWord,
+                resultType: "failed",
+                multiplier: exercisesConfig.multiplier,
+              });
               setTimeout(() => {
                 setBtnClickedColor("");
                 setIsFrontSide(true);

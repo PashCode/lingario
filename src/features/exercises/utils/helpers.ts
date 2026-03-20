@@ -15,3 +15,10 @@ export function shuffleArray(
 
   return resArr;
 }
+
+export function calcMistakes(mistakesCount: number) {
+  if (mistakesCount === 0) return "perfect";
+  if (mistakesCount > 0 && mistakesCount <= 2) return "passed";
+  if (mistakesCount > 2) return "failed";
+  return "perfect";
+}

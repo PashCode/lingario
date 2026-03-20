@@ -4,18 +4,20 @@ import usePronounceText from "@/shared/hooks/usePronounceText";
 import { useMemo, useState } from "react";
 import { shuffleArray } from "@/features/exercises/utils/helpers";
 import type { ExerciseProps } from "@/features/exercises/types";
+import { calcMistakes } from "@/features/exercises/utils/helpers";
 
 function WordMatching({
   exercisesConfig,
   currentIndex,
   setCurrentIndex,
+  changeScore,
 }: ExerciseProps) {
   const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
   const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
   const currentPhrase =
     exercisesConfig.sessionSequence[currentIndex].word.phrase;
-
   const [clickedButton, setClickedButton] = useState("");
+  const [mistakesCount, setMistakesCount] = useState(0);
 
   const shuffledWords = useMemo(() => {
     const incorrectWords = exercisesConfig.sessionWords.filter(
@@ -105,10 +107,17 @@ function WordMatching({
 
                 if (isCorrect) {
                   setTimeout(() => {
+                    changeScore({
+                      word: currentWord,
+                      resultType: calcMistakes(mistakesCount),
+                      multiplier: exercisesConfig.multiplier,
+                    });
                     setCurrentIndex((prevState) => prevState + 1);
                     setClickedButton("");
                   }, 250);
+                  setMistakesCount(0);
                 } else {
+                  setMistakesCount((prevState) => prevState + 1);
                   setTimeout(() => setClickedButton(""), 250);
                 }
               }}

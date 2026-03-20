@@ -12,6 +12,7 @@ const initialState: ExercisesState = {
     isReady: false,
     sessionWords: [],
     sessionSequence: [],
+    multiplier: 0,
   },
 };
 
