@@ -34,7 +34,7 @@ const useAuthListener = () => {
       // firebase updates name with a 2-3s delay after registration.
       // these lines stop code flow and transfer it to
       // registerUser -> onQueryStarted from authApi.ts
-      if (!user.displayName) {
+      if (!user.displayName && !user.isAnonymous) {
         return;
       }
 

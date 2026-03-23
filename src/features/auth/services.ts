@@ -14,6 +14,7 @@ import {
   EmailAuthProvider,
   reauthenticateWithCredential,
   reauthenticateWithPopup,
+  signInAnonymously,
 } from "firebase/auth";
 import { auth } from "@/config/firebase";
 import type { LoginParams, RegisterParams } from "@/features/auth/types";
@@ -34,6 +35,11 @@ export async function login({ email, password }: LoginParams) {
   const { user } = await signInWithEmailAndPassword(auth, email, password);
   const isDBUserExist = await checkDBUserExist(user.uid);
   if (!isDBUserExist) await addNewUserToDB(user.uid);
+}
+
+export async function loginAnonymously() {
+  const { user } = await signInAnonymously(auth);
+  return user;
 }
 
 // checkDBUserExist is executed in useGoogleRedirect hook.

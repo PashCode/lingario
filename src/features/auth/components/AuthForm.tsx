@@ -1,6 +1,7 @@
 import RegisterForm from "@/features/auth/components/RegisterForm";
 import LoginForm from "@/features/auth/components/LoginForm";
 import GoogleAuth from "@/features/auth/components/GoogleAuth";
+import AnonLogin from "@/features/auth/components/AnonLogin";
 
 function AuthForm() {
   return (
@@ -8,6 +9,7 @@ function AuthForm() {
       <RegisterForm />
       <LoginForm />
       <GoogleAuth />
+      <AnonLogin/>
     </div>
   );
 }

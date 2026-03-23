@@ -9,7 +9,10 @@ import type { ReauthFormParams } from "@/features/auth/types";
 function ReauthForm({ handleDelete, isLoading, onCancel }: ReauthFormParams) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | undefined>(undefined);
-  const providerId = auth.currentUser!.providerData[0].providerId;
+  const providerId = auth.currentUser!.isAnonymous
+    ? "anonymous"
+    : auth.currentUser!.providerData[0].providerId;
+
 
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);
@@ -31,63 +34,92 @@ function ReauthForm({ handleDelete, isLoading, onCancel }: ReauthFormParams) {
     await handleDelete(password);
   }
 
-  return (
-    <div className="flex h-full w-full flex-col items-center rounded bg-white p-4 shadow-lg">
-      <h1>
-        {providerId === "password"
-          ? "ДЛЯ ВИДАЛЕННЯ АКАУНТУ ВВЕДІТЬ ПАРОЛЬ"
-          : "ДЛЯ ВИДАЛЕННЯ АКАУНТУ УВІЙДІТЬ У СВОЮ ПОШТУ"}
-      </h1>
+  let title;
+  if (providerId === 'password') title = "ДЛЯ ВИДАЛЕННЯ АКАУНТУ ВВЕДІТЬ ПАРОЛЬ";
+  if (providerId === "google.com") title = "ДЛЯ ВИДАЛЕННЯ АКАУНТУ УВІЙДІТЬ У СВОЮ ПОШТУ";
+  if (providerId === "anonymous") title = "ВИ ДІЙСНО ХОЧЕТЕ ВИДАЛИТИ АКАУНТ?";
 
-      {providerId === "password" ? (
-        <form
-          noValidate
-          onSubmit={handleSubmit}
-          className="mt-4 flex w-full flex-col gap-4"
-        >
-          <Input
-            id="reauth-password"
-            htmlFor="reauth-password"
-            type="password"
-            labelText="Введіть пароль:"
-            placeholder="Від 6 символів"
-            className="w-full border-2"
-            value={password}
-            onChange={handleChangeInput}
-            errorMessage={error}
-            disabled={isLoading}
-          />
+  let formContent = null;
 
-          <div className="flex gap-2">
-            <Button
-              text={isLoading ? <TestLoader text="Видалення"/> : "Видалити"}
-              disabled={isLoading}
-              className="w-full cursor-pointer border-2 bg-red-600 text-white"
-            />
-            <Button
-              text="Скасувати"
-              type="button"
-              onClick={onCancel}
-              disabled={isLoading}
-              className="w-full cursor-pointer border-2 bg-gray-400 text-white"
-            />
-          </div>
-        </form>
-      ) : (
+  if (providerId === "anonymous") {
+    formContent = (
+      <div className="flex gap-2">
+        <Button
+          text={isLoading ? <TestLoader text="Видалення" /> : "Видалити"}
+          disabled={isLoading}
+          className="w-full cursor-pointer border-2 bg-red-600 text-white"
+          onClick={handleSubmit}
+        />
+        <Button
+          text="Скасувати"
+          type="button"
+          onClick={onCancel}
+          disabled={isLoading}
+          className="w-full cursor-pointer border-2 bg-gray-400 text-white"
+        />
+      </div>
+    );
+  }
+
+  if (providerId === "password") {
+    formContent = (
+      <form
+        noValidate
+        onSubmit={handleSubmit}
+        className="mt-4 flex w-full flex-col gap-4"
+      >
+        <Input
+          id="reauth-password"
+          htmlFor="reauth-password"
+          type="password"
+          labelText="Введіть пароль:"
+          placeholder="Від 6 символів"
+          className="w-full border-2"
+          value={password}
+          onChange={handleChangeInput}
+          errorMessage={error}
+          disabled={isLoading}
+        />
         <div className="flex gap-2">
           <Button
-            text="Увійти"
+            text={isLoading ? <TestLoader text="Видалення" /> : "Видалити"}
+            disabled={isLoading}
             className="w-full cursor-pointer border-2 bg-red-600 text-white"
-            onClick={handleSubmit}
           />
           <Button
             text="Скасувати"
             type="button"
             onClick={onCancel}
+            disabled={isLoading}
             className="w-full cursor-pointer border-2 bg-gray-400 text-white"
           />
         </div>
-      )}
+      </form>
+    );
+  }
+
+  if (providerId === "google.com") {
+    formContent = (
+      <div className="flex gap-2">
+        <Button
+          text="Увійти"
+          className="w-full cursor-pointer border-2 bg-red-600 text-white"
+          onClick={handleSubmit}
+        />
+        <Button
+          text="Скасувати"
+          type="button"
+          onClick={onCancel}
+          className="w-full cursor-pointer border-2 bg-gray-400 text-white"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex h-full w-full flex-col items-center rounded bg-white p-4 shadow-lg">
+      <h1>{title}</h1>
+      {formContent}
     </div>
   );
 }

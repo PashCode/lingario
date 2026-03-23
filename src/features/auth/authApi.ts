@@ -3,6 +3,7 @@ import {
   addNewUserToDB,
   deleteAccount,
   login,
+  loginAnonymously,
   logout,
   reauthDeleteWithGoogle,
   reauthDeleteWithPassword,
@@ -86,6 +87,17 @@ const authApi = baseApi.injectEndpoints({
       },
     }),
 
+    loginAnonymous: builder.mutation<null, void>({
+      queryFn: async () => {
+        try {
+          await loginAnonymously();
+          return { data: null };
+        } catch (error) {
+          return handleAuthError(error);
+        }
+      },
+    }),
+
     logoutUser: builder.mutation<null, void>({
       queryFn: async () => {
         try {
@@ -111,6 +123,11 @@ const authApi = baseApi.injectEndpoints({
     reauthDeleteAccount: builder.mutation<null, string>({
       queryFn: async (password) => {
         try {
+          if (auth.currentUser!.isAnonymous) {
+            await deleteAccount();
+            return { data: null };
+          }
+
           const providerId = auth.currentUser!.providerData[0].providerId;
           if (providerId === "password") await reauthDeleteWithPassword(password);
           if (providerId === "google.com") await reauthDeleteWithGoogle();
@@ -129,4 +146,5 @@ export const {
   useLogoutUserMutation,
   useDeleteAccountMutation,
   useReauthDeleteAccountMutation,
+  useLoginAnonymousMutation
 } = authApi;
