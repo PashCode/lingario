@@ -12,8 +12,7 @@ function useCalculateSession(
   currentIndex: number,
 ) {
   const sessionResults = useRef<SessionResultsValues>({});
-  const isLastExercise =
-    currentIndex === exercisesConfig.sessionSequence.length;
+  const isLastExercise = currentIndex === exercisesConfig.sessionSequence.length;
   const currentWord = exercisesConfig.sessionSequence[currentIndex]?.word;
 
   function changeScore({ resultType }: ChangeScoreProps) {
@@ -36,7 +35,7 @@ function useCalculateSession(
 
     sessionResults.current[currentWord.englishWord] = {
       ...currentWord,
-      score: Number(Math.min(2, Math.max(1, newScore())).toFixed(1)),
+      score: Number(Math.min(2, Math.max(1, newScore()))),
     };
   }
 
@@ -44,7 +43,7 @@ function useCalculateSession(
     const currentWords = sessionResults.current;
 
     for (const word in currentWords) {
-      const score = currentWords[word].score;
+      const score = Number(currentWords[word].score.toFixed(1));
       const nextDate = new Date();
       let repeatAfterDays = 0;
 
