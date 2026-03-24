@@ -15,6 +15,7 @@ function SelectionControls({
           setSelectedExercises({
             flashCard: true,
             wordMatching: true,
+            collectWord: true
           });
         }}
       ></Button>
@@ -26,6 +27,7 @@ function SelectionControls({
           setSelectedExercises({
             flashCard: false,
             wordMatching: false,
+            collectWord: false
           })
         }
       ></Button>

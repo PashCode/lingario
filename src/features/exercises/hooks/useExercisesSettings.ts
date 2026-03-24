@@ -1,5 +1,6 @@
 import FlashCard from "@/features/exercises/components/exercises/FlashCard";
 import WordMatching from "@/features/exercises/components/exercises/WordMatching";
+import CollectWord from "@/features/exercises/components/exercises/CollectWord";
 import { useAppSelector } from "@/app/store";
 import { selectNewWords, selectRepeatWords } from "@/features/exercises/slice";
 import { useLocation } from "react-router-dom";
@@ -10,7 +11,11 @@ import type {
   SessionSequenceValues,
 } from "@/features/exercises/types";
 
-const EXERCISES = { flashCard: FlashCard, wordMatching: WordMatching };
+const EXERCISES = {
+  flashCard: FlashCard,
+  wordMatching: WordMatching,
+  collectWord: CollectWord,
+};
 
 function useExercisesSettings() {
   const newWords = useAppSelector(selectNewWords);
@@ -27,11 +32,13 @@ function useExercisesSettings() {
   const [selectedExercises, setSelectedExercises] = useState({
     flashCard: false,
     wordMatching: false,
+    collectWord: false,
   });
 
   const exercisesByType: ExercisesByTypeValues = {
     flashCard: [],
     wordMatching: [],
+    collectWord: [],
   };
 
   const exercisesSettings: ExerciseConfigValues = {
@@ -62,6 +69,7 @@ function useExercisesSettings() {
       const array = [
         ...exercisesByType.flashCard,
         ...exercisesByType.wordMatching,
+        ...exercisesByType.collectWord
       ];
 
       for (let i = array.length - 1; i > 0; i--) {

@@ -14,8 +14,7 @@ function WordMatching({
 }: ExerciseProps) {
   const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
   const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
-  const currentPhrase =
-    exercisesConfig.sessionSequence[currentIndex].word.phrase;
+  const currentPhrase = exercisesConfig.sessionSequence[currentIndex].word.phrase;
   const [clickedButton, setClickedButton] = useState("");
   const [mistakesCount, setMistakesCount] = useState(0);
 

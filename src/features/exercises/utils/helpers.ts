@@ -1,11 +1,4 @@
-import type {
-  InProgressWordsValues,
-  NewWordsValues,
-} from "@/features/exercises/types";
-
-export function shuffleArray(
-  array: Array<NewWordsValues | InProgressWordsValues>,
-) {
+export function shuffleArray<T>(array: Array<T>): Array<T> {
   const resArr = [...array];
 
   for (let i = resArr.length - 1; i > 0; i--) {

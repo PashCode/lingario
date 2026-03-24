@@ -15,8 +15,7 @@ function FlashCard({
   const [isFrontSide, setIsFrontSide] = useState(true);
   const [btnClickedColor, setBtnClickedColor] = useState("");
   const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
-  const currentPhrase =
-    exercisesConfig.sessionSequence[currentIndex].word.phrase;
+  const currentPhrase = exercisesConfig.sessionSequence[currentIndex].word.phrase;
 
   return isFrontSide ? (
     <div

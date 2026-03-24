@@ -53,6 +53,24 @@ function ExercisesType({
             });
           }}
         />
+        <Input
+          className="border"
+          name="collectWord"
+          id="collectWord"
+          htmlFor="collectWord"
+          labelText="Зібрати слово"
+          type="checkbox"
+          checked={selectedExercises.collectWord}
+          onChange={() => {
+            setShowError(false);
+            setSelectedExercises((prev) => {
+              return {
+                ...prev,
+                collectWord: !prev.collectWord,
+              };
+            });
+          }}
+        />
       </form>
     </div>
   );
