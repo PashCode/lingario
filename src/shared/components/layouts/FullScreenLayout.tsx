@@ -2,11 +2,9 @@ import { Outlet } from "react-router-dom";
 
 function FullScreenLayout() {
   return (
-    <>
-      <main className='h-dvh flex justify-center'>
-        <Outlet />
-      </main>
-    </>
+    <main className="relative flex min-h-dvh w-full flex-col">
+      <Outlet />
+    </main>
   );
 }
 

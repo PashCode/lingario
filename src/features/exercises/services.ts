@@ -24,7 +24,7 @@ export async function saveSessionResultsToDB({
     );
 
     batch.update(docRef, {
-      score: updatedWords[word].score,
+      score: Number(updatedWords[word].score.toFixed(3)),
       nextRepeat: updatedWords[word].nextRepeat,
       progress: updatedWords[word].progress
     });

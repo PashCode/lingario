@@ -61,7 +61,8 @@ export interface VoiceSettingsValues {
 export interface SelectedExercisesValues {
   flashCard: boolean;
   wordMatching: boolean;
-  collectWord: boolean;
+  wordBuilding: boolean;
+  wordListening: boolean;
 }
 
 export interface ExercisesTypeProps {
@@ -76,7 +77,8 @@ export interface ExercisesTypeProps {
 export interface ExercisesByTypeValues {
   flashCard: Array<SessionSequenceValues>;
   wordMatching: Array<SessionSequenceValues>;
-  collectWord: Array<SessionSequenceValues>
+  wordBuilding: Array<SessionSequenceValues>;
+  wordListening: Array<SessionSequenceValues>;
 }
 
 export interface WordsCountProps {

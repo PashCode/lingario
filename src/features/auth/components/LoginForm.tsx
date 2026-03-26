@@ -9,7 +9,7 @@ function LoginForm() {
 
   return (
     <div className="flex h-full w-full flex-col items-center">
-      <h1>ФОРМА ВХОДУ</h1>
+      <h1>Вхід</h1>
 
       <form
         noValidate
@@ -23,7 +23,7 @@ function LoginForm() {
           name="email"
           autoComplete="email"
           labelText="Введіть email:"
-          className="w-full border-2"
+          className="border-b-2"
           value={user.email}
           onChange={handleChangeInput}
           errorMessage={inputErrors.email}
@@ -35,8 +35,8 @@ function LoginForm() {
           type="password"
           name="password"
           labelText="Введіть пароль:"
-          placeholder="Від 6 символів"
-          className="w-full border-2"
+          // placeholder="Від 6 символів"
+          className="border-b-2"
           value={user.password}
           onChange={handleChangeInput}
           errorMessage={inputErrors.password}

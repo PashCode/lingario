@@ -12,7 +12,10 @@ function usePronounceText() {
     text: string | undefined,
     voice?: string | undefined,
     gender?: string | undefined,
+    // autoplay: boolean = false,
   ) {
+
+    // console.log(autoplay);
 
     const data = await fetchPronunciation(
       text || "Audio error, please try again later",
@@ -26,6 +29,8 @@ function usePronounceText() {
       src: [`data:audio/mp3;base64,${data.audioContent}`],
       format: ["mp3"],
       html5: true,
+      // autoplay: autoplay,
+      // loop: false,
       onplay: function () {
         setIsPlaying(true);
         setCurrentPronounce(text);

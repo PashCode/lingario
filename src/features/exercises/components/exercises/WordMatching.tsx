@@ -14,7 +14,8 @@ function WordMatching({
 }: ExerciseProps) {
   const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
   const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
-  const currentPhrase = exercisesConfig.sessionSequence[currentIndex].word.phrase;
+  const currentPhrase =
+    exercisesConfig.sessionSequence[currentIndex].word.phrase;
   const [clickedButton, setClickedButton] = useState("");
   const [mistakesCount, setMistakesCount] = useState(0);
 
@@ -43,14 +44,11 @@ function WordMatching({
               <PronounceButton
                 size="20"
                 currentPronounce={currentPronounce}
-                text={exercisesConfig.sessionSequence[
-                  currentIndex
-                ].word.englishWord.replaceAll("*", "")}
+                text={currentWord.englishWord.replaceAll("*", "")}
               />
             }
             className="cursor-pointer"
-            onClick={(event) => {
-              event.stopPropagation();
+            onClick={() => {
               void pronounceText(
                 currentWord.englishWord.replaceAll("*", ""),
                 exercisesConfig.voiceSettings.voice,
@@ -73,8 +71,7 @@ function WordMatching({
               />
             }
             className="cursor-pointer"
-            onClick={(event) => {
-              event.stopPropagation();
+            onClick={() => {
               void pronounceText(
                 currentPhrase.replaceAll("*", ""),
                 exercisesConfig.voiceSettings.voice,

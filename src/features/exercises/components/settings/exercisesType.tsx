@@ -60,13 +60,31 @@ function ExercisesType({
           htmlFor="collectWord"
           labelText="Зібрати слово"
           type="checkbox"
-          checked={selectedExercises.collectWord}
+          checked={selectedExercises.wordBuilding}
           onChange={() => {
             setShowError(false);
             setSelectedExercises((prev) => {
               return {
                 ...prev,
-                collectWord: !prev.collectWord,
+                wordBuilding: !prev.wordBuilding,
+              };
+            });
+          }}
+        />
+        <Input
+          className="border"
+          name="listenWord"
+          id="listenWord"
+          htmlFor="listenWord"
+          labelText="Прослухати і обрати слово"
+          type="checkbox"
+          checked={selectedExercises.wordListening}
+          onChange={() => {
+            setShowError(false);
+            setSelectedExercises((prev) => {
+              return {
+                ...prev,
+                wordListening: !prev.wordListening,
               };
             });
           }}

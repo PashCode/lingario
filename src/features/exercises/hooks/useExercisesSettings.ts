@@ -1,6 +1,7 @@
 import FlashCard from "@/features/exercises/components/exercises/FlashCard";
 import WordMatching from "@/features/exercises/components/exercises/WordMatching";
-import CollectWord from "@/features/exercises/components/exercises/CollectWord";
+import WordBuilding from "@/features/exercises/components/exercises/WordBuilding";
+import WordListening from "@/features/exercises/components/exercises/WordListening";
 import { useAppSelector } from "@/app/store";
 import { selectNewWords, selectRepeatWords } from "@/features/exercises/slice";
 import { useLocation } from "react-router-dom";
@@ -14,7 +15,8 @@ import type {
 const EXERCISES = {
   flashCard: FlashCard,
   wordMatching: WordMatching,
-  collectWord: CollectWord,
+  wordBuilding: WordBuilding,
+  wordListening: WordListening
 };
 
 function useExercisesSettings() {
@@ -32,13 +34,15 @@ function useExercisesSettings() {
   const [selectedExercises, setSelectedExercises] = useState({
     flashCard: false,
     wordMatching: false,
-    collectWord: false,
+    wordBuilding: false,
+    wordListening: false,
   });
 
   const exercisesByType: ExercisesByTypeValues = {
     flashCard: [],
     wordMatching: [],
-    collectWord: [],
+    wordBuilding: [],
+    wordListening: [],
   };
 
   const exercisesSettings: ExerciseConfigValues = {
@@ -69,7 +73,8 @@ function useExercisesSettings() {
       const array = [
         ...exercisesByType.flashCard,
         ...exercisesByType.wordMatching,
-        ...exercisesByType.collectWord
+        ...exercisesByType.wordBuilding,
+        ...exercisesByType.wordListening,
       ];
 
       for (let i = array.length - 1; i > 0; i--) {

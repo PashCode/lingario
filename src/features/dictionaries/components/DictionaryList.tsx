@@ -12,6 +12,7 @@ function DictionaryList({ dictionary }: DictionaryListProps) {
 
   return (
     <Virtuoso
+      useWindowScroll
       data={dictionary}
       totalCount={dictionary.length}
       itemContent={(_, word) => {

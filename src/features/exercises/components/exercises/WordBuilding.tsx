@@ -2,7 +2,7 @@ import type { ExerciseProps } from "@/features/exercises/types";
 import Button from "@/shared/components/ui/Button";
 import useCollectWord from "@/features/exercises/hooks/useCollectWord";
 
-function CollectWord({
+function WordBuilding( {
   exercisesConfig,
   currentIndex,
   setCurrentIndex,
@@ -57,4 +57,4 @@ function CollectWord({
   );
 }
 
-export default CollectWord;
+export default WordBuilding;

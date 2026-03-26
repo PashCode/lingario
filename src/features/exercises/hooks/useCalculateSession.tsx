@@ -43,7 +43,7 @@ function useCalculateSession(
     const currentWords = sessionResults.current;
 
     for (const word in currentWords) {
-      const score = Number(currentWords[word].score.toFixed(1));
+      const score = currentWords[word].score;
       const nextDate = new Date();
       let repeatAfterDays = 0;
 

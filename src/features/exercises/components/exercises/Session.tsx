@@ -19,7 +19,7 @@ export function Session() {
 
   return exercisesConfig.isReady ? (
     currentIndex < exercisesConfig.sessionSequence.length ? (
-      <div className="flex flex-col">
+      <div className="flex flex-col items-center">
         <ExerciseComponent
           exercisesConfig={exercisesConfig}
           setCurrentIndex={setCurrentIndex}

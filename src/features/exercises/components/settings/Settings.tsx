@@ -63,8 +63,6 @@ export function Settings() {
       </div>
 
       <div>
-        {/*<div>Зібрати слово</div>*/}
-        {/*<div>Знайти пари</div>*/}
         <ExercisesType
           selectedExercises={selectedExercises}
           setSelectedExercises={setSelectedExercises}
