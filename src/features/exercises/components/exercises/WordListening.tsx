@@ -19,8 +19,8 @@ function WordListening({
   useEffect(() => {
     void pronounceText(
       currentWord.englishWord.replaceAll("*", ""),
-      exercisesConfig.voiceSettings.voice,
-      exercisesConfig.voiceSettings.gender,
+      exercisesConfig.voiceSetting.voice,
+      exercisesConfig.voiceSetting.gender,
     );
   }, [currentIndex]);
 
@@ -55,8 +55,8 @@ function WordListening({
           onClick={() => {
             void pronounceText(
               currentWord.englishWord.replaceAll("*", ""),
-              exercisesConfig.voiceSettings.voice,
-              exercisesConfig.voiceSettings.gender,
+              exercisesConfig.voiceSetting.voice,
+              exercisesConfig.voiceSetting.gender,
             );
           }}
         />

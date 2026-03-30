@@ -4,15 +4,15 @@ import type { ExercisesTypeProps } from "@/features/exercises/types";
 function ExercisesType({
   selectedExercises,
   setSelectedExercises,
-  showError,
-  setShowError,
+  isExerciseSelectionEmpty,
+  setIsExerciseSelectionEmpty,
 }: ExercisesTypeProps) {
   return (
     <div>
-      {showError && <h1>Оберіть вправи</h1>}
+      {isExerciseSelectionEmpty && <h1>Оберіть вправи</h1>}
       <form
         className={
-          showError
+          isExerciseSelectionEmpty
             ? "animate-pulse border-5 border-red-800 p-3"
             : "border-2 p-3"
         }
@@ -26,7 +26,7 @@ function ExercisesType({
           type="checkbox"
           checked={selectedExercises.flashCard}
           onChange={() => {
-            setShowError(false);
+            setIsExerciseSelectionEmpty(false);
             setSelectedExercises((prev) => {
               return {
                 ...prev,
@@ -44,7 +44,7 @@ function ExercisesType({
           type="checkbox"
           checked={selectedExercises.wordMatching}
           onChange={() => {
-            setShowError(false);
+            setIsExerciseSelectionEmpty(false);
             setSelectedExercises((prev) => {
               return {
                 ...prev,
@@ -62,7 +62,7 @@ function ExercisesType({
           type="checkbox"
           checked={selectedExercises.wordBuilding}
           onChange={() => {
-            setShowError(false);
+            setIsExerciseSelectionEmpty(false);
             setSelectedExercises((prev) => {
               return {
                 ...prev,
@@ -80,11 +80,29 @@ function ExercisesType({
           type="checkbox"
           checked={selectedExercises.wordListening}
           onChange={() => {
-            setShowError(false);
+            setIsExerciseSelectionEmpty(false);
             setSelectedExercises((prev) => {
               return {
                 ...prev,
                 wordListening: !prev.wordListening,
+              };
+            });
+          }}
+        />
+        <Input
+          className="border"
+          name="multipleChoices"
+          id="multipleChoices"
+          htmlFor="multipleChoices"
+          labelText="Знайти пари"
+          type="checkbox"
+          checked={selectedExercises.multipleChoices}
+          onChange={() => {
+            setIsExerciseSelectionEmpty(false);
+            setSelectedExercises((prev) => {
+              return {
+                ...prev,
+                multipleChoices: !prev.multipleChoices,
               };
             });
           }}

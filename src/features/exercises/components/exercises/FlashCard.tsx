@@ -40,8 +40,8 @@ function FlashCard({
               event.stopPropagation();
               void pronounceText(
                 currentWord.englishWord.replaceAll("*", ""),
-                exercisesConfig.voiceSettings.voice,
-                exercisesConfig.voiceSettings.gender,
+                exercisesConfig.voiceSetting.voice,
+                exercisesConfig.voiceSetting.gender,
               );
             }}
             disabled={isPlaying}
@@ -64,8 +64,8 @@ function FlashCard({
               event.stopPropagation();
               void pronounceText(
                 currentPhrase.replaceAll("*", ""),
-                exercisesConfig.voiceSettings.voice,
-                exercisesConfig.voiceSettings.gender,
+                exercisesConfig.voiceSetting.voice,
+                exercisesConfig.voiceSetting.gender,
               );
             }}
             disabled={isPlaying}

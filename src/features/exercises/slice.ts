@@ -5,7 +5,7 @@ const initialState: ExercisesState = {
   newWords: [],
   repeatWords: [],
   exercisesConfig: {
-    voiceSettings: { voice: "", gender: "" },
+    voiceSetting: { voice: "", gender: "" },
     vocabularyWords: [],
     selectedExercises: { flashCard: false, wordMatching: false },
     wordsLimit: 0,

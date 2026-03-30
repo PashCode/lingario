@@ -1,10 +1,10 @@
 import Input from "@/shared/components/ui/Input";
-import type { VoiceSettingsValues } from "@/features/exercises/types";
+import type { VoiceSettingValues } from "@/features/exercises/types";
 
 function Pronunciation({
-  voiceSettings,
-  setVoiceSettings,
-}: VoiceSettingsValues) {
+  voiceSetting,
+  setVoiceSetting,
+}: VoiceSettingValues) {
   return (
     <div className="border-2 border-green-800">
       <form className="flex gap-2">
@@ -12,12 +12,12 @@ function Pronunciation({
           id="female-pronounce"
           htmlFor="female-pronounce"
           name="female-pronounce"
-          checked={voiceSettings.gender === "FEMALE"}
+          checked={voiceSetting.gender === "FEMALE"}
           labelText="Жіночий"
           type="radio"
           onChange={() => {
-            setVoiceSettings({
-              ...voiceSettings,
+            setVoiceSetting({
+              ...voiceSetting,
               voice: "en-US-Neural2-H",
               gender: "FEMALE",
             });
@@ -28,12 +28,12 @@ function Pronunciation({
           id="male-pronounce"
           htmlFor="male-pronounce"
           name="male-pronounce"
-          checked={voiceSettings.gender === "MALE"}
+          checked={voiceSetting.gender === "MALE"}
           labelText="Чоловічий"
           type="radio"
           onChange={() => {
-            setVoiceSettings({
-              ...voiceSettings,
+            setVoiceSetting({
+              ...voiceSetting,
               voice: "en-US-Neural2-D",
               gender: "MALE",
             });

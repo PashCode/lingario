@@ -14,8 +14,7 @@ export function Session() {
     return <Navigate to={ROUTES.EXERCISES.ROOT} />;
   }
 
-  const ExerciseComponent =
-    exercisesConfig.sessionSequence[currentIndex]?.exercise;
+  const ExerciseComponent = exercisesConfig.sessionSequence[currentIndex]?.exercise;
 
   return exercisesConfig.isReady ? (
     currentIndex < exercisesConfig.sessionSequence.length ? (

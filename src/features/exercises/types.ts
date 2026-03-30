@@ -27,7 +27,7 @@ export interface NewWordsValues extends BaseWordsValues {
 export type InProgressWordsValues = NewWordsValues;
 
 export interface ExerciseConfigValues {
-  voiceSettings: { voice: string; gender: string };
+  voiceSetting: { voice: string; gender: string };
   vocabularyWords: Array<NewWordsValues | InProgressWordsValues>;
   selectedExercises: { flashCard: boolean; wordMatching: boolean };
   wordsLimit: number;
@@ -39,7 +39,9 @@ export interface ExerciseConfigValues {
 
 export interface SessionSequenceValues {
   word: NewWordsValues | InProgressWordsValues;
+  words: Array<NewWordsValues | InProgressWordsValues> | null;
   exercise: React.ComponentType<ExerciseProps>;
+  phase: number;
 }
 
 export interface ChangeScoreProps {
@@ -53,9 +55,9 @@ export interface ExerciseProps {
   changeScore: (props: ChangeScoreProps) => void;
 }
 
-export interface VoiceSettingsValues {
-  voiceSettings: ExerciseConfigValues["voiceSettings"];
-  setVoiceSettings: (props: ExerciseConfigValues["voiceSettings"]) => void;
+export interface VoiceSettingValues {
+  voiceSetting: ExerciseConfigValues["voiceSetting"];
+  setVoiceSetting: (props: ExerciseConfigValues["voiceSetting"]) => void;
 }
 
 export interface SelectedExercisesValues {
@@ -63,6 +65,7 @@ export interface SelectedExercisesValues {
   wordMatching: boolean;
   wordBuilding: boolean;
   wordListening: boolean;
+  multipleChoices: boolean;
 }
 
 export interface ExercisesTypeProps {
@@ -70,8 +73,8 @@ export interface ExercisesTypeProps {
   setSelectedExercises: (
     value: (prevState: SelectedExercisesValues) => SelectedExercisesValues,
   ) => void;
-  showError: boolean;
-  setShowError: (props: boolean) => void;
+  isExerciseSelectionEmpty: boolean;
+  setIsExerciseSelectionEmpty: (props: boolean) => void;
 }
 
 export interface ExercisesByTypeValues {
@@ -79,6 +82,7 @@ export interface ExercisesByTypeValues {
   wordMatching: Array<SessionSequenceValues>;
   wordBuilding: Array<SessionSequenceValues>;
   wordListening: Array<SessionSequenceValues>;
+  multipleChoices: Array<SessionSequenceValues>;
 }
 
 export interface WordsCountProps {
@@ -89,7 +93,7 @@ export interface WordsCountProps {
 
 export interface SelectionControlsProps {
   setSelectedExercises: (value: SelectedExercisesValues) => void;
-  setShowError: (value: boolean) => void;
+  setIsExerciseSelectionEmpty: (value: boolean) => void;
 }
 
 export type SessionResultsValues = Record<string, NewWordsValues | InProgressWordsValues>

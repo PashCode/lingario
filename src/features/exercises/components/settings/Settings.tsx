@@ -12,14 +12,14 @@ import Button from "@/shared/components/ui/Button";
 export function Settings() {
   const {
     exercisesConfig,
-    voiceSettings,
-    setVoiceSettings,
+    voiceSetting,
+    setVoiceSetting,
     wordsLimit,
     setWordsLimit,
     selectedExercises,
     setSelectedExercises,
-    showError,
-    setShowError,
+    isExerciseSelectionEmpty,
+    setIsExerciseSelectionEmpty,
   } = useExercisesSettings();
 
   const dispatch = useAppDispatch();
@@ -35,7 +35,7 @@ export function Settings() {
           className="cursor-pointer border-2 bg-blue-300 disabled:bg-gray-500"
           onClick={() => {
             if (!exercisesConfig.sessionSequence.length) {
-              setShowError(true);
+              setIsExerciseSelectionEmpty(true);
               return;
             }
             dispatch(setExercisesConfig(exercisesConfig));
@@ -47,12 +47,12 @@ export function Settings() {
       <div className="flex gap-3">
         <SelectionControls
           setSelectedExercises={setSelectedExercises}
-          setShowError={setShowError}
+          setIsExerciseSelectionEmpty={setIsExerciseSelectionEmpty}
         />
 
         <Pronunciation
-          voiceSettings={voiceSettings}
-          setVoiceSettings={setVoiceSettings}
+          voiceSetting={voiceSetting}
+          setVoiceSetting={setVoiceSetting}
         />
 
         <WordsCount
@@ -66,8 +66,8 @@ export function Settings() {
         <ExercisesType
           selectedExercises={selectedExercises}
           setSelectedExercises={setSelectedExercises}
-          showError={showError}
-          setShowError={setShowError}
+          isExerciseSelectionEmpty={isExerciseSelectionEmpty}
+          setIsExerciseSelectionEmpty={setIsExerciseSelectionEmpty}
         />
       </div>
     </div>

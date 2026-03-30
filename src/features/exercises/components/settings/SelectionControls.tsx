@@ -3,7 +3,7 @@ import type { SelectionControlsProps } from "@/features/exercises/types";
 
 function SelectionControls({
   setSelectedExercises,
-  setShowError,
+  setIsExerciseSelectionEmpty,
 }: SelectionControlsProps) {
   return (
     <div className="flex gap-2 border-2 border-green-800">
@@ -11,12 +11,13 @@ function SelectionControls({
         text="Обрати все"
         className="cursor-pointer border-2"
         onClick={() => {
-          setShowError(false);
+          setIsExerciseSelectionEmpty(false);
           setSelectedExercises({
             flashCard: true,
             wordMatching: true,
             wordBuilding: true,
             wordListening: true,
+            multipleChoices: true,
           });
         }}
       ></Button>
@@ -30,6 +31,7 @@ function SelectionControls({
             wordMatching: false,
             wordBuilding: false,
             wordListening: false,
+            multipleChoices: false,
           })
         }
       ></Button>

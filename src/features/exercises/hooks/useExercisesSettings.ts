@@ -2,21 +2,23 @@ import FlashCard from "@/features/exercises/components/exercises/FlashCard";
 import WordMatching from "@/features/exercises/components/exercises/WordMatching";
 import WordBuilding from "@/features/exercises/components/exercises/WordBuilding";
 import WordListening from "@/features/exercises/components/exercises/WordListening";
+import MultipleChoices from "@/features/exercises/components/exercises/MultipleChoices";
 import { useAppSelector } from "@/app/store";
 import { selectNewWords, selectRepeatWords } from "@/features/exercises/slice";
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type {
   ExerciseConfigValues,
-  ExercisesByTypeValues,
   SessionSequenceValues,
 } from "@/features/exercises/types";
+import { shuffleArray } from "@/features/exercises/utils/helpers";
 
-const EXERCISES = {
-  flashCard: FlashCard,
-  wordMatching: WordMatching,
-  wordBuilding: WordBuilding,
-  wordListening: WordListening
+const EXERCISES_DEFINITIONS = {
+  flashCard: { component: FlashCard, wordsPerIteration: 1, phase: 1 },
+  wordListening: { component: WordListening, wordsPerIteration: 1, phase: 2 },
+  wordMatching: { component: WordMatching, wordsPerIteration: 1, phase: 2 },
+  multipleChoices: { component: MultipleChoices, wordsPerIteration: 4, phase: 2, },
+  wordBuilding: { component: WordBuilding, wordsPerIteration: 1, phase: 3 },
 };
 
 function useExercisesSettings() {
@@ -26,106 +28,87 @@ function useExercisesSettings() {
   const words = exerciseType === "repeat-words" ? repeatWords : newWords;
 
   const [wordsLimit, setWordsLimit] = useState(5);
-  const [showError, setShowError] = useState(false);
-  const [voiceSettings, setVoiceSettings] = useState({
+  const [isExerciseSelectionEmpty, setIsExerciseSelectionEmpty] =
+    useState(false);
+  const [voiceSetting, setVoiceSetting] = useState({
     voice: "en-US-Neural2-D",
     gender: "MALE",
   });
+
   const [selectedExercises, setSelectedExercises] = useState({
     flashCard: false,
-    wordMatching: false,
-    wordBuilding: false,
     wordListening: false,
+    wordMatching: false,
+    multipleChoices: false,
+    wordBuilding: false,
   });
 
-  const exercisesByType: ExercisesByTypeValues = {
-    flashCard: [],
-    wordMatching: [],
-    wordBuilding: [],
-    wordListening: [],
-  };
+  const exercisesConfig = useMemo<ExerciseConfigValues>(() => {
+    const sessionItems: Array<SessionSequenceValues> = [];
+    const limitedWords = words.slice(0, wordsLimit);
 
-  const exercisesSettings: ExerciseConfigValues = {
-    voiceSettings,
-    vocabularyWords: [...words],
-    sessionWords: [],
-    sessionSequence: [],
-    selectedExercises,
-    wordsLimit,
-    isReady: false,
-    multiplier: Object.values(selectedExercises).filter((value) => value).length,
-  };
+    for (const exerciseKey in selectedExercises) {
+      const exerciseName = exerciseKey as keyof typeof selectedExercises;
 
-  function generateSessionSequence() {
-    function pushItem(
-      word: SessionSequenceValues["word"],
-      key: keyof ExercisesByTypeValues,
-    ) {
-      if (exercisesByType[key].length >= wordsLimit) return;
+      if (!selectedExercises[exerciseName]) continue;
 
-      exercisesByType[key].push({
-        word: word,
-        exercise: EXERCISES[key],
+      const exerciseDefinition = EXERCISES_DEFINITIONS[exerciseName];
+      const wordsGroup = [];
+
+      for (
+        let i = 0;
+        i < limitedWords.length;
+        i += exerciseDefinition.wordsPerIteration
+      ) {
+        wordsGroup.push(
+          limitedWords.slice(i, i + exerciseDefinition.wordsPerIteration),
+        );
+      }
+
+      if (
+        exerciseName === "multipleChoices" &&
+        wordsGroup.at(-1)?.length === 1
+      ) {
+        const lastWordFromGroup = wordsGroup.pop()!;
+        wordsGroup[wordsGroup.length - 1].push(...lastWordFromGroup);
+      }
+
+      wordsGroup.forEach((wordGroup) => {
+        sessionItems.push({
+          word: wordGroup[0],
+          words: exerciseDefinition.wordsPerIteration > 1 ? wordGroup : null,
+          exercise: exerciseDefinition.component,
+          phase: exerciseDefinition.phase,
+        });
       });
     }
 
-    function shuffleExercises() {
-      const array = [
-        ...exercisesByType.flashCard,
-        ...exercisesByType.wordMatching,
-        ...exercisesByType.wordBuilding,
-        ...exercisesByType.wordListening,
-      ];
-
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-
-      return array;
-    }
-
-    for (const exerciseType in exercisesSettings.selectedExercises) {
-      const key =
-        exerciseType as keyof typeof exercisesSettings.selectedExercises;
-
-      if (exercisesSettings.selectedExercises[key]) {
-        words.forEach((word) => {
-          pushItem(word, key);
-        });
-      }
-    }
-    const shuffledExercises = shuffleExercises();
+    const phase1 = shuffleArray( sessionItems.filter((item) => item.phase === 1), );
+    const phase2 = shuffleArray( sessionItems.filter((item) => item.phase === 2), );
+    const phase3 = shuffleArray( sessionItems.filter((item) => item.phase === 3), );
 
     return {
-      ...exercisesSettings,
-      sessionSequence: shuffledExercises,
+      voiceSetting,
+      vocabularyWords: [...words],
+      selectedExercises,
+      wordsLimit,
       isReady: true,
+      multiplier: Object.values(selectedExercises).filter(Boolean).length,
+      sessionWords: limitedWords,
+      sessionSequence: [...phase1, ...phase2, ...phase3],
     };
-  }
-  const partialConfig = generateSessionSequence();
-
-  function addSessionWords() {
-    const sessionWordsSource: SessionSequenceValues[] =
-      Object.values(exercisesByType).find((arr) => arr.length > 0) || [];
-
-    const sessionWords = sessionWordsSource.map(({ word }) => word);
-    return { ...partialConfig, sessionWords: sessionWords };
-  }
-
-  const exercisesConfig = addSessionWords();
-  // console.log(exercisesConfig);
+  }, [words, wordsLimit, selectedExercises, voiceSetting]);
 
   return {
     exercisesConfig,
-    voiceSettings,
-    setVoiceSettings,
+    voiceSetting,
+    setVoiceSetting,
     wordsLimit,
     setWordsLimit,
     selectedExercises,
     setSelectedExercises,
-    showError,
-    setShowError,
+    isExerciseSelectionEmpty,
+    setIsExerciseSelectionEmpty,
   };
 }
 

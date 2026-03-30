@@ -14,8 +14,7 @@ function WordMatching({
 }: ExerciseProps) {
   const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
   const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
-  const currentPhrase =
-    exercisesConfig.sessionSequence[currentIndex].word.phrase;
+  const currentPhrase = exercisesConfig.sessionSequence[currentIndex].word.phrase;
   const [clickedButton, setClickedButton] = useState("");
   const [mistakesCount, setMistakesCount] = useState(0);
 
@@ -51,8 +50,8 @@ function WordMatching({
             onClick={() => {
               void pronounceText(
                 currentWord.englishWord.replaceAll("*", ""),
-                exercisesConfig.voiceSettings.voice,
-                exercisesConfig.voiceSettings.gender,
+                exercisesConfig.voiceSetting.voice,
+                exercisesConfig.voiceSetting.gender,
               );
             }}
             disabled={isPlaying}
@@ -74,8 +73,8 @@ function WordMatching({
             onClick={() => {
               void pronounceText(
                 currentPhrase.replaceAll("*", ""),
-                exercisesConfig.voiceSettings.voice,
-                exercisesConfig.voiceSettings.gender,
+                exercisesConfig.voiceSetting.voice,
+                exercisesConfig.voiceSetting.gender,
               );
             }}
             disabled={isPlaying}
