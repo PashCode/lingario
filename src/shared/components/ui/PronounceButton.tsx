@@ -1,16 +1,48 @@
-import { HiSpeakerWave, HiOutlineSpeakerWave } from "react-icons/hi2";
-import type {PronounceButtonProps} from "@/shared/types/types";
+import Button from "@/shared/components/ui/Button";
+import usePronounceText from "@/shared/hooks/usePronounceText";
+import PronounceIcon from "@/shared/components/ui/PronounceIcon";
+import { useEffect } from "react";
+
+interface PlayWordAudioButtonProps {
+  text: string;
+  voice?: string;
+  gender?: string;
+  size: string;
+  autoplay?: boolean;
+}
 
 function PronounceButton({
-  size,
-  currentPronounce,
   text,
-}: PronounceButtonProps) {
+  voice,
+  gender,
+  size,
+  autoplay,
+}: PlayWordAudioButtonProps) {
+  const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
+  const currentText = text.replaceAll("*", "")
 
-  return text === currentPronounce ? (
-    <HiOutlineSpeakerWave size={size} />
-  ) : (
-    <HiSpeakerWave size={size} />
+  useEffect(() => {
+    if (autoplay) {
+      void pronounceText(currentText, voice, gender);
+    }
+  }, [currentText]);
+
+  return (
+    <Button
+      text={
+        <PronounceIcon
+          size={size}
+          currentPronounce={currentPronounce}
+          text={currentText}
+        />
+      }
+      className="cursor-pointer"
+      disabled={isPlaying}
+      onClick={(event) => {
+        event.stopPropagation();
+        void pronounceText(currentText, voice, gender);
+      }}
+    />
   );
 }
 

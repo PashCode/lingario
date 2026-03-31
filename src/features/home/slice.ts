@@ -9,15 +9,15 @@ const homeSlice = createSlice({
   name: "home",
   initialState,
   reducers: {
-    setPhraseWithDictWord: ( state, action) => {
+    setPhraseWithDictWord: (state, action) => {
       state.phraseWithDictWord = action.payload;
     },
-    clearPhraseWithDictWord: ( state) => {
+    clearPhraseWithDictWord: (state) => {
       state.phraseWithDictWord = "";
     },
   },
   selectors: {
-    selectPhraseWithDictWord: ( state) => state.phraseWithDictWord,
+    selectPhraseWithDictWord: (state) => state.phraseWithDictWord,
   },
 });
 

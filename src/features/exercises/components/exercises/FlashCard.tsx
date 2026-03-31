@@ -1,6 +1,6 @@
 import { useState } from "react";
+import { Howler } from "howler";
 import { HiArrowPathRoundedSquare } from "react-icons/hi2";
-import usePronounceText from "@/shared/hooks/usePronounceText";
 import PronounceButton from "@/shared/components/ui/PronounceButton";
 import Button from "@/shared/components/ui/Button";
 import type { ExerciseProps } from "@/features/exercises/types";
@@ -11,7 +11,6 @@ function FlashCard({
   setCurrentIndex,
   changeScore,
 }: ExerciseProps) {
-  const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
   const [isFrontSide, setIsFrontSide] = useState(true);
   const [btnClickedColor, setBtnClickedColor] = useState("");
   const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
@@ -27,48 +26,22 @@ function FlashCard({
         <div className="flex gap-2">
           <h1>{currentWord.englishWord}</h1>
 
-          <Button
-            text={
-              <PronounceButton
-                size="20"
-                currentPronounce={currentPronounce}
-                text={currentWord.englishWord.replaceAll("*", "")}
-              />
-            }
-            className="cursor-pointer"
-            onClick={(event) => {
-              event.stopPropagation();
-              void pronounceText(
-                currentWord.englishWord.replaceAll("*", ""),
-                exercisesConfig.voiceSetting.voice,
-                exercisesConfig.voiceSetting.gender,
-              );
-            }}
-            disabled={isPlaying}
+          <PronounceButton
+            size="20"
+            text={currentWord.englishWord}
+            gender={exercisesConfig.voiceSetting.gender}
+            voice={exercisesConfig.voiceSetting.voice}
           />
         </div>
 
         <div className="flex gap-2">
           <h1>{currentPhrase.replaceAll("*", "")}</h1>
 
-          <Button
-            text={
-              <PronounceButton
-                size="20"
-                currentPronounce={currentPronounce}
-                text={currentPhrase.replaceAll("*", "")}
-              />
-            }
-            className="cursor-pointer"
-            onClick={(event) => {
-              event.stopPropagation();
-              void pronounceText(
-                currentPhrase.replaceAll("*", ""),
-                exercisesConfig.voiceSetting.voice,
-                exercisesConfig.voiceSetting.gender,
-              );
-            }}
-            disabled={isPlaying}
+          <PronounceButton
+            size="20"
+            text={currentPhrase}
+            gender={exercisesConfig.voiceSetting.gender}
+            voice={exercisesConfig.voiceSetting.voice}
           />
         </div>
 
@@ -88,6 +61,7 @@ function FlashCard({
               event.stopPropagation();
               setBtnClickedColor("know");
               setTimeout(() => {
+                Howler.stop();
                 setCurrentIndex((prevState) => prevState + 1);
                 changeScore({ resultType: "perfect" });
                 setBtnClickedColor("");
@@ -102,6 +76,7 @@ function FlashCard({
               event.stopPropagation();
               setBtnClickedColor("dontKnow");
               setTimeout(() => {
+                Howler.stop();
                 setCurrentIndex((prevState) => prevState + 1);
                 changeScore({ resultType: "failed" });
                 setBtnClickedColor("");

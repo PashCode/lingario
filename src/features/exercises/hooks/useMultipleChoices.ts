@@ -1,5 +1,6 @@
 import type { ExerciseProps } from "@/features/exercises/types";
 import { useMemo, useState } from "react";
+import { Howler } from "howler";
 import { shuffleArray, calcMistakes } from "@/features/exercises/utils/helpers";
 
 function useMultipleChoices({
@@ -48,6 +49,7 @@ function useMultipleChoices({
 
     if (newMatchedWords.length === sessionWords.length) {
       setTimeout(() => {
+        Howler.stop();
         setCurrentIndex((prev) => prev + 1);
         setMistakesMap({});
         setMatchedWordIds([]);

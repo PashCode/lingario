@@ -15,9 +15,6 @@ function WordControls(props: WordControlsProps) {
     level,
     addedAt,
     id,
-    isPlaying,
-    currentPronounce,
-    pronounceText,
     processingWord,
     setProcessingWord,
   } = props;
@@ -85,18 +82,7 @@ function WordControls(props: WordControlsProps) {
         className="cursor-pointer rounded bg-red-500 px-2 py-1 text-white disabled:bg-gray-500 disabled:delay-100"
       />
 
-      <Button
-        text={
-          <PronounceButton
-            size="30"
-            currentPronounce={currentPronounce}
-            text={englishWord}
-          />
-        }
-        onClick={() => pronounceText(englishWord)}
-        className="cursor-pointer"
-        disabled={isPlaying}
-      />
+      <PronounceButton text={englishWord} size="30"/>
     </div>
   );
 }

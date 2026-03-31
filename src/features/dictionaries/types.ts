@@ -66,22 +66,15 @@ export interface WordControlsProps {
   level: string;
   addedAt?: Timestamp;
   id: string;
-  isPlaying: boolean;
-  currentPronounce: string | undefined;
-  pronounceText: (text: string | undefined) => void;
   processingWord: null | string;
   setProcessingWord: (value: null | string) => void;
 }
 
 export interface WordContentProps {
   englishWord: string;
-  // translation: string;
   level: string;
   phrase?: string;
   progress?: string;
-  isPlaying: boolean;
-  currentPronounce: string | undefined;
-  pronounceText: (text: string | undefined) => void;
 }
 
 export interface AddWordToPersonalDictProps {

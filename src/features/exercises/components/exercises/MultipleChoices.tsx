@@ -2,6 +2,7 @@ import type { ExerciseProps } from "@/features/exercises/types";
 import Button from "@/shared/components/ui/Button";
 import useMultipleChoices from "@/features/exercises/hooks/useMultipleChoices";
 import type { WordColumnProps } from "@/features/exercises/types";
+import PronounceButton from "@/shared/components/ui/PronounceButton";
 
 function WordColumn({
   items,
@@ -38,14 +39,17 @@ function WordColumn({
             : word.translation;
 
         return (
-          <Button
-            key={`${type}-${word.id}`}
-            text={displayText}
-            className={`w-40 cursor-pointer border ${buttonColorClass}`}
-            disabled={isMatched}
-            onClick={() => handleWordClick(word.id, type)}
-          />
-        );
+          <div>
+            <Button
+              key={word.id}
+              text={displayText}
+              className={`w-40 cursor-pointer border ${buttonColorClass}`}
+              disabled={isMatched}
+              onClick={() => handleWordClick(word.id, type)}
+            />
+            {type === "englishWords" && <PronounceButton text={displayText} size="20"/>}
+          </div>
+        )
       })}
     </div>
   );
@@ -57,6 +61,7 @@ function MultipleChoices({
   setCurrentIndex,
   changeScore,
 }: ExerciseProps) {
+
   const {
     handleWordClick,
     shuffledEnglish,

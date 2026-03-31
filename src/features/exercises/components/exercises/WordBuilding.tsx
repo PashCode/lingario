@@ -8,6 +8,7 @@ function WordBuilding( {
   setCurrentIndex,
   changeScore,
 }: ExerciseProps) {
+
   const {
     currentWord,
     collectedLetters,
@@ -28,12 +29,12 @@ function WordBuilding( {
         <div className="flex gap-2 text-2xl font-bold">
           {currentWord.englishWord.split("").map((letter, index) => {
             const isCollected = index < collectedLetters.length;
-
             return (
               <div
                 key={letter + index}
-                className={`w-10 border-b-4 text-center ${isCollected ? "border-green-500" : "border-gray-400"}`}
-              >
+                className={`w-10 border-b-4 text-center ${ 
+                isCollected ? "border-green-500" : "border-gray-400"
+                }`}>
                 {isCollected ? letter : ""}
               </div>
             );

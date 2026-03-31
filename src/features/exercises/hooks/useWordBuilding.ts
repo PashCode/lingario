@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Howler } from "howler";
 import { calcMistakes, shuffleArray } from "@/features/exercises/utils/helpers";
 import type { ExerciseProps } from "@/features/exercises/types";
 import * as React from "react";
@@ -43,6 +44,7 @@ function useWordBuilding( {
 
       if (newCollected.length === currentWord.englishWord.length) {
         setTimeout(() => {
+          Howler.stop();
           changeScore({ resultType: calcMistakes(mistakesCount) });
           setCollectedLetters([]);
           setMistakesCount(0);
