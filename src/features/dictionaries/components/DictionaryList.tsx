@@ -36,7 +36,7 @@ function DictionaryList({ dictionary }: DictionaryListProps) {
               translation={word.translation}
               level={word.level}
               addedAt={word.addedAt}
-              id={word.englishWord}
+              id={word.id || word.englishWord}
               pronounceText={pronounceText}
               isPlaying={isPlaying}
               processingWord={processingWord}

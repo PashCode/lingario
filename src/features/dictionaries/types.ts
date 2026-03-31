@@ -111,10 +111,3 @@ export interface StatListProps {
   oxford3000Total: LevelStats;
   oxford3000Added: LevelStatsWithTotal;
 }
-
-export interface PersonalDictStatsData {
-  allWords: number;
-  newWords: number;
-  inProgress: number;
-  studied: number;
-}

@@ -15,10 +15,12 @@ function useCalculateSession(
   const isLastExercise = currentIndex === exercisesConfig.sessionSequence.length;
   const currentWord = exercisesConfig.sessionSequence[currentIndex]?.word;
 
-  function changeScore({ resultType }: ChangeScoreProps) {
+  function changeScore({ resultType, targetWord }: ChangeScoreProps) {
+    const wordToScore = targetWord || currentWord;
+
     const currentScore =
-      sessionResults.current[currentWord.englishWord]?.score ??
-      currentWord.score;
+      sessionResults.current[wordToScore.id]?.score ??
+      wordToScore.score;
 
     function newScore() {
       if (!resultType) return currentScore;
@@ -33,9 +35,9 @@ function useCalculateSession(
       return currentScore;
     }
 
-    sessionResults.current[currentWord.englishWord] = {
-      ...currentWord,
-      score: Number(Math.min(2, Math.max(1, newScore()))),
+    sessionResults.current[wordToScore.id] = {
+      ...wordToScore,
+      score: Math.min(2, Math.max(1, newScore())),
     };
   }
 

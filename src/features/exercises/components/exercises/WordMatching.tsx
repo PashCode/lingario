@@ -20,8 +20,8 @@ function WordMatching({
 
   const shuffledWords = useMemo(() => {
     const incorrectWords = exercisesConfig.sessionWords.filter(
-      ({ englishWord }: { englishWord: string }) => {
-        return englishWord !== currentWord.englishWord;
+      ({ id }: { id: string }) => {
+        return id !== currentWord.id;
       },
     );
 
@@ -84,8 +84,8 @@ function WordMatching({
 
       <div className="flex flex-col items-center justify-center border-2 p-6">
         {shuffledWords.map((word) => {
-          const isCorrect = word.englishWord === currentWord.englishWord;
-          const isClicked = clickedButton === word.englishWord;
+          const isCorrect = word.id === currentWord.id;
+          const isClicked = clickedButton === word.id;
 
           let buttonColorClass = "";
           if (isClicked) {
@@ -98,7 +98,7 @@ function WordMatching({
               text={word.translation}
               className={`w-40 cursor-pointer border ${buttonColorClass}`}
               onClick={() => {
-                setClickedButton(word.englishWord);
+                setClickedButton(word.id);
 
                 if (isCorrect) {
                   setTimeout(() => {

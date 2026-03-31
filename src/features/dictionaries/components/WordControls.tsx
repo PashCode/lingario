@@ -32,7 +32,7 @@ function WordControls(props: WordControlsProps) {
             setProcessingWord(englishWord);
 
             await addWordToPersonalDict({
-              id: englishWord,
+              id: crypto.randomUUID(),
               englishWord: englishWord,
               translation: translation,
               level: level,
@@ -66,7 +66,7 @@ function WordControls(props: WordControlsProps) {
                   duration: 1000,
                 });
                 await addWordToPersonalDict({
-                  id: englishWord,
+                  id: crypto.randomUUID(),
                   englishWord: englishWord,
                   translation: translation,
                   level: level,

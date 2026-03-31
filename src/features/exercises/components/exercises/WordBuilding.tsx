@@ -1,6 +1,6 @@
 import type { ExerciseProps } from "@/features/exercises/types";
 import Button from "@/shared/components/ui/Button";
-import useCollectWord from "@/features/exercises/hooks/useCollectWord";
+import useWordBuilding from "@/features/exercises/hooks/useWordBuilding";
 
 function WordBuilding( {
   exercisesConfig,
@@ -13,7 +13,7 @@ function WordBuilding( {
     collectedLetters,
     availableLetters,
     compareLetters,
-  } = useCollectWord({
+  } = useWordBuilding({
     exercisesConfig,
     currentIndex,
     setCurrentIndex,

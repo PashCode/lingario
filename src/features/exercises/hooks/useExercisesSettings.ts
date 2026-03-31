@@ -7,17 +7,14 @@ import { useAppSelector } from "@/app/store";
 import { selectNewWords, selectRepeatWords } from "@/features/exercises/slice";
 import { useLocation } from "react-router-dom";
 import { useMemo, useState } from "react";
-import type {
-  ExerciseConfigValues,
-  SessionSequenceValues,
-} from "@/features/exercises/types";
+import type { ExerciseConfigValues, SessionSequenceValues, } from "@/features/exercises/types";
 import { shuffleArray } from "@/features/exercises/utils/helpers";
 
 const EXERCISES_DEFINITIONS = {
   flashCard: { component: FlashCard, wordsPerIteration: 1, phase: 1 },
   wordListening: { component: WordListening, wordsPerIteration: 1, phase: 2 },
   wordMatching: { component: WordMatching, wordsPerIteration: 1, phase: 2 },
-  multipleChoices: { component: MultipleChoices, wordsPerIteration: 4, phase: 2, },
+  multipleChoices: { component: MultipleChoices, wordsPerIteration: 4, phase: 2 },
   wordBuilding: { component: WordBuilding, wordsPerIteration: 1, phase: 3 },
 };
 
@@ -28,8 +25,7 @@ function useExercisesSettings() {
   const words = exerciseType === "repeat-words" ? repeatWords : newWords;
 
   const [wordsLimit, setWordsLimit] = useState(5);
-  const [isExerciseSelectionEmpty, setIsExerciseSelectionEmpty] =
-    useState(false);
+  const [isExerciseSelectionEmpty, setIsExerciseSelectionEmpty] = useState(false);
   const [voiceSetting, setVoiceSetting] = useState({
     voice: "en-US-Neural2-D",
     gender: "MALE",
@@ -83,9 +79,11 @@ function useExercisesSettings() {
       });
     }
 
-    const phase1 = shuffleArray( sessionItems.filter((item) => item.phase === 1), );
-    const phase2 = shuffleArray( sessionItems.filter((item) => item.phase === 2), );
-    const phase3 = shuffleArray( sessionItems.filter((item) => item.phase === 3), );
+    const phase1 = shuffleArray( sessionItems.filter((item) => item.phase === 1));
+    const phase2 = shuffleArray( sessionItems
+      .filter((item) => item.phase === 2))
+      .sort((a, b) => (b.words?.length || 0) - (a.words?.length || 0));
+    const phase3 = shuffleArray( sessionItems.filter((item) => item.phase === 3));
 
     return {
       voiceSetting,
@@ -98,6 +96,7 @@ function useExercisesSettings() {
       sessionSequence: [...phase1, ...phase2, ...phase3],
     };
   }, [words, wordsLimit, selectedExercises, voiceSetting]);
+
 
   return {
     exercisesConfig,

@@ -46,6 +46,7 @@ export interface SessionSequenceValues {
 
 export interface ChangeScoreProps {
   resultType: "perfect" | "passed" | "failed";
+  targetWord?: NewWordsValues | InProgressWordsValues;
 }
 
 export interface ExerciseProps {
@@ -97,3 +98,18 @@ export interface SelectionControlsProps {
 }
 
 export type SessionResultsValues = Record<string, NewWordsValues | InProgressWordsValues>
+
+
+export interface WordColumnProps {
+  items: Array<BaseWordsValues>;
+  type: "englishWords" | "translations";
+  selectedValue: string | null;
+  matchedWordIds: string[];
+  isCheckingMatch: boolean;
+  selectedEng: string | null;
+  selectedTr: string | null;
+  handleWordClick: (
+    wordId: string,
+    type: "englishWords" | "translations",
+  ) => void;
+}

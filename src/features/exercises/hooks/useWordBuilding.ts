@@ -3,7 +3,7 @@ import { calcMistakes, shuffleArray } from "@/features/exercises/utils/helpers";
 import type { ExerciseProps } from "@/features/exercises/types";
 import * as React from "react";
 
-function useCollectWord({
+function useWordBuilding( {
   exercisesConfig,
   currentIndex,
   setCurrentIndex,
@@ -66,4 +66,4 @@ function useCollectWord({
   };
 }
 
-export default useCollectWord;
+export default useWordBuilding;
