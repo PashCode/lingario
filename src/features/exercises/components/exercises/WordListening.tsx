@@ -36,8 +36,8 @@ function WordListening({
 
       <div className="flex flex-col items-center justify-center border-2 p-6">
         {shuffledWords.map((word) => {
-          const isCorrect = word.englishWord === currentWord.englishWord;
-          const isClicked = clickedButton === word.englishWord;
+          const isCorrect = word.id === currentWord.id;
+          const isClicked = clickedButton === word.id;
 
           let buttonColorClass = "";
           if (isClicked) {
