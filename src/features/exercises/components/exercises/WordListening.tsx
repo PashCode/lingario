@@ -2,6 +2,7 @@ import Button from "@/shared/components/ui/Button";
 import PronounceButton from "@/shared/components/ui/PronounceButton";
 import useWordListening from "@/features/exercises/hooks/useWordListening";
 import type { ExerciseProps } from "@/features/exercises/types";
+import { getAnswerButtonStyle } from "@/features/exercises/utils/helpers";
 
 function WordListening({
   exercisesConfig,
@@ -9,18 +10,18 @@ function WordListening({
   setCurrentIndex,
   changeScore,
 }: ExerciseProps) {
-  const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
 
   const {
     shuffledWords,
     clickedButton,
-    handleAnswerResult
+    handleAnswerResult,
+    currentWord
   } = useWordListening({
-      exercisesConfig,
-      currentIndex,
-      setCurrentIndex,
-      changeScore,
-  });
+    exercisesConfig,
+    currentIndex,
+    setCurrentIndex,
+    changeScore,
+    });
 
   return (
     <div className="flex h-150 w-120 flex-col items-center justify-around bg-gray-500">
@@ -38,11 +39,7 @@ function WordListening({
         {shuffledWords.map((word) => {
           const isCorrect = word.id === currentWord.id;
           const isClicked = clickedButton === word.id;
-
-          let buttonColorClass = "";
-          if (isClicked) {
-            buttonColorClass = isCorrect ? "bg-green-500" : "bg-red-500";
-          }
+          const buttonColorClass = getAnswerButtonStyle(isClicked, isCorrect);
 
           return (
             <Button

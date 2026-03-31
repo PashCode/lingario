@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Howler } from "howler";
 import { calcMistakes, shuffleArray } from "@/features/exercises/utils/helpers";
 import type { ExerciseProps } from "@/features/exercises/types";
+import { ANSWER_ANIMATION_DELAY } from "@/features/exercises/utils/constants";
 
 function useWordListening({
   exercisesConfig,
@@ -15,18 +16,16 @@ function useWordListening({
 
   const shuffledWords = useMemo(() => {
     const incorrectWords = exercisesConfig.sessionWords.filter(
-      ({ id }: { id: string }) => {
-        return id !== currentWord.id;
-      },
+      ({ id }: { id: string }) => id !== currentWord.id,
     );
 
-    const correctWords = [
+    const answerOptions = [
       ...shuffleArray(incorrectWords).slice(0, 3),
       currentWord,
     ];
 
-    return shuffleArray(correctWords);
-  }, [currentWord, exercisesConfig.sessionWords]);
+    return shuffleArray(answerOptions);
+  }, [exercisesConfig.sessionWords, currentWord]);
 
   function handleAnswerResult(isCorrect: boolean, id: string) {
     setClickedButton(id);
@@ -37,11 +36,11 @@ function useWordListening({
         changeScore({ resultType: calcMistakes(mistakesCount) });
         setCurrentIndex((prevState) => prevState + 1);
         setClickedButton("");
-      }, 250);
-      setMistakesCount(0);
+        setMistakesCount(0);
+      }, ANSWER_ANIMATION_DELAY);
     } else {
       setMistakesCount((prevState) => prevState + 1);
-      setTimeout(() => setClickedButton(""), 250);
+      setTimeout(() => setClickedButton(""), ANSWER_ANIMATION_DELAY);
     }
   }
 
@@ -49,6 +48,7 @@ function useWordListening({
     shuffledWords,
     clickedButton,
     handleAnswerResult,
+    currentWord,
   };
 }
 
