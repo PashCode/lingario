@@ -40,9 +40,9 @@ function WordListening({
           const isCorrect = word.id === currentWord.id;
           const isClicked = clickedButton === word.id;
 
-          let buttonColorClass = "";
+          let buttonClass = "";
           if (isClicked) {
-            buttonColorClass = isCorrect
+            buttonClass = isCorrect
               ? ANSWER_COLORS.CORRECT
               : ANSWER_COLORS.WRONG;
           }
@@ -51,7 +51,7 @@ function WordListening({
             <Button
               key={word.id}
               text={word.translation}
-              className={`w-40 cursor-pointer border ${buttonColorClass}`}
+              className={`w-40 cursor-pointer border ${buttonClass}`}
               onClick={() => handleAnswerResult(isCorrect, word.id)}
             />
           );

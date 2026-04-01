@@ -5,7 +5,7 @@ import type { WordColumnProps } from "@/features/exercises/types";
 import PronounceButton from "@/shared/components/ui/PronounceButton";
 
 function WordColumn({
-  items,
+  words,
   type,
   selectedValue,
   matchedWordIds,
@@ -13,43 +13,52 @@ function WordColumn({
   selectedEng,
   selectedTr,
   handleWordClick,
+  voiceSettings,
 }: WordColumnProps) {
   return (
     <div className="flex flex-col items-center justify-center gap-2 border-2 p-6">
-      {items.map((word) => {
+      {words.map((word) => {
         const isMatched = matchedWordIds.includes(word.id);
         const isSelected = selectedValue === word.id;
-        const isCorrect = isCheckingMatch && isSelected && selectedEng === selectedTr;
-        const isWrong = isCheckingMatch && isSelected && selectedEng !== selectedTr;
+        const isCorrect =
+          isCheckingMatch && isSelected && selectedEng === selectedTr;
+        const isWrong =
+          isCheckingMatch && isSelected && selectedEng !== selectedTr;
 
-        let buttonColorClass = "";
+        let buttonClass = "";
         if (isMatched) {
-          buttonColorClass = "bg-green-500 opacity-50 cursor-not-allowed";
+          buttonClass = "bg-green-500 opacity-50 cursor-not-allowed";
         } else if (isCorrect) {
-          buttonColorClass = "bg-green-500";
+          buttonClass = "bg-green-500";
         } else if (isWrong) {
-          buttonColorClass = "bg-red-500";
+          buttonClass = "bg-red-500";
         } else if (isSelected) {
-          buttonColorClass = "bg-slate-400";
+          buttonClass = "bg-slate-400";
         }
 
         const displayText =
           type === "englishWords"
-            ? word.englishWord
-            : word.translation;
+          ? word.englishWord
+          : word.translation;
 
         return (
-          <div>
+          <div key={word.id}>
             <Button
-              key={word.id}
               text={displayText}
-              className={`w-40 cursor-pointer border ${buttonColorClass}`}
+              className={`w-40 cursor-pointer border ${buttonClass}`}
               disabled={isMatched}
               onClick={() => handleWordClick(word.id, type)}
             />
-            {type === "englishWords" && <PronounceButton text={displayText} size="20"/>}
+            {type === "englishWords" && (
+              <PronounceButton
+                text={displayText}
+                size="20"
+                gender={voiceSettings.gender}
+                voice={voiceSettings.voice}
+              />
+            )}
           </div>
-        )
+        );
       })}
     </div>
   );
@@ -81,7 +90,7 @@ function MultipleChoices({
     <div className="flex h-150 w-120 flex-col items-center justify-around bg-gray-500">
       <div className="flex w-full justify-around px-4">
         <WordColumn
-          items={shuffledEnglish}
+          words={shuffledEnglish}
           type="englishWords"
           selectedValue={selectedEng}
           matchedWordIds={matchedWordIds}
@@ -89,10 +98,11 @@ function MultipleChoices({
           selectedEng={selectedEng}
           selectedTr={selectedTr}
           handleWordClick={handleWordClick}
+          voiceSettings={exercisesConfig.voiceSetting}
         />
 
         <WordColumn
-          items={shuffledTranslations}
+          words={shuffledTranslations}
           type="translations"
           selectedValue={selectedTr}
           matchedWordIds={matchedWordIds}
@@ -100,6 +110,7 @@ function MultipleChoices({
           selectedEng={selectedEng}
           selectedTr={selectedTr}
           handleWordClick={handleWordClick}
+          voiceSettings={exercisesConfig.voiceSetting}
         />
       </div>
     </div>

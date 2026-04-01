@@ -47,18 +47,18 @@ function WordBuilding({
 
         <div className="flex gap-2">
           {shuffledLetters.map((letter, index) => {
-            let buttonStyle = "";
+            let buttonClass = "";
             const isCorrect = guessedIndexes.includes(index);
             const isWrong = index === notGuessedIndex;
 
-            if (isCorrect) buttonStyle = "text-transparent pointer-events-none";
-            else if (isWrong) buttonStyle = ANSWER_COLORS.WRONG;
+            if (isCorrect) buttonClass = "text-transparent pointer-events-none";
+            else if (isWrong) buttonClass = ANSWER_COLORS.WRONG;
 
             return (
               <Button
                 key={letter + index}
                 text={letter}
-                className={`cursor-pointer border p-3 ${buttonStyle}`}
+                className={`cursor-pointer border p-3 ${buttonClass}`}
                 onClick={() => handleLetterClick(letter, index)}
               ></Button>
             );

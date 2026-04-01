@@ -101,7 +101,7 @@ export type SessionResultsValues = Record<string, NewWordsValues | InProgressWor
 
 
 export interface WordColumnProps {
-  items: Array<BaseWordsValues>;
+  words: Array<BaseWordsValues>;
   type: "englishWords" | "translations";
   selectedValue: string | null;
   matchedWordIds: string[];
@@ -112,4 +112,5 @@ export interface WordColumnProps {
     wordId: string,
     type: "englishWords" | "translations",
   ) => void;
+  voiceSettings: ExerciseConfigValues["voiceSetting"];
 }
