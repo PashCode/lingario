@@ -1,70 +1,58 @@
 import { useMemo, useState } from "react";
-import { Howler } from "howler";
 import { calcMistakes, shuffleArray } from "@/features/exercises/utils/helpers";
 import type { ExerciseProps } from "@/features/exercises/types";
-import * as React from "react";
+import { ANSWER_ANIMATION_DELAY } from "@/features/exercises/utils/constants";
 
-function useWordBuilding( {
+function useWordBuilding({
   exercisesConfig,
   currentIndex,
   setCurrentIndex,
   changeScore,
 }: ExerciseProps) {
   const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
-  const [collectedLetters, setCollectedLetters] = useState<Array<string>>([]);
   const [mistakesCount, setMistakesCount] = useState(0);
+  const [collectedLetters, setCollectedLetters] = useState<Array<string>>([]);
+  const [guessedIndexes, setGuessedIndexes] = useState<Array<number>>([]);
+  const [notGuessedIndex, setNotGuessedIndex] = useState<number | null>(null);
 
-  const shuffled = useMemo(() => {
+  const shuffledLetters = useMemo(() => {
     const splitToLetters = currentWord.englishWord.split("");
     return shuffleArray(splitToLetters);
   }, [currentWord.englishWord]);
 
-  function getAvailableLetters(shuffled: string[], collected: string[]) {
-    const availableLetters = [...shuffled];
-
-    collected.forEach((guessedLetter: string) => {
-      const index = availableLetters.indexOf(guessedLetter);
-      if (index !== -1) {
-        availableLetters.splice(index, 1);
-      }
-    });
-
-    return availableLetters;
-  }
-  const availableLetters = getAvailableLetters(shuffled, collectedLetters);
-
-  function compareLetters(e: React.MouseEvent<HTMLButtonElement>) {
-    const btn = e.currentTarget;
-    const clickedLetter = btn.innerText;
+  function handleLetterClick(clickedLetter: string, clickedIndex: number) {
     const expectedLetter = currentWord.englishWord[collectedLetters.length];
 
     if (clickedLetter === expectedLetter) {
-      const newCollected = [...collectedLetters, clickedLetter];
-      setCollectedLetters(newCollected);
+      const currentCollectedLetters = [...collectedLetters, clickedLetter];
+      setGuessedIndexes([...guessedIndexes, clickedIndex]);
+      setCollectedLetters(currentCollectedLetters);
 
-      if (newCollected.length === currentWord.englishWord.length) {
+      if (currentCollectedLetters.length === currentWord.englishWord.length) {
         setTimeout(() => {
-          Howler.stop();
           changeScore({ resultType: calcMistakes(mistakesCount) });
           setCollectedLetters([]);
+          setGuessedIndexes([]);
           setMistakesCount(0);
           setCurrentIndex((prev) => prev + 1);
-        }, 1000);
+        }, ANSWER_ANIMATION_DELAY);
       }
     } else {
       setMistakesCount((prevState) => prevState + 1);
-      btn.classList.add("bg-red-500");
+      setNotGuessedIndex(clickedIndex);
       setTimeout(() => {
-        btn.classList.remove("bg-red-500");
-      }, 500);
+        setNotGuessedIndex(null);
+      }, ANSWER_ANIMATION_DELAY);
     }
   }
 
   return {
     currentWord,
     collectedLetters,
-    availableLetters,
-    compareLetters,
+    shuffledLetters,
+    handleLetterClick,
+    guessedIndexes,
+    notGuessedIndex,
   };
 }
 

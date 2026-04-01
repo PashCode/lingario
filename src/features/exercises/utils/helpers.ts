@@ -1,5 +1,3 @@
-import { ANSWER_COLORS } from "@/features/exercises/utils/constants";
-
 export function shuffleArray<T>(array: Array<T>): Array<T> {
   const resArr = [...array];
 
@@ -16,9 +14,4 @@ export function calcMistakes(mistakesCount: number) {
   if (mistakesCount > 0 && mistakesCount <= 2) return "passed";
   if (mistakesCount > 2) return "failed";
   return "perfect";
-}
-
-export function getAnswerButtonStyle(isClicked: boolean, isCorrect: boolean) {
-  if (!isClicked) return "";
-  return isCorrect ? ANSWER_COLORS.CORRECT : ANSWER_COLORS.WRONG;
 }

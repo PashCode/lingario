@@ -1,19 +1,21 @@
 import type { ExerciseProps } from "@/features/exercises/types";
 import Button from "@/shared/components/ui/Button";
 import useWordBuilding from "@/features/exercises/hooks/useWordBuilding";
+import { ANSWER_COLORS } from "@/features/exercises/utils/constants";
 
-function WordBuilding( {
+function WordBuilding({
   exercisesConfig,
   currentIndex,
   setCurrentIndex,
   changeScore,
 }: ExerciseProps) {
-
   const {
     currentWord,
     collectedLetters,
-    availableLetters,
-    compareLetters,
+    shuffledLetters,
+    handleLetterClick,
+    guessedIndexes,
+    notGuessedIndex,
   } = useWordBuilding({
     exercisesConfig,
     currentIndex,
@@ -28,27 +30,36 @@ function WordBuilding( {
 
         <div className="flex gap-2 text-2xl font-bold">
           {currentWord.englishWord.split("").map((letter, index) => {
-            const isCollected = index < collectedLetters.length;
+            const isLetterFound = index < collectedLetters.length;
             return (
               <div
                 key={letter + index}
-                className={`w-10 border-b-4 text-center ${ 
-                isCollected ? "border-green-500" : "border-gray-400"
-                }`}>
-                {isCollected ? letter : ""}
+                className={`w-10 border-b-4 text-center ${
+                  // це кольори саме бордерів, поки що я не робив константи для них, тому що скоріш за все це все зміниться при стилізації
+                  isLetterFound ? "border-green-500" : "border-gray-400"
+                }`}
+              >
+                {isLetterFound ? letter : ""}
               </div>
             );
           })}
         </div>
 
         <div className="flex gap-2">
-          {availableLetters.map((letter, index) => {
+          {shuffledLetters.map((letter, index) => {
+            let buttonStyle = "";
+            const isCorrect = guessedIndexes.includes(index);
+            const isWrong = index === notGuessedIndex;
+
+            if (isCorrect) buttonStyle = "text-transparent pointer-events-none";
+            else if (isWrong) buttonStyle = ANSWER_COLORS.WRONG;
+
             return (
               <Button
                 key={letter + index}
                 text={letter}
-                className="cursor-pointer border p-3"
-                onClick={compareLetters}
+                className={`cursor-pointer border p-3 ${buttonStyle}`}
+                onClick={() => handleLetterClick(letter, index)}
               ></Button>
             );
           })}

@@ -2,7 +2,7 @@ import Button from "@/shared/components/ui/Button";
 import PronounceButton from "@/shared/components/ui/PronounceButton";
 import useWordListening from "@/features/exercises/hooks/useWordListening";
 import type { ExerciseProps } from "@/features/exercises/types";
-import { getAnswerButtonStyle } from "@/features/exercises/utils/helpers";
+import { ANSWER_COLORS } from "@/features/exercises/utils/constants";
 
 function WordListening({
   exercisesConfig,
@@ -39,7 +39,13 @@ function WordListening({
         {shuffledWords.map((word) => {
           const isCorrect = word.id === currentWord.id;
           const isClicked = clickedButton === word.id;
-          const buttonColorClass = getAnswerButtonStyle(isClicked, isCorrect);
+
+          let buttonColorClass = "";
+          if (isClicked) {
+            buttonColorClass = isCorrect
+              ? ANSWER_COLORS.CORRECT
+              : ANSWER_COLORS.WRONG;
+          }
 
           return (
             <Button
