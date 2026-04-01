@@ -20,10 +20,8 @@ function WordColumn({
       {words.map((word) => {
         const isMatched = matchedWordIds.includes(word.id);
         const isSelected = selectedValue === word.id;
-        const isCorrect =
-          isCheckingMatch && isSelected && selectedEng === selectedTr;
-        const isWrong =
-          isCheckingMatch && isSelected && selectedEng !== selectedTr;
+        const isCorrect = isCheckingMatch && isSelected && selectedEng === selectedTr;
+        const isWrong = isCheckingMatch && isSelected && selectedEng !== selectedTr;
 
         let buttonClass = "";
         if (isMatched) {
@@ -46,7 +44,7 @@ function WordColumn({
             <Button
               text={displayText}
               className={`w-40 cursor-pointer border ${buttonClass}`}
-              disabled={isMatched}
+              disabled={isMatched || isCheckingMatch}
               onClick={() => handleWordClick(word.id, type)}
             />
             {type === "englishWords" && (

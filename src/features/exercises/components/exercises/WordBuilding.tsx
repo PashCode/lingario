@@ -58,6 +58,11 @@ function WordBuilding({
               <Button
                 key={letter + index}
                 text={letter}
+                disabled={
+                  guessedIndexes.includes(index) ||
+                  notGuessedIndex !== null ||
+                  collectedLetters.length === currentWord.englishWord.length
+                }
                 className={`cursor-pointer border p-3 ${buttonClass}`}
                 onClick={() => handleLetterClick(letter, index)}
               ></Button>

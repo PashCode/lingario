@@ -51,6 +51,7 @@ function WordListening({
             <Button
               key={word.id}
               text={word.translation}
+              disabled={!!clickedButton}
               className={`w-40 cursor-pointer border ${buttonClass}`}
               onClick={() => handleAnswerResult(isCorrect, word.id)}
             />

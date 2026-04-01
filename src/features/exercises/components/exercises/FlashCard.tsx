@@ -62,11 +62,13 @@ function FlashCard({
         <div className="flex gap-2">
           <Button
             text="Знаю"
+            disabled={!!clickedButton}
             onClick={(event) => handleButtonClick(event, "know")}
             className={`cursor-pointer border p-0.5 ${clickedButton === "know" ? ANSWER_COLORS.CORRECT : ""}`}
           />
           <Button
             text="Не знаю"
+            disabled={!!clickedButton}
             onClick={(event) => handleButtonClick(event, "dontKnow")}
             className={`cursor-pointer border p-0.5 ${clickedButton === "dontKnow" ? ANSWER_COLORS.WRONG : ""}`}
           />

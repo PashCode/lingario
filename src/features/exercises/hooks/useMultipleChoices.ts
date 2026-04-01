@@ -31,9 +31,10 @@ function useMultipleChoices({
   }
 
   function handleCorrectMatch(wordIdFromEnglishColumn: string) {
+    if (matchedWordIds.includes(wordIdFromEnglishColumn)) return;
+
     const currentMatchedWords = [...matchedWordIds, wordIdFromEnglishColumn];
     setMatchedWordIds(currentMatchedWords);
-    resetSelection();
 
     const targetWord = sessionWords.find(
       (w) => w.id === wordIdFromEnglishColumn,
@@ -47,14 +48,16 @@ function useMultipleChoices({
       });
     }
 
-    if (currentMatchedWords.length === sessionWords.length) {
-      setTimeout(() => {
+    setTimeout(() => {
+      resetSelection();
+
+      if (currentMatchedWords.length === sessionWords.length) {
         Howler.stop();
         setCurrentIndex((prev) => prev + 1);
         setMistakesMap({});
         setMatchedWordIds([]);
-      }, 250);
-    }
+      }
+    }, 250);
   }
 
   function handleWrongMatch(wordIdFromEnglishColumn: string) {
