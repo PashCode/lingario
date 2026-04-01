@@ -2,6 +2,7 @@ import PronounceButton from "@/shared/components/ui/PronounceButton";
 import Button from "@/shared/components/ui/Button";
 import type { ExerciseProps } from "@/features/exercises/types";
 import useWordMatching from "@/features/exercises/hooks/useWordMatching";
+import { getAnswerButtonStyle } from "@/features/exercises/utils/helpers";
 
 function WordMatching({
   exercisesConfig,
@@ -9,12 +10,13 @@ function WordMatching({
   setCurrentIndex,
   changeScore,
 }: ExerciseProps) {
-  const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
-  const currentPhrase = exercisesConfig.sessionSequence[currentIndex].word.phrase;
+
   const {
     shuffledWords,
     clickedButton,
-    handleAnswerResult
+    currentWord,
+    currentPhrase,
+    handleAnswerResult,
   } = useWordMatching({
     exercisesConfig,
     currentIndex,
@@ -36,7 +38,7 @@ function WordMatching({
         </div>
 
         <div className="flex justify-center gap-2">
-          <h1>{currentPhrase.replaceAll("*", "")}</h1>
+          <h1>{currentPhrase}</h1>
           <PronounceButton
             size="20"
             text={currentPhrase}
@@ -50,11 +52,7 @@ function WordMatching({
         {shuffledWords.map((word) => {
           const isCorrect = word.id === currentWord.id;
           const isClicked = clickedButton === word.id;
-
-          let buttonColorClass = "";
-          if (isClicked) {
-            buttonColorClass = isCorrect ? "bg-green-500" : "bg-red-500";
-          }
+          const buttonColorClass = getAnswerButtonStyle(isClicked, isCorrect);
 
           return (
             <Button
