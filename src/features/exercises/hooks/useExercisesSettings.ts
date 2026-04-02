@@ -33,10 +33,10 @@ function useExercisesSettings() {
 
   const [selectedExercises, setSelectedExercises] = useState({
     flashCard: false,
-    wordListening: false,
     wordMatching: false,
-    multipleChoices: false,
     wordBuilding: false,
+    multipleChoices: false,
+    wordListening: false,
   });
 
   const exercisesConfig = useMemo<ExerciseConfigValues>(() => {

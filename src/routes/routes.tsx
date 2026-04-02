@@ -12,6 +12,7 @@ import ResetPassword from "@/pages/auth/ResetPassword";
 import PersonalWords from "@/pages/dictionaries/PersonalWords";
 import Oxford3000 from "@/pages/dictionaries/Oxford-3000";
 import Session from "@/pages/exercises/Session";
+import SessionResult from "@/pages/exercises/SessionResult";
 import Settings from "@/pages/exercises/Settings";
 import ProtectedRoute from "./protectedRoute";
 import PublicRoute from "./publicRoute";
@@ -24,9 +25,9 @@ const router = createBrowserRouter([
       {
         element: <FullScreenLayout />,
         children: [
-          { path: ROUTES.WELCOME, element: <Welcome />, },
-          { path: ROUTES.AUTH.ROOT, element: <Auth />, },
-          { path: ROUTES.AUTH.RESET_PASSWORD, element: <ResetPassword />, },
+          { path: ROUTES.WELCOME, element: <Welcome /> },
+          { path: ROUTES.AUTH.ROOT, element: <Auth /> },
+          { path: ROUTES.AUTH.RESET_PASSWORD, element: <ResetPassword /> },
         ],
       },
     ],
@@ -38,20 +39,21 @@ const router = createBrowserRouter([
       {
         element: <NavigationLayout />,
         children: [
-          { path: ROUTES.HOME, element: <Home />, },
-          { path: ROUTES.DICTIONARIES.ROOT, element: <Dictionaries />, },
-          { path: ROUTES.EXERCISES.ROOT, element: <Exercises />, },
+          { path: ROUTES.HOME, element: <Home /> },
+          { path: ROUTES.DICTIONARIES.ROOT, element: <Dictionaries /> },
+          { path: ROUTES.EXERCISES.ROOT, element: <Exercises /> },
           { path: ROUTES.EXERCISES.SETTINGS, element: <Settings /> },
-          { path: ROUTES.PROFILE, element: <Profile />, },
+          { path: ROUTES.PROFILE, element: <Profile /> },
         ],
       },
 
       {
         element: <FullScreenLayout />,
         children: [
-          { path: ROUTES.DICTIONARIES.PUBLIC.OXFORD_3000, element: <Oxford3000 />, },
-          { path: ROUTES.DICTIONARIES.PERSONAL.ROOT, element: <PersonalWords />, },
+          { path: ROUTES.DICTIONARIES.PUBLIC.OXFORD_3000, element: <Oxford3000 />},
+          { path: ROUTES.DICTIONARIES.PERSONAL.ROOT, element: <PersonalWords />},
           { path: ROUTES.EXERCISES.SESSION, element: <Session /> },
+          { path: ROUTES.EXERCISES.SESSION_RESULT, element: <SessionResult /> },
         ],
       },
     ],

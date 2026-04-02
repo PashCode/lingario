@@ -21,7 +21,8 @@ export const ROUTES = {
 
   EXERCISES: {
     ROOT: "/exercises",
-    SESSION: "/exercises/session",
     SETTINGS: "/exercises/settings",
+    SESSION: "/exercises/session",
+    SESSION_RESULT: "/exercises/session-result",
   },
 };

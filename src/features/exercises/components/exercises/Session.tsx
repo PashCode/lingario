@@ -11,7 +11,7 @@ export function Session() {
   const changeScore = useCalculateSession(exercisesConfig, currentIndex);
 
   if (!exercisesConfig.isReady) {
-    return <Navigate to={ROUTES.EXERCISES.ROOT} />;
+    return <Navigate to={ROUTES.EXERCISES.ROOT} replace/>;
   }
 
   const ExerciseComponent = exercisesConfig.sessionSequence[currentIndex]?.exercise;
@@ -27,7 +27,7 @@ export function Session() {
         />
       </div>
     ) : (
-      <Navigate to={ROUTES.EXERCISES.ROOT} />
+      <Navigate to={ROUTES.EXERCISES.SESSION_RESULT} replace />
     )
   ) : (
     <h1>Loading</h1>
