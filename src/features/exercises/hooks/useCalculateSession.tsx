@@ -83,7 +83,7 @@ function useCalculateSession(
     }
   }, [isLastExercise]);
 
-  return changeScore;
+  return { changeScore, sessionResults };
 }
 
 export default useCalculateSession;

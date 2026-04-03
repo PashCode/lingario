@@ -8,13 +8,17 @@ import useCalculateSession from "@/features/exercises/hooks/useCalculateSession"
 export function Session() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const exercisesConfig = useAppSelector(selectExercisesConfig);
-  const changeScore = useCalculateSession(exercisesConfig, currentIndex);
+  const { changeScore, sessionResults } = useCalculateSession(
+    exercisesConfig,
+    currentIndex,
+  );
 
   if (!exercisesConfig.isReady) {
-    return <Navigate to={ROUTES.EXERCISES.ROOT} replace/>;
+    return <Navigate to={ROUTES.EXERCISES.ROOT} replace />;
   }
 
-  const ExerciseComponent = exercisesConfig.sessionSequence[currentIndex]?.exercise;
+  const ExerciseComponent =
+    exercisesConfig.sessionSequence[currentIndex]?.exercise;
 
   return exercisesConfig.isReady ? (
     currentIndex < exercisesConfig.sessionSequence.length ? (
@@ -27,7 +31,11 @@ export function Session() {
         />
       </div>
     ) : (
-      <Navigate to={ROUTES.EXERCISES.SESSION_RESULT} replace />
+      <Navigate
+        to={ROUTES.EXERCISES.SESSION_RESULT}
+        state={{ ...sessionResults.current }}
+        replace
+      />
     )
   ) : (
     <h1>Loading</h1>
