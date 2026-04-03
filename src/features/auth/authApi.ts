@@ -19,7 +19,10 @@ import type {
 } from "./types.ts";
 import { type User as FirebaseUser } from "firebase/auth";
 import { setUser } from "@/features/auth/slice";
-import { setOxford3000 } from "@/features/dictionaries/slice";
+import {
+  setIsOxford3000DictLoading,
+  setOxford3000,
+} from "@/features/dictionaries/slice";
 import { auth } from "@/config/firebase";
 import { isFirebaseApiError } from "./types.ts";
 import getOrSetStorage from "@/shared/utils/storageAndSession/getOrSetStorage";
@@ -71,6 +74,7 @@ const authApi = baseApi.injectEndpoints({
         const phrase = await getOrSetStorage(LSPhraseWithDictWordConfig);
         dispatch(setPhraseWithDictWord(phrase));
 
+        dispatch(setIsOxford3000DictLoading("loading"));
         const oxford3000 = await getOrSetStorage(LSOxford3000Config);
         dispatch(setOxford3000(oxford3000));
       },

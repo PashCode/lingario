@@ -8,7 +8,6 @@ import WordContent from "@/features/dictionaries/components/WordContent";
 function DictionaryList({ dictionary }: DictionaryListProps) {
   const { processingWord, setProcessingWord } = useProcessingWord();
 
-
   return (
     <Virtuoso
       useWindowScroll

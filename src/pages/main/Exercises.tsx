@@ -9,13 +9,13 @@ import {
 import GlobalLoading from "@/shared/components/ui/GlobalLoading";
 
 function Exercises() {
-  const isDictLoading = useExercisesWords();
+  const isPersonalDictLoading = useExercisesWords();
   const newWordsCount = useAppSelector(selectNewWordsCount);
   const repeatWordsCount = useAppSelector(selectRepeatWordsCount);
 
   return (
     <div>
-      {isDictLoading ? (
+      {isPersonalDictLoading ? (
         <GlobalLoading text="Завантаження слів" />
       ) : (
         <div className="flex w-full gap-10">

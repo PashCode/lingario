@@ -3,6 +3,7 @@ import { Timestamp, FieldValue } from "firebase/firestore";
 
 export interface DictionaryState {
   oxford3000: Array<Oxford3000Values>;
+  isOxford3000DictLoading: "loading" | "success"
 }
 
 export interface DBOxford3000Values {
@@ -25,6 +26,11 @@ export interface Oxford3000Values {
 
 export interface DictionaryListProps {
   dictionary: Array<Oxford3000Values>;
+}
+
+export interface WordNotFoundProps {
+  dictionary: Array<Oxford3000Values>;
+  searchWord: string;
 }
 
 export interface LSOxford3000Values {

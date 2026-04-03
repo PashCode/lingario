@@ -5,7 +5,11 @@ import { useEffect } from "react";
 import { useAppDispatch } from "@/app/store";
 import { auth } from "@/config/firebase";
 import { clearUser, setUser } from "@/features/auth/slice";
-import { clearOxford3000, setOxford3000 } from "@/features/dictionaries/slice";
+import {
+  clearOxford3000,
+  setIsOxford3000DictLoading,
+  setOxford3000,
+} from "@/features/dictionaries/slice";
 import { LSOxford3000Config } from "@/features/dictionaries/utils/constants";
 import { LSPhraseWithDictWordConfig } from"@/features/home/utils/constants";
 import { PHRASE_WITH_DICTIONARY_WORD_KEY } from "@/shared/utils/storageAndSession/constants";
@@ -63,6 +67,7 @@ const useAuthListener = () => {
         getOrSetStorage(LSPhraseWithDictWordConfig).then((phrase) => {
           dispatch(setPhraseWithDictWord(phrase));
         });
+        dispatch(setIsOxford3000DictLoading("loading"));
         getOrSetStorage(LSOxford3000Config).then((oxford3000) => {
           dispatch(setOxford3000(oxford3000));
         });

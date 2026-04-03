@@ -9,7 +9,7 @@ import type {
 } from "@/features/exercises/types";
 
 function useExercisesWords() {
-  const { personalDictionary, isDictLoading } = useDictSnapshot<
+  const { personalDictionary, isPersonalDictLoading } = useDictSnapshot<
     NewWordsValues | InProgressWordsValues
   >();
   const dispatch = useAppDispatch();
@@ -42,7 +42,7 @@ function useExercisesWords() {
     dispatch(setRepeatWords(personalWordsProgress.repeatWords));
   }, [personalDictionary, dispatch]);
 
-  return isDictLoading;
+  return isPersonalDictLoading;
 }
 
 export default useExercisesWords;

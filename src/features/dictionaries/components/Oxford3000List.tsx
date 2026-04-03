@@ -6,7 +6,7 @@ import Filters from "@/features/dictionaries/components/filters/Filters";
 import GlobalLoading from "@/shared/components/ui/GlobalLoading";
 
 function Oxford3000List() {
-  const availableWords = useAvailableWords();
+  const { availableWords, isAvailableWordsLoading } = useAvailableWords();
 
   const {
     filteredWords,
@@ -23,11 +23,9 @@ function Oxford3000List() {
     setSortProgress,
   } = useWordsFiltering(availableWords);
 
-  if (!availableWords.length) {
-    return <GlobalLoading text="Завантаження словника..." />;
-  }
-
-  return (
+  return isAvailableWordsLoading ? (
+    <GlobalLoading text="Завантаження словника..." />
+  ) : (
     <div className="w-full pr-2 pl-2">
       <Filters
         resetAllFilters={resetAllFilters}
@@ -43,7 +41,8 @@ function Oxford3000List() {
         setSortProgress={setSortProgress}
         typeDictionary="public"
       />
-      <WordNotFound dictionary={filteredWords} />
+
+      <WordNotFound dictionary={filteredWords} searchWord={searchWord} />
       <DictionaryList dictionary={filteredWords} />
     </div>
   );

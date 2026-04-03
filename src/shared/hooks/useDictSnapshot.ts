@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 function useDictSnapshot<T>() {
     const [personalDictionary, setPersonalDictionary] = useState<Array<T>>([]);
-    const [isDictLoading, setIsDictLoading] = useState(true);
+    const [isPersonalDictLoading, setIsPersonalDictLoading] = useState(true);
 
     useEffect(() => {
         if (!auth.currentUser) {
@@ -18,13 +18,13 @@ function useDictSnapshot<T>() {
                     const personalDictArray = snapshot.docs.map((word) => word.data());
                     setPersonalDictionary(personalDictArray as Array<T>);
                 }
-                setIsDictLoading(false);
+                setIsPersonalDictLoading(false);
             },
         );
         return unsubscribe;
     }, []);
 
-    return { personalDictionary, isDictLoading };
+    return { personalDictionary, isPersonalDictLoading };
 }
 
 export default useDictSnapshot;

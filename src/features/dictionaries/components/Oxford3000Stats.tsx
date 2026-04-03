@@ -1,14 +1,18 @@
-import useAvailableWords from "@/features/dictionaries/hooks/useAvailableWords";
-import { useAppSelector } from "@/app/store";
-import { selectOxford3000 } from "@/features/dictionaries/slice";
 import calcWordsStat from "@/features/dictionaries/utils/calcWordsStat";
-import StatList from "@/features/dictionaries/components/StatList";
-import TestLoader from "@/shared/components/ui/TestLoader";
-import type { LevelStats, LevelStatsWithTotal } from "@/features/dictionaries/types";
+import type {
+  LevelStats,
+  LevelStatsWithTotal,
+  Oxford3000Values,
+} from "@/features/dictionaries/types";
 
-function Oxford3000Stats() {
-  const availableWords = useAvailableWords();
-  const sourceWords = useAppSelector(selectOxford3000);
+function Oxford3000Stats({
+  sourceWords,
+  availableWords,
+}: {
+  sourceWords: Array<Oxford3000Values>;
+  availableWords: Array<Oxford3000Values>;
+}) {
+  const levels = ["A1", "A2", "B1", "B2"] as const;
 
   const oxford3000Total: LevelStats = {
     A1: 0,
@@ -28,21 +32,24 @@ function Oxford3000Stats() {
   if (sourceWords.length) calcWordsStat(sourceWords, oxford3000Total);
   if (availableWords.length) calcWordsStat(availableWords, oxford3000Added);
 
-  return sourceWords.length && availableWords.length ? (
-    <div className="border-2 border-orange-400">
+  return <div className="border-2 border-orange-400">
       <h1>
-        -- Залишилось слів: {oxford3000Added.allWords} /{" "}
-        {sourceWords.length}
+        -- Залишилось слів: {oxford3000Added.allWords} / {sourceWords.length}
       </h1>
 
-      <StatList
-        oxford3000Total={oxford3000Total}
-        oxford3000Added={oxford3000Added}
-      />
+      {levels.map((level) => {
+        return (
+          <h1 key={level}>
+            {level}: {oxford3000Added[level]} / {oxford3000Total[level]} <br />
+            -- Завершено на:{" "}
+            {((oxford3000Added[level] / oxford3000Total[level]) * 100).toFixed(
+              1,
+            )}
+            %
+          </h1>
+        );
+      })}
     </div>
-  ) : (
-    <TestLoader text="Завантаження статистики..." />
-  );
 }
 
 export default Oxford3000Stats;

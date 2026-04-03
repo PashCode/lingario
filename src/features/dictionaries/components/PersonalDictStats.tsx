@@ -1,10 +1,10 @@
-import useDictSnapshot from "@/shared/hooks/useDictSnapshot";
-import TestLoader from "@/shared/components/ui/TestLoader";
 import type { Oxford3000Values } from "@/features/dictionaries/types";
 
-function PersonalDictStats() {
-  const { personalDictionary } = useDictSnapshot<Oxford3000Values>();
-
+function PersonalDictStats({
+  personalDictionary,
+}: {
+  personalDictionary: Array<Oxford3000Values>;
+}) {
   const personalDictionaryStats = {
     allWords: personalDictionary.length,
     newWords: 0,
@@ -20,15 +20,13 @@ function PersonalDictStats() {
     });
   }
 
-  return personalDictionary.length ? (
+  return (
     <div className="border-2 border-orange-400">
       <h1>-- Усі слова: {personalDictionaryStats.allWords}</h1>
       <h1>-- Нові: {personalDictionaryStats.newWords}</h1>
       <h1>-- В процесі: {personalDictionaryStats.inProgress}</h1>
       <h1>-- Вивчені: {personalDictionaryStats.studied}</h1>
     </div>
-  ) : (
-    <TestLoader text="Завантаження словника..." />
   );
 }
 

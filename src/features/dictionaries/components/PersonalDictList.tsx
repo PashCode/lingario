@@ -7,7 +7,7 @@ import GlobalLoading from "@/shared/components/ui/GlobalLoading.tsx";
 import type { Oxford3000Values } from "@/features/dictionaries/types";
 
 function PersonalDictionary() {
-  const { personalDictionary, isDictLoading } = useDictSnapshot<Oxford3000Values>();
+  const { personalDictionary, isPersonalDictLoading } = useDictSnapshot<Oxford3000Values>();
 
   const {
     filteredWords,
@@ -24,12 +24,12 @@ function PersonalDictionary() {
     setSortProgress,
   } = useWordsFiltering(personalDictionary);
 
-  if (isDictLoading) {
+  if (isPersonalDictLoading) {
     return <GlobalLoading text="Завантаження словника..." />;
   }
 
   if (!personalDictionary.length) {
-    return <h1>Поки що тут немає слів...</h1>;
+    return <h1 className="text-2xl font-bold">Поки що тут немає слів...</h1>;
   }
 
   return (
@@ -48,7 +48,7 @@ function PersonalDictionary() {
         setSortProgress={setSortProgress}
         typeDictionary="personal"
       />
-      <WordNotFound dictionary={filteredWords} />
+      <WordNotFound dictionary={filteredWords} searchWord={searchWord} />
       <DictionaryList dictionary={filteredWords} />
     </div>
   );

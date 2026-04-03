@@ -1,8 +1,8 @@
-import type { DictionaryListProps } from "@/features/dictionaries/types";
+import type { WordNotFoundProps } from "@/features/dictionaries/types";
 
-function WordNotFound({ dictionary }: DictionaryListProps) {
+function WordNotFound({ dictionary, searchWord }: WordNotFoundProps) {
   return (
-    !dictionary.length && (
+    !!searchWord.trim() && !dictionary.length && (
       <div className="flex items-center justify-center">
         <h1 className="text-2xl font-bold">Такого слова немає в словнику</h1>
       </div>
