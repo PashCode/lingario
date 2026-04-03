@@ -24,7 +24,6 @@ export function Settings() {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate()
-  // console.log(exercisesConfig);
 
   return (
     <div className="flex flex-col items-center gap-10">

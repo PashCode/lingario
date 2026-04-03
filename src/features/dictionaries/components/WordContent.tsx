@@ -9,7 +9,11 @@ function WordContent(props: WordContentProps) {
     level,
     phrase,
     progress,
+    nextRepeat,
   } = props;
+
+  const repeatDate = nextRepeat?.toDate();
+  const formattedRepeatDate = repeatDate?.toLocaleDateString("uk-UA");
 
   return (
     <div>
@@ -22,13 +26,18 @@ function WordContent(props: WordContentProps) {
               <b>Фраза: </b>&nbsp;<ReactMarkdown>{phrase}</ReactMarkdown>
             </div>
 
-            <PronounceButton text={phrase} size="20"/>
+            <PronounceButton text={phrase} size="20" />
           </div>
         </div>
       )}
       {progress && (
         <div>
           <b>Прогрес:</b> {progressHandler(progress)}
+        </div>
+      )}
+      {nextRepeat?.toDate() && progress === "in progress" && (
+        <div>
+          <b>Наступне повторення:</b> {`${formattedRepeatDate}`}
         </div>
       )}
     </div>

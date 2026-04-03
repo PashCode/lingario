@@ -75,6 +75,7 @@ export interface WordContentProps {
   level: string;
   phrase?: string;
   progress?: string;
+  nextRepeat?: Timestamp;
 }
 
 export interface AddWordToPersonalDictProps {

@@ -28,7 +28,7 @@ function PersonalDictStats() {
       <h1>-- Вивчені: {personalDictionaryStats.studied}</h1>
     </div>
   ) : (
-    <TestLoader text="Завантаження статистики..." />
+    <TestLoader text="Завантаження словника..." />
   );
 }
 

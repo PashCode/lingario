@@ -1,47 +1,72 @@
 import { NavLink } from "react-router-dom";
 import { ROUTES } from "@/routes/paths.ts";
-import NewWordsStats from "@/features/exercises/components/NewWordsStats";
-import RepeatWordsStats from "@/features/exercises/components/RepeatWordsStats";
 import useExercisesWords from "@/features/exercises/hooks/useExercisesWords";
+import { useAppSelector } from "@/app/store";
+import {
+  selectNewWordsCount,
+  selectRepeatWordsCount,
+} from "@/features/exercises/slice";
+import GlobalLoading from "@/shared/components/ui/GlobalLoading";
 
 function Exercises() {
-  useExercisesWords();
+  const isDictLoading = useExercisesWords();
+  const newWordsCount = useAppSelector(selectNewWordsCount);
+  const repeatWordsCount = useAppSelector(selectRepeatWordsCount);
 
   return (
     <div>
-      <div className="flex w-full gap-10">
-        <div>
-          <h1>НОВІ СЛОВА ДЛЯ ВИВЧЕННЯ</h1>
+      {isDictLoading ? (
+        <GlobalLoading text="Завантаження слів" />
+      ) : (
+        <div className="flex w-full gap-10">
+          {newWordsCount >= 5 ? (
+            <div>
+              <h1>НОВІ СЛОВА ДЛЯ ВИВЧЕННЯ</h1>
+              <h1 className="border-2 border-orange-400">
+                Слів для вивчення: {newWordsCount}
+              </h1>
 
-          <div>
-            <NewWordsStats />
-          </div>
+              <NavLink
+                to={ROUTES.EXERCISES.SETTINGS}
+                className="border-2 bg-blue-300"
+                state={{ exerciseType: "new-words" }}
+              >
+                Почати вивчення
+              </NavLink>
+            </div>
+          ) : (
+            <div>
+              <h1>НЕДОСТАТНЬО СЛІВ, ДОДАЙТЕ МІНІМУМ 5</h1>
+              <NavLink
+                to={ROUTES.DICTIONARIES.PUBLIC.OXFORD_3000}
+                className="border-2 bg-blue-300"
+              >
+                Перейти у словник
+              </NavLink>
+            </div>
+          )}
 
-          <NavLink
-            to={ROUTES.EXERCISES.SETTINGS}
-            className="border-2 bg-blue-300"
-            state={{ exerciseType: "new-words" }}
-          >
-            Почати вивчення
-          </NavLink>
+          {repeatWordsCount >= 5 ? (
+            <div>
+              <h1>ІНТЕРВАЛЬНІ ПОВТОРЕННЯ</h1>
+
+              <div className="border-2 border-orange-400">
+                <h1>Слів для повторення: {repeatWordsCount}</h1>
+              </div>
+
+              <NavLink
+                to={ROUTES.EXERCISES.SETTINGS}
+                className="w-1 border-2 bg-blue-300"
+                state={{ exerciseType: "repeat-words" }}
+              >
+                Почати повторення
+              </NavLink>
+            </div>
+          ) : (
+            <h1 className="font-bold text-red-800">Ще не час для повторень</h1>
+          )}
         </div>
-
-        <div>
-          <h1>ІНТЕРВАЛЬНІ ПОВТОРЕННЯ</h1>
-
-          <div>
-            <RepeatWordsStats />
-          </div>
-
-          <NavLink
-            to={ROUTES.EXERCISES.SETTINGS}
-            className="w-1 border-2 bg-blue-300"
-            state={{ exerciseType: "repeat-words" }}
-          >
-            Почати повторення
-          </NavLink>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -24,6 +24,7 @@ function DictionaryList({ dictionary }: DictionaryListProps) {
               level={word.level}
               phrase={word.phrase}
               progress={word.progress}
+              nextRepeat={word.nextRepeat}
             />
 
             <WordControls
