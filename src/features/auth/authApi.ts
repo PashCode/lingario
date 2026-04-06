@@ -71,9 +71,7 @@ const authApi = baseApi.injectEndpoints({
         dispatch(setUser(data));
         await addNewUserToDB(data.uid);
 
-        const homepageAISentence = await getOrSetStorage(
-          LSHomepageAISentenceConfig,
-        );
+        const homepageAISentence = await getOrSetStorage(LSHomepageAISentenceConfig);
         dispatch(setHomepageAISentence(homepageAISentence));
 
         dispatch(setIsOxford3000DictLoading("loading"));
