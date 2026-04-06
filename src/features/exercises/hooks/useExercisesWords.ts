@@ -23,7 +23,7 @@ function useExercisesWords() {
 
     if (personalDictionary.length > 0) {
       personalDictionary.forEach((word) => {
-        const repeatDate = word.nextRepeat.toDate();
+        const repeatDate = word.nextRepeat?.toDate();
 
         if (word.progress === "new") {
           personalWordsProgress.newWords.push(word);

@@ -1,6 +1,6 @@
 import {
   OXFORD_3000_KEY,
-  PHRASE_WITH_DICTIONARY_WORD_KEY,
+  HOMEPAGE_AI_SENTENCE_KEY,
 } from "@/shared/utils/storageAndSession/constants";
 import {
   createUserWithEmailAndPassword,
@@ -57,7 +57,7 @@ export async function deleteAccount() {
   await deleteDBUser(auth.currentUser.uid);
   await deleteUser(auth.currentUser);
   localStorage.removeItem(OXFORD_3000_KEY);
-  localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD_KEY);
+  localStorage.removeItem(HOMEPAGE_AI_SENTENCE_KEY);
 }
 
 // firebase requires fresh credentials if the login session is too old.

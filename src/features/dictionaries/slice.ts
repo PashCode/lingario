@@ -4,6 +4,7 @@ import type { DictionaryState } from "@/features/dictionaries/types";
 const initialState: DictionaryState = {
   oxford3000: [],
   isOxford3000DictLoading: "loading",
+  isAISentenceLoading: "loading",
 };
 
 const dictionarySlice = createSlice({
@@ -28,15 +29,10 @@ const dictionarySlice = createSlice({
   },
 });
 
-export const {
-  setOxford3000,
-  setIsOxford3000DictLoading,
-  clearOxford3000,
-} = dictionarySlice.actions;
+export const { setOxford3000, setIsOxford3000DictLoading, clearOxford3000 } =
+  dictionarySlice.actions;
 
-export const {
-  selectOxford3000,
-  selectIsOxford3000DictLoading,
-} = dictionarySlice.selectors;
+export const { selectOxford3000, selectIsOxford3000DictLoading } =
+  dictionarySlice.selectors;
 
 export default dictionarySlice.reducer;

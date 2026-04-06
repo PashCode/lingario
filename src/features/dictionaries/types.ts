@@ -3,7 +3,8 @@ import { Timestamp, FieldValue } from "firebase/firestore";
 
 export interface DictionaryState {
   oxford3000: Array<Oxford3000Values>;
-  isOxford3000DictLoading: "loading" | "success"
+  isOxford3000DictLoading: "loading" | "success" | "error";
+  isAISentenceLoading: "loading" | "success" | "error";
 }
 
 export interface DBOxford3000Values {

@@ -1,9 +1,9 @@
-import type { LSPhraseWithDictWordValues } from "@/features/home/types";
-import { createHomepagePhrase } from "@/features/home/services";
-import { PHRASE_WITH_DICTIONARY_WORD_KEY } from "@/shared/utils/storageAndSession/constants";
+import type { LSHomepageAISentenceValues } from "@/features/home/types";
+import { createHomepageAISentence } from "@/features/home/services";
+import { HOMEPAGE_AI_SENTENCE_KEY } from "@/shared/utils/storageAndSession/constants";
 
-export const LSPhraseWithDictWordConfig: LSPhraseWithDictWordValues = {
-  storageKey: PHRASE_WITH_DICTIONARY_WORD_KEY,
+export const LSHomepageAISentenceConfig: LSHomepageAISentenceValues = {
+  storageKey: HOMEPAGE_AI_SENTENCE_KEY,
   defaultStorageValue: "[]",
-  initialData: createHomepagePhrase,
+  initialData: createHomepageAISentence,
 };

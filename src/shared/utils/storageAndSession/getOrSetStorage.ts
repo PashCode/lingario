@@ -1,8 +1,8 @@
 import type { LSOxford3000Values } from "@/features/dictionaries/types";
-import type { LSPhraseWithDictWordValues } from "@/features/home/types";
+import type { LSHomepageAISentenceValues } from "@/features/home/types";
 
 async function getOrSetStorage(
-  config: LSOxford3000Values | LSPhraseWithDictWordValues,
+  config: LSOxford3000Values | LSHomepageAISentenceValues,
 ) {
   const existingValues = JSON.parse(
     localStorage.getItem(config.storageKey) || config.defaultStorageValue,

@@ -11,11 +11,11 @@ import {
   setOxford3000,
 } from "@/features/dictionaries/slice";
 import { LSOxford3000Config } from "@/features/dictionaries/utils/constants";
-import { LSPhraseWithDictWordConfig } from"@/features/home/utils/constants";
-import { PHRASE_WITH_DICTIONARY_WORD_KEY } from "@/shared/utils/storageAndSession/constants";
+import { LSHomepageAISentenceConfig } from "@/features/home/utils/constants";
+import { HOMEPAGE_AI_SENTENCE_KEY } from "@/shared/utils/storageAndSession/constants";
 import {
-  clearPhraseWithDictWord,
-  setPhraseWithDictWord,
+  clearHomepageAISentence,
+  setHomepageAISentence,
 } from "@/features/home/slice";
 
 // listener that checks and synchronizes user state
@@ -29,8 +29,8 @@ const useAuthListener = () => {
       if (!user) {
         dispatch(clearUser());
         dispatch(clearOxford3000());
-        dispatch(clearPhraseWithDictWord());
-        localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD_KEY);
+        dispatch(clearHomepageAISentence());
+        localStorage.removeItem(HOMEPAGE_AI_SENTENCE_KEY);
         return;
       }
 
@@ -57,15 +57,15 @@ const useAuthListener = () => {
         );
 
         // needed to check the user session.
-        // if session is new -> clear and regenerate phrase on homepage
-        // via getOrSetStorage(LSPhraseWithDictWordConfig) function below
+        // if session is new -> clear and regenerate AI sentence on homepage
+        // via getOrSetStorage(LSHomepageAISentenceConfig) function below
         if (!isActiveSession) {
-          localStorage.removeItem(PHRASE_WITH_DICTIONARY_WORD_KEY);
+          localStorage.removeItem(HOMEPAGE_AI_SENTENCE_KEY);
         }
 
         // triggers when the user logs in or is already logged in
-        getOrSetStorage(LSPhraseWithDictWordConfig).then((phrase) => {
-          dispatch(setPhraseWithDictWord(phrase));
+        getOrSetStorage(LSHomepageAISentenceConfig).then((homepageAISentence) => {
+          dispatch(setHomepageAISentence(homepageAISentence));
         });
         dispatch(setIsOxford3000DictLoading("loading"));
         getOrSetStorage(LSOxford3000Config).then((oxford3000) => {
