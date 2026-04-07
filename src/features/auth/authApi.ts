@@ -28,7 +28,10 @@ import { isFirebaseApiError } from "./types.ts";
 import getOrSetStorage from "@/shared/utils/storageAndSession/getOrSetStorage";
 import { LSOxford3000Config } from "@/features/dictionaries/utils/constants";
 import { LSHomepageAISentenceConfig } from "@/features/home/utils/constants";
-import { setHomepageAISentence } from "@/features/home/slice";
+import {
+  setHomepageAISentence,
+  setHomepageAISentenceStatus,
+} from "@/features/home/slice";
 
 function handleAuthError(error: unknown): AuthErrorResponse {
   const code = isFirebaseApiError(error) ? error.code : "auth/unexpected-error";
@@ -67,16 +70,23 @@ const authApi = baseApi.injectEndpoints({
         }
       },
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        dispatch(setUser(data));
-        await addNewUserToDB(data.uid);
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setUser(data));
+          await addNewUserToDB(data.uid);
 
-        const homepageAISentence = await getOrSetStorage(LSHomepageAISentenceConfig);
-        dispatch(setHomepageAISentence(homepageAISentence));
+          dispatch(setHomepageAISentenceStatus("loading"));
+          const homepageAISentence = await getOrSetStorage(LSHomepageAISentenceConfig);
+          dispatch(setHomepageAISentence(homepageAISentence));
+          dispatch(setHomepageAISentenceStatus("success"));
 
-        dispatch(setIsOxford3000DictLoading("loading"));
-        const oxford3000 = await getOrSetStorage(LSOxford3000Config);
-        dispatch(setOxford3000(oxford3000));
+          dispatch(setIsOxford3000DictLoading("loading"));
+          const oxford3000 = await getOrSetStorage(LSOxford3000Config);
+          dispatch(setOxford3000(oxford3000));
+        } catch (error) {
+          console.error(error);
+          dispatch(setHomepageAISentenceStatus("error"));
+        }
       },
     }),
 

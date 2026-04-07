@@ -20,6 +20,7 @@ export async function createHomepageAISentence(retryCount: number = 0) {
   const randomLearningWord = await getRandomLearningWord();
 
   try {
+    // throw 1
     const response = await geminiAI.models.generateContent({
       model: "gemini-2.5-flash-lite",
       config: {

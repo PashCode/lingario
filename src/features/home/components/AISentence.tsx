@@ -1,44 +1,45 @@
 import {
   selectHomepageAISentence,
+  selectHomepageAISentenceStatus,
   setHomepageAISentence,
+  setHomepageAISentenceStatus,
 } from "@/features/home/slice";
 import PronounceButton from "@/shared/components/ui/PronounceButton";
 import ReactMarkdown from "react-markdown";
 import { useAppSelector, useAppDispatch } from "@/app/store";
-import {
-  selectIsAISentenceLoading,
-  setIsAISentenceLoading,
-} from "@/features/dictionaries/slice";
 import TestLoader from "@/shared/components/ui/TestLoader";
-import { createHomepageAISentence } from "@/features/home/services";
+import getOrSetStorage from "@/shared/utils/storageAndSession/getOrSetStorage";
+import { LSHomepageAISentenceConfig } from "@/features/home/utils/constants";
+import { HOMEPAGE_AI_SENTENCE_KEY } from "@/shared/utils/storageAndSession/constants";
 
 function AISentence() {
   const homepageAISentence = useAppSelector(selectHomepageAISentence);
-  const homepageAISentenceLoading = useAppSelector(selectIsAISentenceLoading);
+  const homepageAISentenceStatus = useAppSelector(selectHomepageAISentenceStatus);
   const dispatch = useAppDispatch();
 
   function getAISentenceState() {
-    if (homepageAISentenceLoading === "loading") {
+    if (homepageAISentenceStatus === "loading") {
       return <TestLoader text="Генерування фрази..." />;
     }
 
-    if (!homepageAISentence) {
+    if (homepageAISentenceStatus === "error") {
       return (
         <div className="flex gap-2">
           <h1>Помилка генерування фрази...</h1>
           <button
             className="cursor-pointer border"
             onClick={async () => {
-              dispatch(setIsAISentenceLoading("loading"));
+              dispatch(setHomepageAISentenceStatus("loading"));
               try {
-                const sentence = await createHomepageAISentence();
-                dispatch(setIsAISentenceLoading("success"));
+                localStorage.removeItem(HOMEPAGE_AI_SENTENCE_KEY);
+                const sentence = await getOrSetStorage(LSHomepageAISentenceConfig);
                 dispatch(setHomepageAISentence(sentence));
+                dispatch(setHomepageAISentenceStatus("success"));
               } catch (error) {
                 if (error instanceof Error) {
                   console.error(error.message);
                 }
-                dispatch(setIsAISentenceLoading("error"));
+                dispatch(setHomepageAISentenceStatus("error"));
               }
             }}
           >
@@ -46,6 +47,10 @@ function AISentence() {
           </button>
         </div>
       );
+    }
+
+    if (!homepageAISentence) {
+      return null;
     }
 
     return (

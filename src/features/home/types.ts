@@ -1,7 +1,8 @@
 import { Timestamp } from "firebase/firestore";
 
 export interface HomeState {
-  homepageAISentence: ""
+  homepageAISentence: string;
+  homepageAISentenceStatus: "loading" | "success" | "error";
 }
 
 export interface LSHomepageAISentenceValues {

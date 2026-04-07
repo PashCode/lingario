@@ -9,7 +9,6 @@ import {
   clearOxford3000,
   setIsOxford3000DictLoading,
   setOxford3000,
-  setIsAISentenceLoading,
 } from "@/features/dictionaries/slice";
 import { LSOxford3000Config } from "@/features/dictionaries/utils/constants";
 import { LSHomepageAISentenceConfig } from "@/features/home/utils/constants";
@@ -17,6 +16,7 @@ import { HOMEPAGE_AI_SENTENCE_KEY } from "@/shared/utils/storageAndSession/const
 import {
   clearHomepageAISentence,
   setHomepageAISentence,
+  setHomepageAISentenceStatus,
 } from "@/features/home/slice";
 
 // listener that checks and synchronizes user state
@@ -65,14 +65,15 @@ const useAuthListener = () => {
         }
 
         // triggers when the user logs in or is already logged in
+        dispatch(setHomepageAISentenceStatus("loading"));
         getOrSetStorage(LSHomepageAISentenceConfig)
           .then((homepageAISentence) => {
-            dispatch(setIsAISentenceLoading("success"));
             dispatch(setHomepageAISentence(homepageAISentence));
+            dispatch(setHomepageAISentenceStatus("success"));
           })
           .catch((error) => {
             console.error(error);
-            dispatch(setIsAISentenceLoading("error"));
+            dispatch(setHomepageAISentenceStatus("error"));
           });
 
         dispatch(setIsOxford3000DictLoading("loading"));
