@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { isFirebaseApiError } from "@/features/auth/types";
+import { isFirebaseError } from "@/features/auth/types";
 import {
   useDeleteAccountMutation,
   useReauthDeleteAccountMutation,
@@ -20,7 +20,8 @@ function useDeleteAccount() {
       await deleteAccount().unwrap();
       toast.success("Акаунт успішно видалено");
     } catch (error) {
-      if (isFirebaseApiError(error)) {
+      if (isFirebaseError(error)) {
+        console.error(error);
         const ignoreError = [
           "auth/popup-closed-by-user",
           "auth/cancelled-popup-request",
@@ -37,6 +38,7 @@ function useDeleteAccount() {
 
         toast.error(error.message);
       } else {
+        console.error(error);
         toast.error("Сталася непередбачувана помилка. Спробуйте пізніше.");
       }
     }

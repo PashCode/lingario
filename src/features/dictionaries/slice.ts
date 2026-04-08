@@ -17,10 +17,7 @@ const dictionarySlice = createSlice({
     setIsOxford3000DictLoading: (state, action) => {
       state.isOxford3000DictLoading = action.payload;
     },
-    clearOxford3000: (state) => {
-      state.oxford3000 = [];
-      state.isOxford3000DictLoading = "loading";
-    },
+    clearOxford3000: () => initialState,
   },
   selectors: {
     selectOxford3000: (state) => state.oxford3000,

@@ -4,7 +4,7 @@ import type {
   GeneratePhraseForPersonalWordProps,
 } from "@/features/dictionaries/types";
 import { getDownloadURL } from "firebase/storage";
-import { oxford3000Storage, auth } from "@/config/firebase";
+import { oxford3000Storage } from "@/config/firebase";
 import { geminiAI } from "@/config/gemini";
 import { db } from "@/config/firebase";
 import { doc, setDoc, deleteDoc, updateDoc } from "firebase/firestore";
@@ -12,6 +12,7 @@ import {
   PHRASE_CREATING,
   PHRASE_ERROR,
 } from "@/features/dictionaries/utils/constants";
+import requireCurrentUser from "@/shared/utils/auth/requireCurrentUser";
 
 export async function getOxford3000FromDB() {
   const oxford3000Link = await getDownloadURL(oxford3000Storage);
@@ -28,24 +29,16 @@ export async function getOxford3000FromDB() {
 }
 
 export async function deleteWordFromPersonalDict(id: string) {
-  if (!auth.currentUser) throw new Error("Користувач не авторизований");
-  const docRef = doc(db, "users", auth.currentUser.uid, "dictionary", id);
+  const currentUser = requireCurrentUser();
+  const docRef = doc(db, "users", currentUser.uid, "dictionary", id);
   await deleteDoc(docRef);
 }
 
 export async function addWordToPersonalDict(
   wordData: AddWordToPersonalDictProps,
 ) {
-  if (!auth.currentUser) throw new Error("Користувач не авторизований");
-
-  const docRef = doc(
-    db,
-    "users",
-    auth.currentUser.uid,
-    "dictionary",
-    wordData.id,
-  );
-
+  const currentUser = requireCurrentUser();
+  const docRef = doc(db, "users", currentUser.uid, "dictionary", wordData.id);
   await setDoc(docRef, wordData);
 }
 
@@ -54,9 +47,8 @@ export async function generatePhraseForPersonalWord({
   englishWord,
   level,
 }: GeneratePhraseForPersonalWordProps) {
-  if (!auth.currentUser) throw new Error("Користувач не авторизований");
-
-  const docRef = doc(db, "users", auth.currentUser.uid, "dictionary", id);
+  const currentUser = requireCurrentUser();
+  const docRef = doc(db, "users", currentUser.uid, "dictionary", id);
 
   try {
     const phrase = await createPhraseForPersonalDict(englishWord, level);
@@ -70,16 +62,8 @@ export async function generatePhraseForPersonalWord({
 export async function retryPhraseForPersonalWord(
   params: GeneratePhraseForPersonalWordProps,
 ) {
-  if (!auth.currentUser) throw new Error("Користувач не авторизований");
-
-  const docRef = doc(
-    db,
-    "users",
-    auth.currentUser.uid,
-    "dictionary",
-    params.id,
-  );
-
+  const currentUser = requireCurrentUser();
+  const docRef = doc(db, "users", currentUser.uid, "dictionary", params.id);
   await updateDoc(docRef, { phrase: PHRASE_CREATING });
   await generatePhraseForPersonalWord(params);
 }

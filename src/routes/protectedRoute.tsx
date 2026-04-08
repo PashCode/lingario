@@ -9,9 +9,9 @@ import { useAppSelector } from "@/app/store";
 
 const ProtectedRoute = () => {
   const isUserAuthenticated = useAppSelector(selectIsUserAuthenticated);
-  const status = useAppSelector(selectAuthStatus);
+  const authStatus = useAppSelector(selectAuthStatus);
 
-  if (status === "loading") {
+  if (authStatus === "loading") {
     return <GlobalLoading text="Завантаження сторінки..." />;
   }
 

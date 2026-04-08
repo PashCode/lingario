@@ -1,4 +1,4 @@
-import { auth, db } from "@/config/firebase";
+import { db } from "@/config/firebase";
 import { doc } from "firebase/firestore";
 import type {
   InProgressWordsValues,
@@ -6,27 +6,21 @@ import type {
 } from "@/features/exercises/types";
 import type { RefObject } from "react";
 import { writeBatch } from "firebase/firestore";
+import requireCurrentUser from "@/shared/utils/auth/requireCurrentUser";
 
 export async function saveSessionResultsToDB({
   current: updatedWords,
 }: RefObject<Record<string, NewWordsValues | InProgressWordsValues>>) {
-
+  const currentUser = requireCurrentUser();
   const batch = writeBatch(db);
-  if (!auth.currentUser) return;
 
   for (const word in updatedWords) {
-    const docRef = doc(
-      db,
-      "users",
-      auth.currentUser.uid,
-      "dictionary",
-      word,
-    );
+    const docRef = doc(db, "users", currentUser.uid, "dictionary", word);
 
     batch.update(docRef, {
       score: Number(updatedWords[word].score.toFixed(3)),
       nextRepeat: updatedWords[word].nextRepeat,
-      progress: updatedWords[word].progress
+      progress: updatedWords[word].progress,
     });
   }
 

@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { useLoginUserMutation } from "@/features/auth/authApi";
 import { validateLogin } from "@/features/auth/utils/validation";
 import {
-  isFirebaseApiError,
+  isFirebaseError,
   type LoginParams,
   type ValidationErrors,
 } from "@/features/auth/types.ts";
@@ -38,9 +38,12 @@ function useLogin() {
       await login(user).unwrap(); // RTK Query "unwrap()" allows the catch block to handle errors.
       toast.success("З поверненням");
     } catch (error) {
-      if (isFirebaseApiError(error)) {
+      if (isFirebaseError(error)) {
         console.error(error);
         toast.error(error.message);
+      } else {
+        console.error(error);
+        toast.error("Сталася непередбачувана помилка. Спробуйте пізніше.");
       }
     }
   }

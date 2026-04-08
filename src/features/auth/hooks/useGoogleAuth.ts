@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import { loginWithGoogle } from "@/features/auth/services";
 import { useAppDispatch, useAppSelector } from "@/app/store";
-import { isFirebaseApiError } from "@/features/auth/types";
+import { isFirebaseError } from "@/features/auth/types";
 import {
   selectGoogleRedirectStatus,
   setGoogleRedirectStatus,
@@ -16,8 +16,13 @@ function useGoogleAuth() {
       dispatch(setGoogleRedirectStatus("loading"));
       await loginWithGoogle();
     } catch (error) {
-      if (isFirebaseApiError(error)) {
+      if (isFirebaseError(error)) {
+        console.error(error);
         toast.error(error.message);
+        dispatch(setGoogleRedirectStatus("idle"));
+      } else {
+        console.error(error);
+        toast.error("Сталася непередбачувана помилка. Спробуйте пізніше.");
         dispatch(setGoogleRedirectStatus("idle"));
       }
     }

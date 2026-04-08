@@ -1,6 +1,6 @@
 import baseApi from "@/shared/api/baseApi";
 import {
-  addNewUserToDB,
+  ensureUserDoc,
   deleteAccount,
   login,
   loginAnonymously,
@@ -23,8 +23,7 @@ import {
   setIsOxford3000DictLoading,
   setOxford3000,
 } from "@/features/dictionaries/slice";
-import { auth } from "@/config/firebase";
-import { isFirebaseApiError } from "./types.ts";
+import { isFirebaseError } from "./types.ts";
 import getOrSetStorage from "@/shared/utils/storageAndSession/getOrSetStorage";
 import { LSOxford3000Config } from "@/features/dictionaries/utils/constants";
 import { LSHomepageAISentenceConfig } from "@/features/home/utils/constants";
@@ -32,9 +31,10 @@ import {
   setHomepageAISentence,
   setHomepageAISentenceStatus,
 } from "@/features/home/slice";
+import requireCurrentUser from "@/shared/utils/auth/requireCurrentUser";
 
 function handleAuthError(error: unknown): AuthErrorResponse {
-  const code = isFirebaseApiError(error) ? error.code : "auth/unexpected-error";
+  const code = isFirebaseError(error) ? error.code : "auth/unexpected-error";
 
   return {
     error: {
@@ -70,22 +70,36 @@ const authApi = baseApi.injectEndpoints({
         }
       },
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        // after register we preload main data here, because listener may wait for displayName update.
         try {
           const { data } = await queryFulfilled;
           dispatch(setUser(data));
-          await addNewUserToDB(data.uid);
+          await ensureUserDoc(data.uid);
+        } catch (error) {
+          console.error(error);
+          return;
+        }
 
-          dispatch(setHomepageAISentenceStatus("loading"));
-          const homepageAISentence = await getOrSetStorage(LSHomepageAISentenceConfig);
+        dispatch(setHomepageAISentenceStatus("loading"));
+        try {
+          const homepageAISentence = await getOrSetStorage(
+            LSHomepageAISentenceConfig,
+          );
           dispatch(setHomepageAISentence(homepageAISentence));
           dispatch(setHomepageAISentenceStatus("success"));
-
-          dispatch(setIsOxford3000DictLoading("loading"));
-          const oxford3000 = await getOrSetStorage(LSOxford3000Config);
-          dispatch(setOxford3000(oxford3000));
         } catch (error) {
           console.error(error);
           dispatch(setHomepageAISentenceStatus("error"));
+        }
+
+        dispatch(setIsOxford3000DictLoading("loading"));
+        try {
+          const oxford3000 = await getOrSetStorage(LSOxford3000Config);
+          dispatch(setOxford3000(oxford3000));
+          dispatch(setIsOxford3000DictLoading("success"));
+        } catch (error) {
+          console.error(error);
+          dispatch(setIsOxford3000DictLoading("error"));
         }
       },
     }),
@@ -137,12 +151,15 @@ const authApi = baseApi.injectEndpoints({
     reauthDeleteAccount: builder.mutation<null, string>({
       queryFn: async (password) => {
         try {
-          if (auth.currentUser!.isAnonymous) {
+          const currentUser = requireCurrentUser();
+
+          // anonymous user can be deleted right away without extra reauth step.
+          if (currentUser.isAnonymous) {
             await deleteAccount();
             return { data: null };
           }
 
-          const providerId = auth.currentUser!.providerData[0].providerId;
+          const providerId = currentUser.providerData[0].providerId;
           if (providerId === "password") await reauthDeleteWithPassword(password);
           if (providerId === "google.com") await reauthDeleteWithGoogle();
           return { data: null };

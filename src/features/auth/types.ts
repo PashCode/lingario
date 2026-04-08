@@ -2,7 +2,7 @@ import type { FirebaseError } from "firebase/app";
 
 export interface AuthState {
   user: User | null;
-  status: "loading" | "success";
+  authStatus: "loading" | "success";
   googleRedirectStatus: "idle" | "loading";
 }
 
@@ -49,7 +49,7 @@ export interface ReauthFormParams {
   onCancel: () => void
 }
 
-export function isFirebaseApiError(error: unknown): error is FirebaseError {
+export function isFirebaseError(error: unknown): error is FirebaseError {
   return (
     error !== null &&
     typeof error === "object" &&

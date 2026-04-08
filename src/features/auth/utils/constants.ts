@@ -20,3 +20,5 @@ export const AUTH_ERRORS = {
   VALIDATION_NAME_SHORT: "validation/name-too-short",
   VALIDATION_EMAIL_REQUIRED: "validation/email-required",
 } as const;
+
+export const DELETE_BATCH_SIZE = 450;

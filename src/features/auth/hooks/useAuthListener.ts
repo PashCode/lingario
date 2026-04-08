@@ -18,6 +18,8 @@ import {
   setHomepageAISentence,
   setHomepageAISentenceStatus,
 } from "@/features/home/slice";
+import { clearExercisesState } from "@/features/exercises/slice";
+import { toast } from "sonner";
 
 // listener that checks and synchronizes user state
 const useAuthListener = () => {
@@ -31,6 +33,7 @@ const useAuthListener = () => {
         dispatch(clearUser());
         dispatch(clearOxford3000());
         dispatch(clearHomepageAISentence());
+        dispatch(clearExercisesState());
         localStorage.removeItem(HOMEPAGE_AI_SENTENCE_KEY);
         return;
       }
@@ -76,10 +79,18 @@ const useAuthListener = () => {
             dispatch(setHomepageAISentenceStatus("error"));
           });
 
+        // triggers when the user logs in or is already logged in
         dispatch(setIsOxford3000DictLoading("loading"));
-        getOrSetStorage(LSOxford3000Config).then((oxford3000) => {
-          dispatch(setOxford3000(oxford3000));
-        });
+        getOrSetStorage(LSOxford3000Config)
+          .then((oxford3000) => {
+            dispatch(setOxford3000(oxford3000));
+            dispatch(setIsOxford3000DictLoading("success"));
+          })
+          .catch((error) => {
+            dispatch(setIsOxford3000DictLoading("error"));
+            toast.error("Помилка при завантаженні словника");
+            console.error(error);
+          });
       }
     });
 

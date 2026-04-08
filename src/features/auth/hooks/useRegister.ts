@@ -1,6 +1,6 @@
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import {
-  isFirebaseApiError,
+  isFirebaseError,
   type RegisterParams,
   type ValidationErrors,
 } from "@/features/auth/types.ts";
@@ -40,8 +40,12 @@ function useRegister() {
       await register(user).unwrap(); // RTK Query "unwrap()" allows the catch block to handle errors.
       toast.success("Ласкаво просимо");
     } catch (error) {
-      if (isFirebaseApiError(error)) {
+      if (isFirebaseError(error)) {
+        console.error(error);
         toast.error(error.message);
+      } else {
+        console.error(error);
+        toast.error("Сталася непередбачувана помилка. Спробуйте пізніше.");
       }
     }
   }

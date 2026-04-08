@@ -16,10 +16,7 @@ const homeSlice = createSlice({
     setHomepageAISentenceStatus: (state, action) => {
       state.homepageAISentenceStatus = action.payload;
     },
-    clearHomepageAISentence: (state) => {
-      state.homepageAISentence = "";
-      state.homepageAISentenceStatus = "loading";
-    },
+    clearHomepageAISentence: () => initialState,
   },
   selectors: {
     selectHomepageAISentence: (state) => state.homepageAISentence,

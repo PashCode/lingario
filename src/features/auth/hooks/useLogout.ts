@@ -1,5 +1,5 @@
 import { useLogoutUserMutation } from "@/features/auth/authApi";
-import { isFirebaseApiError } from "@/features/auth/types";
+import { isFirebaseError } from "@/features/auth/types";
 import { toast } from "sonner";
 
 function useLogout() {
@@ -10,8 +10,12 @@ function useLogout() {
       await logout().unwrap(); // RTK Query "unwrap()" allows the catch block to handle errors.
       toast.success("Ви успішно вийшли з акаунту");
     } catch (error) {
-      if (isFirebaseApiError(error)) {
+      if (isFirebaseError(error)) {
+        console.error(error);
         toast.error(error.message);
+      } else {
+        console.error(error);
+        toast.error("Сталася непередбачувана помилка. Спробуйте пізніше.");
       }
     }
   }

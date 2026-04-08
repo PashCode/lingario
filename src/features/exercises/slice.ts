@@ -29,6 +29,7 @@ const exercisesSlice = createSlice({
     setExercisesConfig: (state, action) => {
       state.exercisesConfig = action.payload;
     },
+    clearExercisesState: () => initialState,
   },
   selectors: {
     selectNewWords: (state) => state.newWords,
@@ -39,8 +40,12 @@ const exercisesSlice = createSlice({
   },
 });
 
-export const { setNewWords, setRepeatWords, setExercisesConfig } =
-  exercisesSlice.actions;
+export const {
+  setNewWords,
+  setRepeatWords,
+  setExercisesConfig,
+  clearExercisesState,
+} = exercisesSlice.actions;
 
 export const {
   selectNewWords,

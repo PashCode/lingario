@@ -18,31 +18,38 @@ import {
 } from "firebase/auth";
 import { auth } from "@/config/firebase";
 import type { LoginParams, RegisterParams } from "@/features/auth/types";
-import { getDoc, setDoc, deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  setDoc,
+  writeBatch,
+} from "firebase/firestore";
 import { db } from "@/config/firebase";
+import { DELETE_BATCH_SIZE } from "@/features/auth/utils/constants";
+import requireCurrentUser from "@/shared/utils/auth/requireCurrentUser";
 
 export async function register({ email, name, password }: RegisterParams) {
   const { user } = await createUserWithEmailAndPassword(auth, email, password);
-  // updateProfile is required because "createUserWithEmailAndPassword" doesn't support name.
+  // updateProfile is required because "createUserWithEmailAndPassword" doesn't support name field.
   await updateProfile(user, { displayName: name });
-  const isDBUserExist = await checkDBUserExist(user.uid);
-  if (!isDBUserExist) await addNewUserToDB(user.uid);
+  await ensureUserDoc(user.uid);
   // await sendEmailVerification(user);
   return user;
 }
 
 export async function login({ email, password }: LoginParams) {
   const { user } = await signInWithEmailAndPassword(auth, email, password);
-  const isDBUserExist = await checkDBUserExist(user.uid);
-  if (!isDBUserExist) await addNewUserToDB(user.uid);
+  await ensureUserDoc(user.uid);
 }
 
 export async function loginAnonymously() {
   const { user } = await signInAnonymously(auth);
+  await ensureUserDoc(user.uid);
   return user;
 }
 
-// checkDBUserExist is executed in useGoogleRedirect hook.
 export async function loginWithGoogle() {
   await signInWithRedirect(auth, new GoogleAuthProvider());
 }
@@ -51,43 +58,58 @@ export async function logout() {
   await signOut(auth);
 }
 
-export async function deleteAccount() {
-  if (!auth.currentUser) return;
-
-  await deleteDBUser(auth.currentUser.uid);
-  await deleteUser(auth.currentUser);
-  localStorage.removeItem(OXFORD_3000_KEY);
-  localStorage.removeItem(HOMEPAGE_AI_SENTENCE_KEY);
-}
-
 // firebase requires fresh credentials if the login session is too old.
 export async function reauthDeleteWithPassword(password: string) {
-  if (!auth.currentUser?.email) return;
+  const currentUser = requireCurrentUser();
+
+  if (!currentUser.email) {
+    throw new Error("У користувача відсутній email для повторної авторизації");
+  }
+
   await reauthenticateWithCredential(
-    auth.currentUser,
-    EmailAuthProvider.credential(auth.currentUser.email, password),
+    currentUser,
+    EmailAuthProvider.credential(currentUser.email, password),
   );
 }
 
 // firebase requires fresh credentials if the login session is too old.
 export async function reauthDeleteWithGoogle() {
-  if (!auth.currentUser) return;
-  await reauthenticateWithPopup(auth.currentUser, new GoogleAuthProvider());
+  const currentUser = requireCurrentUser();
+  await reauthenticateWithPopup(currentUser, new GoogleAuthProvider());
 }
 
-export async function addNewUserToDB(uid: string) {
+// this creates user doc if it is missing and keeps old fields if doc already exists.
+export async function ensureUserDoc(uid: string) {
   const docRef = doc(db, "users", uid);
   await setDoc(docRef, { userID: uid }, { merge: true });
   return docRef;
 }
 
-export async function checkDBUserExist(uid: string) {
-  const docRef = doc(db, "users", uid);
-  const docSnap = await getDoc(docRef);
-  return docSnap.exists();
+async function deleteUserDictionary(uid: string) {
+  const dictionaryRef = collection(db, "users", uid, "dictionary");
+  const dictionarySnapshot = await getDocs(dictionaryRef);
+  const dictionaryDocs = dictionarySnapshot.docs;
+
+  for (let i = 0; i < dictionaryDocs.length; i += DELETE_BATCH_SIZE) {
+    // firestore batch writes are limited (500), so we delete the dictionary in chunks.
+    const batch = writeBatch(db);
+    const chunk = dictionaryDocs.slice(i, i + DELETE_BATCH_SIZE);
+
+    chunk.forEach((wordDoc) => {
+      batch.delete(wordDoc.ref);
+    });
+
+    await batch.commit();
+  }
 }
 
-async function deleteDBUser(uid: string) {
-  const docRef = doc(db, "users", uid);
-  await deleteDoc(docRef);
+export async function deleteAccount() {
+  const currentUser = requireCurrentUser();
+
+  // delete firestore data first, then delete auth user.
+  await deleteUserDictionary(currentUser.uid);
+  await deleteDoc(doc(db, "users", currentUser.uid));
+  await deleteUser(currentUser);
+  localStorage.removeItem(OXFORD_3000_KEY);
+  localStorage.removeItem(HOMEPAGE_AI_SENTENCE_KEY);
 }

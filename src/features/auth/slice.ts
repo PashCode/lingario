@@ -3,8 +3,14 @@ import type { AuthState } from "./types";
 
 const initialState: AuthState = {
   user: null,
-  status: "loading",
+  authStatus: "loading",
   googleRedirectStatus: "idle",
+};
+
+// authStatus is already done here, we just clear user data.
+const clearedUserState: AuthState = {
+  ...initialState,
+  authStatus: "success",
 };
 
 const authSlice = createSlice({
@@ -13,19 +19,16 @@ const authSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
-      state.status = "success";
-    },
-    clearUser: (state) => {
-      state.user = null;
-      state.status = "success";
+      state.authStatus = "success";
     },
     setGoogleRedirectStatus: (state, action) => {
       state.googleRedirectStatus = action.payload;
     },
+    clearUser: () => clearedUserState,
   },
   selectors: {
     selectUser: (state) => state.user,
-    selectAuthStatus: (state) => state.status,
+    selectAuthStatus: (state) => state.authStatus,
     selectIsUserAuthenticated: (state) => state.user !== null,
     selectGoogleRedirectStatus: (state) => state.googleRedirectStatus,
   },
