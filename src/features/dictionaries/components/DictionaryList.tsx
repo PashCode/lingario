@@ -19,7 +19,9 @@ function DictionaryList({ dictionary }: DictionaryListProps) {
             className={`english-word ${setBorderColor(word.progress)} mb-4 rounded border-4 p-2`}
           >
             <WordContent
+              id={word.id}
               englishWord={word.englishWord}
+              translation={word.translation}
               level={word.level}
               phrase={word.phrase}
               progress={word.progress}

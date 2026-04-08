@@ -6,7 +6,12 @@ import type { PersonalWordValues } from "@/features/home/types";
 export async function getRandomLearningWord() {
   if (!auth.currentUser) return;
 
-  const dictionaryRef = collection(db, "users", auth.currentUser.uid, "dictionary",);
+  const dictionaryRef = collection(
+    db,
+    "users",
+    auth.currentUser.uid,
+    "dictionary",
+  );
   const querySnapshot = await getDocs(dictionaryRef);
   const learningWords = querySnapshot.docs
     .map((word) => word.data() as PersonalWordValues)
@@ -20,7 +25,6 @@ export async function createHomepageAISentence(retryCount: number = 0) {
   const randomLearningWord = await getRandomLearningWord();
 
   try {
-    // throw 1
     const response = await geminiAI.models.generateContent({
       model: "gemini-2.5-flash-lite",
       config: {
@@ -38,7 +42,7 @@ export async function createHomepageAISentence(retryCount: number = 0) {
       contents: randomLearningWord
         ? `Task: Create one grammatically correct sentence ${randomLearningWord.level} level.\n` +
           "Length: No more than 10 words\n" +
-          `Vocabulary: Use the word "${randomLearningWord.englishWord}" and wrap it in triple asterisks (like **${randomLearningWord.englishWord}**)\n` +
+          `Vocabulary: Use the word "${randomLearningWord.englishWord}" and wrap it in double asterisks (like **${randomLearningWord.englishWord}**)\n` +
           "Topic: Random everyday theme\n"
         : "Task: Create one grammatically correct sentence\n" +
           "Length: Exactly 10 words\n" +
@@ -46,12 +50,21 @@ export async function createHomepageAISentence(retryCount: number = 0) {
           "Topic: Random everyday theme\n",
     });
 
-    if (!response.text) throw new Error("Помилка генерації фрази");
+    if (!response.text) {
+      throw new Error(
+        "Gemini API повернуло порожню відповідь (response.text is empty)",
+      );
+    }
     const parsed = JSON.parse(response.text);
     return parsed.sentence;
-  } catch {
-    if (retryCount === 3) throw new Error("Спроби вичерпані, помилка Gemini")
-    console.log(`Спроба згенерувати фразу ${retryCount + 1} / 3`);
+  } catch (error) {
+    console.warn(`[WARNING]: Спроба генерації фрази: ${retryCount + 1} / 3`);
+
+    if (retryCount === 2) {
+      console.error("[ERROR]: Всі 3 спроби генерації вичерпано.");
+      throw error;
+    }
+
     await new Promise((resolve) => setTimeout(resolve, 1000));
     return createHomepageAISentence(retryCount + 1);
   }

@@ -16,7 +16,7 @@ export interface Oxford3000Values {
   englishWord: string;
   translation: string;
   level: string;
-  id?: string;
+  id: string;
   progress?: string;
   addedAt?: Timestamp;
   nextRepeat?: Timestamp;
@@ -77,7 +77,9 @@ export interface WordControlsProps {
 }
 
 export interface WordContentProps {
+  id: string;
   englishWord: string;
+  translation: string;
   level: string;
   phrase?: string;
   progress?: string;
@@ -94,6 +96,12 @@ export interface AddWordToPersonalDictProps {
   score: number;
   phrase?: string;
   nextRepeat?: FieldValue;
+}
+
+export interface GeneratePhraseForPersonalWordProps {
+  id: string;
+  englishWord: string;
+  level: string;
 }
 
 export interface LevelStats {

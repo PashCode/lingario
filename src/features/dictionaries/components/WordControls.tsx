@@ -1,12 +1,13 @@
-import PronounceButton from "@/shared/components/ui/PronounceButton";
 import {
   addWordToPersonalDict,
   deleteWordFromPersonalDict,
+  generatePhraseForPersonalWord,
 } from "@/features/dictionaries/services";
 import Button from "@/shared/components/ui/Button";
 import { serverTimestamp } from "firebase/firestore";
 import type { WordControlsProps } from "@/features/dictionaries/types";
 import { toast } from "sonner";
+import { PHRASE_CREATING } from "@/features/dictionaries/utils/constants";
 
 function WordControls(props: WordControlsProps) {
   const {
@@ -28,19 +29,25 @@ function WordControls(props: WordControlsProps) {
           onClick={async () => {
             setProcessingWord(englishWord);
 
-            await addWordToPersonalDict({
-              id: crypto.randomUUID(),
-              englishWord: englishWord,
-              translation: translation,
-              level: level,
-              addedAt: serverTimestamp(),
-              progress: "studied",
-              score: 2,
-            });
-            setProcessingWord(null);
-            toast.success("Додано...", {
-              duration: 1000,
-            });
+            try {
+              await addWordToPersonalDict({
+                id: crypto.randomUUID(),
+                englishWord: englishWord,
+                translation: translation,
+                level: level,
+                addedAt: serverTimestamp(),
+                progress: "studied",
+                score: 2,
+              });
+              toast.success("Додано...", { duration: 1000 });
+            } catch (error) {
+              if (error instanceof Error) {
+                toast.error("Помилка додавання слова...", { duration: 1000 });
+                console.error(error);
+              }
+            } finally {
+              setProcessingWord(null);
+            }
           }}
           disabled={englishWord === processingWord}
           text="Знаю"
@@ -52,37 +59,54 @@ function WordControls(props: WordControlsProps) {
         onClick={
           inPersonalDictionary
             ? async () => {
-               await deleteWordFromPersonalDict(id);
-                toast.success("Видалено...", {
-                  duration: 1000,
-                });
+                try {
+                  await deleteWordFromPersonalDict(id);
+                  toast.success("Видалено...", { duration: 1000 });
+                } catch (error) {
+                  toast.error("Помилка видалення");
+                  console.error(error);
+                }
               }
             : async () => {
+                const wordId = crypto.randomUUID();
                 setProcessingWord(englishWord);
-                toast.success("Додано...", {
-                  duration: 1000,
-                });
-                await addWordToPersonalDict({
-                  id: crypto.randomUUID(),
-                  englishWord: englishWord,
-                  translation: translation,
-                  level: level,
-                  phrase: "creating...",
-                  addedAt: serverTimestamp(),
-                  nextRepeat: serverTimestamp(),
-                  progress: "new",
-                  score: 1,
-                });
 
-                setProcessingWord(null);
+                try {
+                  await addWordToPersonalDict({
+                    id: wordId,
+                    englishWord: englishWord,
+                    translation: translation,
+                    level: level,
+                    phrase: PHRASE_CREATING,
+                    addedAt: serverTimestamp(),
+                    nextRepeat: serverTimestamp(),
+                    progress: "new",
+                    score: 1,
+                  });
+                  toast.success("Додано...", { duration: 1000 });
+                } catch (error) {
+                  if (error instanceof Error) {
+                    toast.error("Помилка додавання слова...", {duration: 1000});
+                    console.log(error);
+                  }
+                  return;
+                } finally {
+                  setProcessingWord(null);
+                }
+
+                void generatePhraseForPersonalWord({
+                  id: wordId,
+                  englishWord,
+                  level,
+                }).catch((error) => {
+                  console.error(error);
+                });
               }
         }
         disabled={englishWord === processingWord}
         text={inPersonalDictionary ? "Видалити" : "Не знаю"}
         className="cursor-pointer rounded bg-red-500 px-2 py-1 text-white disabled:bg-gray-500 disabled:delay-100"
       />
-
-      <PronounceButton text={englishWord} size="30"/>
     </div>
   );
 }

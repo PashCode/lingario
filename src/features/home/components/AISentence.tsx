@@ -37,7 +37,7 @@ function AISentence() {
                 dispatch(setHomepageAISentenceStatus("success"));
               } catch (error) {
                 if (error instanceof Error) {
-                  console.error(error.message);
+                  console.error(error);
                 }
                 dispatch(setHomepageAISentenceStatus("error"));
               }

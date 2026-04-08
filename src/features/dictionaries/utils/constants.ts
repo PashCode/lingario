@@ -8,4 +8,5 @@ export const LSOxford3000Config: LSOxford3000Values = {
   initialData: getOxford3000FromDB,
 };
 
-
+export const PHRASE_CREATING = "Генерування фрази...";
+export const PHRASE_ERROR = "error";

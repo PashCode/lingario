@@ -7,6 +7,10 @@ import type {
   InProgressWordsValues,
   PersonalWordsProgressValues,
 } from "@/features/exercises/types";
+import {
+  PHRASE_CREATING,
+  PHRASE_ERROR,
+} from "@/features/dictionaries/utils/constants";
 
 function useExercisesWords() {
   const { personalDictionary, isPersonalDictLoading } = useDictSnapshot<
@@ -24,12 +28,17 @@ function useExercisesWords() {
     if (personalDictionary.length > 0) {
       personalDictionary.forEach((word) => {
         const repeatDate = word.nextRepeat?.toDate();
+        const isPhraseReady =
+          !!word.phrase &&
+          word.phrase !== PHRASE_CREATING &&
+          word.phrase !== PHRASE_ERROR;
 
-        if (word.progress === "new") {
+        if (word.progress === "new" && isPhraseReady) {
           personalWordsProgress.newWords.push(word);
         }
 
         if (
+          isPhraseReady &&
           word.progress === "in progress" &&
           repeatDate <= currentDate
         ) {
