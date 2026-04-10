@@ -25,7 +25,7 @@ function getPasswordError(password: string): string | undefined {
     return getAuthErrorMessage(AUTH_ERRORS.WEAK_PASSWORD);
 }
 
-function getNameError(name: string): string | undefined {
+export function getNameError(name: string): string | undefined {
   if (!name.trim())
     return getAuthErrorMessage(AUTH_ERRORS.VALIDATION_NAME_REQUIRED);
   if (name.trim().length < 2)

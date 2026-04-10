@@ -4,12 +4,13 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { db } from "@/config/firebase";
 import requireCurrentUser from "@/shared/utils/auth/requireCurrentUser";
 import { toast } from "sonner";
+import type { UploadStatus, UseAvatarReturn } from "@/features/profile/types";
 
-function useAvatar() {
+function useAvatar(): UseAvatarReturn {
   const currentUser = requireCurrentUser();
   const [avatar, setAvatar] = useState("");
   const [isProfileLoading, setIsProfileLoading] = useState(true);
-  const [uploadStatus, setUploadStatus] = useState<"idle" | "uploading" | "error">("idle");
+  const [uploadStatus, setUploadStatus] = useState<UploadStatus>("idle");
 
   function waitImage(url: string) {
     return new Promise<void>((resolve, reject) => {
@@ -93,6 +94,7 @@ function useAvatar() {
 
     setAvatar(avatarURL);
     setUploadStatus("idle");
+    toast.success("Фото профілю встановлено");
   }
 
   return {

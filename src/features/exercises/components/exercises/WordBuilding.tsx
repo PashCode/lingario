@@ -27,6 +27,10 @@ function WordBuilding({
     <div className="flex h-150 w-120 justify-center bg-gray-500 select-none">
       <div className="flex flex-col items-center justify-evenly">
         <h1>{currentWord.translation}</h1>
+        {/*<h1>*/}
+        {/*  {collectedLetters.length === currentWord.englishWord.length &&*/}
+        {/*    currentWord.englishWord}*/}
+        {/*</h1>*/}
 
         <div className="flex gap-2 text-2xl font-bold">
           {currentWord.englishWord.split("").map((letter, index) => {
