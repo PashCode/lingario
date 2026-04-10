@@ -1,21 +1,11 @@
-import { toast } from "sonner";
-import { useEffect } from "react";
-
-function GlobalLoading({ text = "Завантаження сторінки..." }: { text: string }) {
-  useEffect(() => {
-    let toastLoadingId: string | number;
-
-    const timerId = setTimeout(() => {
-      toastLoadingId = toast.loading(text);
-    }, 0);
-
-    return () => {
-      toast.dismiss(toastLoadingId);
-      clearTimeout(timerId);
-    };
-  }, [text]);
-
-  return null;
+function GlobalLoading() {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
+      <div className="rounded-xl bg-white p-4 shadow">
+        <p>Завантаження...</p>
+      </div>
+    </div>
+  );
 }
 
 export default GlobalLoading;

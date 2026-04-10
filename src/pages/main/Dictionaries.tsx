@@ -24,7 +24,7 @@ function Dictionaries() {
   });
 
   return isPersonalDictLoading || isOxford3000DictLoading === "loading" ? (
-    <GlobalLoading text="Завантаження словників" />
+    <GlobalLoading />
   ) : (
     <div className="flex justify-around">
       <div>

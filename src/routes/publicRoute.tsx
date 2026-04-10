@@ -12,7 +12,7 @@ const PublicRoute = () => {
   const authStatus = useAppSelector(selectAuthStatus);
 
   if (authStatus === "loading") {
-    return <GlobalLoading text="Завантаження сторінки..."/>;
+    return <GlobalLoading />;
   }
 
   if (isUserAuthenticated) {

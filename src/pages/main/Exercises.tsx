@@ -16,7 +16,7 @@ function Exercises() {
   return (
     <div>
       {isPersonalDictLoading ? (
-        <GlobalLoading text="Завантаження слів" />
+        <GlobalLoading />
       ) : (
         <div className="flex w-full gap-10">
           {newWordsCount >= 5 ? (

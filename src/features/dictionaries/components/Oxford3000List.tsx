@@ -24,7 +24,7 @@ function Oxford3000List() {
   } = useWordsFiltering(availableWords);
 
   return isAvailableWordsLoading ? (
-    <GlobalLoading text="Завантаження словника..." />
+    <GlobalLoading />
   ) : (
     <div className="w-full pr-2 pl-2">
       <Filters

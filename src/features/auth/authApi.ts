@@ -153,9 +153,8 @@ const authApi = baseApi.injectEndpoints({
         try {
           const currentUser = requireCurrentUser();
 
-          // anonymous user can be deleted right away without extra reauth step.
+          // anonymous user does not need reauth, so we skip straight to deleteAccount mutation in the hook.
           if (currentUser.isAnonymous) {
-            await deleteAccount();
             return { data: null };
           }
 

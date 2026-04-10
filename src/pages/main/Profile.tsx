@@ -1,93 +1,67 @@
-import LogoutButton from "@/features/auth/components/LogoutButton";
 import DeleteAccount from "@/features/auth/components/DeleteAccount";
-// import { useAppSelector } from "@/app/store";
-// import { selectOxford3000 } from "@/components/dictionary/slice";
-// import {
-//   collection,
-//   addDoc,
-//   getDocs,
-//   deleteDoc,
-//   updateDoc,
-//   doc,
-// } from "firebase/firestore";
-// import { db } from "@/config/firebase";
-// import Button from "@/shared/components/ui/Button";
-// import { useEffect, useState } from "react";
+import Logout from "@/features/auth/components/Logout";
+import useAvatar from "@/features/profile/hooks/useAvatar";
+import GlobalLoading from "@/shared/components/ui/GlobalLoading";
+import TestLoader from "@/shared/components/ui/TestLoader";
+import defaultAvatar from "@/features/profile/assets/default-avatar.png";
 
 function Profile() {
-  // const oxfordD3000 = useAppSelector(selectOxford3000);
-  // const [data, setData] = useState({});
-  //
-  // useEffect(() => {
-  //   async function readData() {
-  //     const querySnapshot = await getDocs(collection(db, "users"));
-  //     querySnapshot.forEach((doc) => {
-  //       setData(doc.data());
-  //       console.log(doc.data());
-  //     });
-  //   }
-  //   void readData();
-  // }, []);
-  //
-  // async function loadData() {
-  //   try {
-  //     const docRef = await addDoc(collection(db, "users"), {
-  //       first: "Ada",
-  //       last: "Lovelace",
-  //       born: 1815,
-  //       test: "test",
-  //     });
-  //     console.log("Document written with ID: ", docRef.id);
-  //   } catch (e) {
-  //     console.error("Error adding document: ", e);
-  //   }
-  // }
-  //
-  // async function deleteData() {
-  //   const data = await getDocs(collection(db, "users"));
-  //   const id = data.docs[0].id;
-  //   await deleteDoc(doc(db, "users", id));
-  //   console.log("success");
-  // }
-  //
-  // async function updateData() {
-  //   const data = await getDocs(collection(db, "users"));
-  //   const id = data.docs[0].id;
-  //   const reference = doc(db, "users", id);
-  //   await updateDoc(reference, { capital: true });
-  // }
+  const { avatar, isProfileLoading, uploadStatus, setAvatarToProfile } =
+    useAvatar();
+
+  if (isProfileLoading) {
+    return <GlobalLoading />;
+  }
 
   return (
-    <>
-      <div>PROFILE</div>
-      <LogoutButton />
-      <DeleteAccount />
+    <div className="flex flex-col items-center justify-end gap-50">
+      <form className="flex flex-col items-center gap-3">
+        <label
+          htmlFor="upload-avatar"
+          className={`border ${uploadStatus === "uploading" ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
+        >
+          {avatar ? "Змінити фото" : "Завантажити фото"}
+        </label>
 
-      {/*{oxfordD3000.length ? (*/}
-      {/*    <div className="border-4 border-amber-600">*/}
-      {/*      <h1>*/}
-      {/*        Слово: {oxfordD3000[10].e} <br />*/}
-      {/*        Переклад: {oxfordD3000[10].u} <br />*/}
-      {/*        Рівень: {oxfordD3000[10].l}*/}
-      {/*      </h1>*/}
+        <input
+          type="file"
+          id="upload-avatar"
+          name="upload-avatar"
+          accept="image/*"
+          capture="user"
+          disabled={uploadStatus === "uploading"}
+          onChange={(event) =>
+            void setAvatarToProfile(event.currentTarget.files?.[0])
+          }
+          hidden
+        />
 
-      {/*      <div className="flex gap-2">*/}
-      {/*        <button className="cursor-pointer bg-green-500">Додати</button>*/}
-      {/*        <button className="cursor-pointer bg-red-500">Видалити</button>*/}
-      {/*      </div>*/}
-      {/*    </div>*/}
-      {/*) : (*/}
-      {/*  "undefined"*/}
-      {/*)}*/}
-      {/*<hr />*/}
-      {/*<Button onClick={loadData} text="Завантажити дані у DB" />*/}
-      {/*<hr />*/}
-      {/*<Button onClick={deleteData} text="Видалити дані з DB" />*/}
-      {/*<hr />*/}
-      {/*<Button onClick={updateData} text="Оновити дані в DB" />*/}
+        {uploadStatus === "uploading" && (
+          <TestLoader text="Завантаження фото..." />
+        )}
+      </form>
 
-      {/*<h1>{data ? data?.last : "поки тут нічого"}</h1>*/}
-    </>
+      {/*{uploadStatus === "error" && <p>Помилка завантаження, спробуйте ще раз</p>}*/}
+
+      {avatar ? (
+        <img
+          src={avatar}
+          alt="avatar"
+          className={`w-1/5 rounded-full ${uploadStatus === "uploading" ? "opacity-0" : ""}`}
+        />
+      ) : (
+        <img
+          src={defaultAvatar}
+          alt="default-avatar"
+          className="w-1/5 rounded-full"
+        />
+      )}
+
+      <div>
+        <Logout />
+        <DeleteAccount />
+      </div>
+    </div>
   );
 }
 

@@ -6,7 +6,7 @@ function Settings() {
   const isPersonalDictLoading = useExercisesWords();
 
   if (isPersonalDictLoading) {
-    return <GlobalLoading text="Завантаження слів" />;
+    return <GlobalLoading />;
   }
 
   return <SettingsComponent />;

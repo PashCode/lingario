@@ -5,6 +5,7 @@ import authReducer from "@/features/auth/slice";
 import homeReducer from "@/features/home/slice";
 import dictionaryReducer from "@/features/dictionaries/slice";
 import exercisesReducer from "@/features/exercises/slice";
+import profileReducer from "@/features/profile/slice"
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     home: homeReducer,
     dictionary: dictionaryReducer,
     exercises: exercisesReducer,
+    profile: profileReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {

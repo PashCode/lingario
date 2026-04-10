@@ -25,7 +25,7 @@ function PersonalDictionary() {
   } = useWordsFiltering(personalDictionary);
 
   if (isPersonalDictLoading) {
-    return <GlobalLoading text="Завантаження словника..." />;
+    return <GlobalLoading />;
   }
 
   if (!personalDictionary.length) {

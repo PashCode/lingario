@@ -1,7 +1,7 @@
 import useLogout from "@/features/auth/hooks/useLogout";
 import Button from "@/shared/components/ui/Button";
 
-function LogoutButton() {
+function Logout() {
   const {isLoading, handleLogout} = useLogout()
 
   return (
@@ -14,4 +14,4 @@ function LogoutButton() {
   );
 }
 
-export default LogoutButton;
+export default Logout;

@@ -18,11 +18,11 @@ function Input(attributes: InputProps) {
   } = attributes;
 
   return (
-    <div className={className}>
+    <form className={className}>
       <label className="select-none" htmlFor={htmlFor}>{labelText}</label>
       <input {...inputAttributes} />
       <InputError errorMessage={errorMessage} />
-    </div>
+    </form>
   );
 }
 
