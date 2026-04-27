@@ -28,7 +28,11 @@ function WordContent({
         <b>Слово:</b> {englishWord} <br />
         <PronounceButton text={englishWord} size="20" />
       </div>
-      <b>Переклад:</b> {translation} <br />
+      {progress ? (
+        <>
+          <b>Переклад:</b> {translation} <br />
+        </>
+      ) : ""}
       <b>Рівень:</b> {level}
       {phrase === PHRASE_CREATING && (
         <div className="flex">

@@ -11,10 +11,10 @@ export function App() {
   useGoogleRedirect();
 
   return (
-    <>
+    <div className="bg-[#EDEEF3]">
       <RouterProvider router={router} />
       <Toaster richColors position="top-right" />
-    </>
+    </div>
   );
 }
 

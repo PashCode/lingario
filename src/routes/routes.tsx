@@ -25,7 +25,6 @@ const router = createBrowserRouter([
       {
         element: <FullScreenLayout />,
         children: [
-          { path: ROUTES.WELCOME, element: <Welcome /> },
           { path: ROUTES.AUTH.ROOT, element: <Auth /> },
           { path: ROUTES.AUTH.RESET_PASSWORD, element: <ResetPassword /> },
         ],
@@ -50,8 +49,14 @@ const router = createBrowserRouter([
       {
         element: <FullScreenLayout />,
         children: [
-          { path: ROUTES.DICTIONARIES.PUBLIC.OXFORD_3000, element: <Oxford3000 />},
-          { path: ROUTES.DICTIONARIES.PERSONAL.ROOT, element: <PersonalWords />},
+          {
+            path: ROUTES.DICTIONARIES.PUBLIC.OXFORD_3000,
+            element: <Oxford3000 />,
+          },
+          {
+            path: ROUTES.DICTIONARIES.PERSONAL.ROOT,
+            element: <PersonalWords />,
+          },
           { path: ROUTES.EXERCISES.SESSION, element: <Session /> },
           { path: ROUTES.EXERCISES.SESSION_RESULT, element: <SessionResult /> },
         ],
@@ -59,7 +64,13 @@ const router = createBrowserRouter([
     ],
   },
 
-  { path: ROUTES.NOT_FOUND, element: <NotFound /> },
+  {
+    element: <FullScreenLayout />,
+    children: [
+      { path: ROUTES.WELCOME, element: <Welcome /> },
+      { path: ROUTES.NOT_FOUND, element: <NotFound /> },
+    ],
+  },
 ]);
 
 export default router;

@@ -1,7 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Montserrat", sans-serif;
+  /*-------- ШРИФТИ --------*/
+  /* основний */
+  --font-sans: "Golos Text", sans-serif;
+  
+  /*-------- КОЛЬОРИ --------*/
+  /* сіро-сині / темні */
+  --color-slate-400: #5a5870;
+  --color-slate-500: #3d3b55;
+  --color-slate-600: #2e2c42;
+  --color-slate-700: #252336;
+  --color-slate-800: #1c1b27;
+  --color-slate-900: #0e0e12;
+  
+  /* бежеві / світлі */
+  --color-beige-50: #f5f0e6;
+  --color-beige-100: #ece5d3;
+  --color-beige-200: #e2d9c8;
+  --color-beige-300: #d4c8a8;
+  
+  /* жовті / золоті */
+  --color-yellow-300: #e8c878;
+  --color-yellow-500: #c8a864;
+  --color-yellow-700: #a08040;
+  --color-yellow-900: #7a5c20;
+  
+  /* зелені */
+  --color-green-100: #c8ead4;
+  --color-green-400: #5aaa7e;
+  --color-green-600: #2d7a55;
+  --color-green-800: #1e4d38;
+  
+  /* червоні */
+  --color-red-100: #f5d0c0;
+  --color-red-400: #d46848;
+  --color-red-600: #a03828;
+  --color-red-800: #5c2018;
+  
+  /* сині */
+  --color-blue-100: #b8d0f0;
+  --color-blue-400: #5888c8;
+  --color-blue-600: #28487a;
+  --color-blue-800: #182840;
+  
 }
 
