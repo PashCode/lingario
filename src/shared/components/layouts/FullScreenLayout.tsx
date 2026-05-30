@@ -1,8 +1,8 @@
-import { Outlet } from "react-router-dom";
+import { Outlet} from "react-router-dom";
 
 function FullScreenLayout() {
   return (
-    <main className="relative flex min-h-dvh w-full flex-col">
+    <main className="relative min-h-dvh min-w-full grid place-items-center">
       <Outlet />
     </main>
   );

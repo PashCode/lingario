@@ -1,15 +1,16 @@
-import { HiSpeakerWave, HiOutlineSpeakerWave } from "react-icons/hi2";
 import type { PronounceButtonProps } from "@/shared/types/types";
+import { LuVolume2, LuAudioLines } from "react-icons/lu";
 
 function PronounceIcon({
   size,
   currentPronounce,
   text,
+  strokeWidth,
 }: PronounceButtonProps) {
   return text === currentPronounce ? (
-    <HiOutlineSpeakerWave size={size} />
+    <LuAudioLines size={size} strokeWidth={strokeWidth} />
   ) : (
-    <HiSpeakerWave size={size} />
+    <LuVolume2 size={size} strokeWidth={strokeWidth} />
   );
 }
 

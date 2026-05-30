@@ -3,46 +3,86 @@
 @theme {
   /*-------- ШРИФТИ --------*/
   /* основний */
-  --font-sans: "Golos Text", sans-serif;
+  --font-sans: "Nunito", sans-serif;
   
   /*-------- КОЛЬОРИ --------*/
-  /* сіро-сині / темні */
-  --color-slate-400: #5a5870;
-  --color-slate-500: #3d3b55;
-  --color-slate-600: #2e2c42;
-  --color-slate-700: #252336;
-  --color-slate-800: #1c1b27;
-  --color-slate-900: #0e0e12;
+  /*фон*/
+  --color-main-background: #EDEEF3;
+  --color-main-blocks: #FFFFFF;
+  --color-text: #393836;
   
-  /* бежеві / світлі */
-  --color-beige-50: #f5f0e6;
-  --color-beige-100: #ece5d3;
-  --color-beige-200: #e2d9c8;
-  --color-beige-300: #d4c8a8;
+  --color-red-100: #F9EFEF;
+  --color-red-300: #EDDBDB;
+  --color-red-500: #D0696D;
+  --color-red-800: #7A3F3F;
   
-  /* жовті / золоті */
-  --color-yellow-300: #e8c878;
-  --color-yellow-500: #c8a864;
-  --color-yellow-700: #a08040;
-  --color-yellow-900: #7a5c20;
+  --color-blue-100: #EDF3F9;
+  --color-blue-300: #D3DBE4;
+  --color-blue-500: #5989B9;
+  --color-blue-800: #556F82;
   
-  /* зелені */
-  --color-green-100: #c8ead4;
-  --color-green-400: #5aaa7e;
-  --color-green-600: #2d7a55;
-  --color-green-800: #1e4d38;
+  --color-gray-100: #EDECEA;
+  --color-gray-300: #E8E1D8;
+  --color-gray-500: #D9D7D3;
+  --color-gray-800: #A9A7A2;
   
-  /* червоні */
-  --color-red-100: #f5d0c0;
-  --color-red-400: #d46848;
-  --color-red-600: #a03828;
-  --color-red-800: #5c2018;
+  --color-orange-100: #FDF6ED;
+  --color-orange-800: #DB934B;
   
-  /* сині */
-  --color-blue-100: #b8d0f0;
-  --color-blue-400: #5888c8;
-  --color-blue-600: #28487a;
-  --color-blue-800: #182840;
+  --color-green-100: #ECF4EF;
+  --color-green-300: #D5DDD0;
+  --color-green-800: #5CA77E;
   
+  /*тінь для основних блоків */
+  --shadow-main-blocks: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+  /*закруглення для основних блоків */
+  --radius-main-blocks: 30px;
+  /*закруглення для кнопок*/
+  --radius-buttons: 10px;
+  
+  /*анімація флеш карточки у вправах*/
+  --animate-front: front 0.3s ease-in;
+  --animate-back: back 0.3s ease-in;
+  
+  @keyframes front {
+    from {
+      opacity: 0;
+      transform: translateY(-2rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes back {
+    from {
+      opacity: 0;
+      transform: translateY(2rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  color: var(--color-text);
+  background: var(--color-main-background);
+}
+
+.scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}

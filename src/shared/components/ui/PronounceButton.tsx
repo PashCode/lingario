@@ -9,6 +9,7 @@ interface PlayWordAudioButtonProps {
   gender?: string;
   size: string;
   autoplay?: boolean;
+  strokeWith?: number;
 }
 
 function PronounceButton({
@@ -17,6 +18,7 @@ function PronounceButton({
   gender,
   size,
   autoplay,
+  strokeWith = 1.5,
 }: PlayWordAudioButtonProps) {
   const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
   const currentText = text.replaceAll("*", "")
@@ -34,6 +36,7 @@ function PronounceButton({
           size={size}
           currentPronounce={currentPronounce}
           text={currentText}
+          strokeWidth={strokeWith}
         />
       }
       className="cursor-pointer"

@@ -1,19 +1,18 @@
 import { Outlet } from "react-router-dom";
 import BottomNavigation from "../ui/BottomNavigation.tsx";
-// import BackButton from "@/shared/components/ui/BackButton";
 
 function NavigationLayout() {
-  // const { pathname } = useLocation();
-
   return (
-    <div>
-      {/*{pathname !== "/" && <BackButton/>}*/}
-      <main>
-        <Outlet />
-      </main>
-      <footer className="fixed bottom-5">
-        <BottomNavigation />
-      </footer>
+    <div className="grid min-h-dvh min-w-full place-items-center">
+      <div className="grid h-[90dvh] w-11/12 max-w-380 grid-rows-[minmax(0,1fr)_auto]">
+        <main className="overflow-y-auto">
+          <Outlet />
+        </main>
+
+        <footer>
+          <BottomNavigation />
+        </footer>
+      </div>
     </div>
   );
 }
