@@ -15,10 +15,10 @@ async function checkRedirectResult(): Promise<UserCredential | null> {
   } catch (error) {
     if (isFirebaseError(error)) {
       console.error(error);
-      toast.error("Не вдалося завершити вхід через Google. Спробуйте ще раз.");
+      toast.error("Не вдалося завершити вхід через Google. Спробуй ще раз.");
     } else {
       console.error(error);
-      toast.error("Не вдалося завершити вхід через Google. Спробуйте ще раз.");
+      toast.error("Не вдалося завершити вхід через Google. Спробуй ще раз.");
     }
     return null;
   }
@@ -28,8 +28,10 @@ function greetUser(userCredentials: UserCredential) {
   const userInfo = getAdditionalUserInfo(userCredentials);
 
   return userInfo?.isNewUser
-    ? toast.success("Ви успішно зареєструвались")
-    : toast.success("З поверненням");
+    ? toast.success(
+        `Ласкаво просимо до Lingario, ${auth.currentUser?.displayName} (◕‿◕)`,
+      )
+    : toast.success(`З поверненням, ${auth.currentUser?.displayName} (◕‿◕)`);
 }
 
 function useGoogleRedirect() {
@@ -47,7 +49,7 @@ function useGoogleRedirect() {
       } catch (error) {
         console.error(error);
         toast.error(
-          "Вхід виконано, але не вдалося підготувати профіль. Оновіть сторінку або спробуйте пізніше.",
+          "Вхід виконано, але не вдалося підготувати профіль. Онови сторінку або спробуй пізніше.",
         );
       }
     };

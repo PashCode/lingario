@@ -1,18 +1,19 @@
-import TestLoader from "@/shared/components/ui/TestLoader";
+import CircularLoader from "@/shared/components/ui/CircularLoader";
 import { useState, type FormEvent, type ChangeEvent } from "react";
-import Input from "@/shared/components/ui/Input";
 import Button from "@/shared/components/ui/Button";
 import { validateReAuthenticatedPassword } from "@/features/auth/utils/validation";
 import { auth } from "@/config/firebase";
 import type { ReauthFormParams } from "@/features/auth/types";
+import AuthInputError from "@/shared/components/ui/AuthInputError";
+import { LuEye, LuEyeClosed, LuLockKeyhole } from "react-icons/lu";
 
 function ReauthForm({ handleDelete, isLoading, onCancel }: ReauthFormParams) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | undefined>(undefined);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const providerId = auth.currentUser!.isAnonymous
     ? "anonymous"
     : auth.currentUser!.providerData[0].providerId;
-
 
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);
@@ -35,9 +36,10 @@ function ReauthForm({ handleDelete, isLoading, onCancel }: ReauthFormParams) {
   }
 
   let title;
-  if (providerId === 'password') title = "ДЛЯ ВИДАЛЕННЯ АКАУНТУ ВВЕДІТЬ ПАРОЛЬ";
-  if (providerId === "google.com") title = "ДЛЯ ВИДАЛЕННЯ АКАУНТУ УВІЙДІТЬ У СВОЮ ПОШТУ";
-  if (providerId === "anonymous") title = "ВИ ДІЙСНО ХОЧЕТЕ ВИДАЛИТИ АКАУНТ?";
+  if (providerId === "password") title = "Для видалення акаунту введи пароль";
+  if (providerId === "google.com")
+    title = "Для видалення акаунту увійди у свою пошту";
+  if (providerId === "anonymous") title = "Ти дійсно хочеш видалити акаунт?";
 
   let formContent = null;
 
@@ -45,9 +47,17 @@ function ReauthForm({ handleDelete, isLoading, onCancel }: ReauthFormParams) {
     formContent = (
       <div className="flex gap-2">
         <Button
-          text={isLoading ? <TestLoader text="Видалення" /> : "Видалити"}
+          text={
+            isLoading ? (
+              <span className="flex items-center justify-center gap-x-3">
+                <p>Видалення</p> <CircularLoader />
+              </span>
+            ) : (
+              "Видалити"
+            )
+          }
           disabled={isLoading}
-          className="w-full cursor-pointer border-2 bg-red-600 text-white"
+          className="rounded-buttons flex h-15 w-70 cursor-pointer items-center justify-center bg-red-800 text-2xl text-white transition-transform duration-100 ease-out active:scale-98 disabled:bg-gray-800"
           onClick={handleSubmit}
         />
         <Button
@@ -55,7 +65,7 @@ function ReauthForm({ handleDelete, isLoading, onCancel }: ReauthFormParams) {
           type="button"
           onClick={onCancel}
           disabled={isLoading}
-          className="w-full cursor-pointer border-2 bg-gray-400 text-white"
+          className="rounded-buttons flex h-15 w-70 cursor-pointer items-center justify-center bg-gray-800 text-2xl text-white transition-transform duration-100 ease-out active:scale-98 disabled:bg-gray-800"
         />
       </div>
     );
@@ -66,32 +76,57 @@ function ReauthForm({ handleDelete, isLoading, onCancel }: ReauthFormParams) {
       <form
         noValidate
         onSubmit={handleSubmit}
-        className="mt-4 flex w-full flex-col gap-4"
+        className="flex w-1/3 flex-col items-center justify-center gap-y-15"
       >
-        <Input
-          id="reauth-password"
-          htmlFor="reauth-password"
-          type="password"
-          labelText="Введіть пароль:"
-          placeholder="Від 6 символів"
-          className="w-full border-2"
-          value={password}
-          onChange={handleChangeInput}
-          errorMessage={error}
-          disabled={isLoading}
-        />
-        <div className="flex gap-2">
+        <div className="relative flex w-full flex-col justify-between">
+          <div
+            className={`flex items-center gap-2 border-b px-1 ${error ? "border-red-800 focus-within:border-red-800" : "border-blue-800 focus-within:border-blue-800"}`}
+          >
+            <LuLockKeyhole />
+            <input
+              id="register-password"
+              type={isPasswordVisible ? "text" : "password"}
+              name="password"
+              placeholder="Пароль"
+              className="w-full text-[16px] focus:outline-none"
+              value={password}
+              onChange={handleChangeInput}
+            />
+            <span
+              onClick={() => setIsPasswordVisible((prev) => !prev)}
+              className="cursor-pointer"
+            >
+              {isPasswordVisible ? <LuEye /> : <LuEyeClosed />}
+            </span>
+          </div>
+
+          <div>
+            <AuthInputError errorMessage={error} />
+          </div>
+        </div>
+
+        <div className="flex w-full gap-2">
           <Button
-            text={isLoading ? <TestLoader text="Видалення" /> : "Видалити"}
+            type="submit"
+            text={
+              isLoading ? (
+                <span className="flex items-center justify-center gap-x-3">
+                  <p>Видалення</p> <CircularLoader />
+                </span>
+              ) : (
+                "Видалити"
+              )
+            }
             disabled={isLoading}
-            className="w-full cursor-pointer border-2 bg-red-600 text-white"
+            className="rounded-buttons flex h-15 w-1/2 cursor-pointer items-center justify-center bg-red-800 text-2xl text-white transition-transform duration-100 ease-out active:scale-98 disabled:bg-gray-800"
+            onClick={handleSubmit}
           />
           <Button
             text="Скасувати"
             type="button"
             onClick={onCancel}
             disabled={isLoading}
-            className="w-full cursor-pointer border-2 bg-gray-400 text-white"
+            className="rounded-buttons flex h-15 w-1/2 cursor-pointer items-center justify-center bg-gray-800 text-2xl text-white transition-transform duration-100 ease-out active:scale-98 disabled:bg-gray-800"
           />
         </div>
       </form>
@@ -102,23 +137,33 @@ function ReauthForm({ handleDelete, isLoading, onCancel }: ReauthFormParams) {
     formContent = (
       <div className="flex gap-2">
         <Button
-          text="Увійти"
-          className="w-full cursor-pointer border-2 bg-red-600 text-white"
+          text={
+            isLoading ? (
+              <span className="flex items-center justify-center gap-x-3">
+                <p>Видалення</p> <CircularLoader />
+              </span>
+            ) : (
+              "Увійти"
+            )
+          }
+          disabled={isLoading}
+          className="rounded-buttons flex h-15 w-70 cursor-pointer items-center justify-center bg-red-800 text-2xl text-white transition-transform duration-100 ease-out active:scale-98 disabled:bg-gray-800"
           onClick={handleSubmit}
         />
         <Button
           text="Скасувати"
           type="button"
           onClick={onCancel}
-          className="w-full cursor-pointer border-2 bg-gray-400 text-white"
+          disabled={isLoading}
+          className="rounded-buttons flex h-15 w-70 cursor-pointer items-center justify-center bg-gray-800 text-2xl text-white transition-transform duration-100 ease-out active:scale-98 disabled:bg-gray-800"
         />
       </div>
     );
   }
 
   return (
-    <div className="flex h-full w-full flex-col items-center rounded bg-white p-4 shadow-lg">
-      <h1>{title}</h1>
+    <div className="bg-main-background flex h-full w-full flex-col items-center justify-center gap-y-10">
+      <h1 className="text-3xl text-blue-800">{title}</h1>
       {formContent}
     </div>
   );

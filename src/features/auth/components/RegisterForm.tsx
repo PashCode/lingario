@@ -1,82 +1,130 @@
 import { useState } from "react";
-import { LuMail, LuUser, LuLockKeyhole } from "react-icons/lu";
+import {
+  LuMail,
+  LuUser,
+  LuLockKeyhole,
+  LuEye,
+  LuEyeClosed,
+} from "react-icons/lu";
 import useRegister from "@/features/auth/hooks/useRegister";
 import Button from "@/shared/components/ui/Button";
-import Input from "@/shared/components/ui/Input";
-import TestLoader from "@/shared/components/ui/TestLoader";
+import CircularLoader from "@/shared/components/ui/CircularLoader";
+import AnonLogin from "@/features/auth/components/AnonLogin";
+import GoogleAuth from "@/features/auth/components/GoogleAuth";
+import AuthInputError from "@/shared/components/ui/AuthInputError";
 
 function RegisterForm() {
-  const { handleChangeInput, handleSubmitForm, inputErrors, isLoading, user } =
-    useRegister();
+  const { handleChangeInput, handleSubmitForm, inputErrors, isLoading, user } = useRegister();
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   return (
-    <div className="flex flex-col items-center">
-      <form
-        noValidate
-        onSubmit={handleSubmitForm}
-        className="flex w-1/2 flex-col gap-y-5"
-      >
-        <Input
-          id="register-name"
-          htmlFor="register-name"
-          type="text"
-          name="name"
-          labelText="Ім'я"
-          placeholder="Введіть імʼя"
-          // labelClassName="hidden"
-          errorClassName="absolute right-0"
-          value={user.name}
-          onChange={handleChangeInput}
-          errorMessage={inputErrors.name}
-          leftIcon={<LuUser />}
-        />
+    <form
+      noValidate
+      onSubmit={handleSubmitForm}
+      className="flex flex-col gap-y-8 sm:gap-y-10 lg:gap-y-8"
+    >
+      <div className="relative flex flex-col justify-between">
+        <div
+          className={`flex items-center gap-2 border-b px-1 ${inputErrors.name ? "border-red-800 focus-within:border-red-800" : "border-blue-800 focus-within:border-blue-800"}`}
+        >
+          <LuUser />
+          <input
+            id="register-name"
+            type="text"
+            name="name"
+            placeholder="Імʼя"
+            className="w-full focus:outline-none sm:text-lg lg:text-[15px]"
+            value={user.name}
+            onChange={handleChangeInput}
+            autoComplete="name"
+          />
+        </div>
 
-        <Input
-          id="register-email"
-          htmlFor="register-email"
-          type="email"
-          name="email"
-          autoComplete="email"
-          labelText="Пошта"
-          placeholder="Введіть пошту"
-          // labelClassName="hidden"
-          errorClassName="absolute right-0"
-          value={user.email}
-          onChange={handleChangeInput}
-          errorMessage={inputErrors.email}
-          leftIcon={<LuMail />}
-        />
+        <div>
+          <AuthInputError errorMessage={inputErrors.name} />
+        </div>
+      </div>
 
-        <Input
-          id="register-password"
-          htmlFor="register-password"
-          type="password"
-          name="password"
-          autoComplete="new-password"
-          labelText="Пароль"
-          placeholder="Пароль не менше 6 симолів"
-          // labelClassName="hidden"
-          errorClassName="absolute right-0"
-          value={user.password}
-          onChange={handleChangeInput}
-          errorMessage={inputErrors.password}
-          leftIcon={<LuLockKeyhole />}
-          canTogglePassword
-          isPasswordVisible={isPasswordVisible}
-          setIsPasswordVisible={setIsPasswordVisible}
-        />
+      <div className="relative flex flex-col justify-between">
+        <div
+          className={`flex items-center gap-2 border-b px-1 ${inputErrors.email ? "border-red-800 focus-within:border-red-800" : "border-blue-800 focus-within:border-blue-800"}`}
+        >
+          <LuMail />
+          <input
+            id="register-email"
+            type="email"
+            name="email"
+            placeholder="Пошта"
+            className="w-full focus:outline-none sm:text-lg lg:text-[15px]"
+            value={user.email}
+            onChange={handleChangeInput}
+            autoComplete="email"
+          />
+        </div>
 
-        <Button
-          text={
-            isLoading ? <TestLoader text="Завантаження" /> : "Зареєструватись"
-          }
-          disabled={isLoading}
-          className="h-10 cursor-pointer rounded-md bg-yellow-500 text-slate-900 duration-100 ease-in hover:bg-yellow-700 disabled:bg-neutral-500"
-        />
-      </form>
-    </div>
+        <div>
+          <AuthInputError errorMessage={inputErrors.email} />
+        </div>
+      </div>
+
+      <div className="relative flex flex-col justify-between">
+        <div
+          className={`flex items-center gap-2 border-b px-1 ${inputErrors.password ? "border-red-800 focus-within:border-red-800" : "border-blue-800 focus-within:border-blue-800"}`}
+        >
+          <LuLockKeyhole />
+          <input
+            id="register-password"
+            type={isPasswordVisible ? "text" : "password"}
+            name="password"
+            placeholder="Пароль"
+            className="w-full focus:outline-none sm:text-lg lg:text-[15px]"
+            value={user.password}
+            onChange={handleChangeInput}
+            autoComplete="new-password"
+          />
+          <span
+            onClick={() => setIsPasswordVisible((prev) => !prev)}
+            className="cursor-pointer"
+          >
+            {isPasswordVisible ? <LuEye /> : <LuEyeClosed />}
+          </span>
+        </div>
+
+        <div>
+          <AuthInputError errorMessage={inputErrors.password} />
+        </div>
+      </div>
+
+      <div className="mt-1 flex flex-col items-center gap-2">
+        <div className="flex w-full justify-center gap-5">
+          <Button
+            text={
+              <span className="relative flex items-center justify-center">
+                <span className={`${isLoading ? "opacity-20" : ""}`}>
+                  Зареєструватись
+                </span>
+
+                {isLoading && (
+                  <span className="absolute inset-0 flex items-center justify-center">
+                    <CircularLoader size={20} />
+                  </span>
+                )}
+              </span>
+            }
+            disabled={isLoading}
+            className="rounded-buttons h-10 w-1/2 cursor-pointer bg-red-800 text-lg text-white transition-transform duration-100 ease-out active:scale-98 disabled:bg-gray-800 max-[370px]:text-[16px] sm:h-12 sm:text-xl lg:h-10 lg:text-base"
+          />
+          <AnonLogin />
+        </div>
+        <div className="flex w-full items-center gap-3">
+          <hr className="flex-1 border-gray-800" />
+          <p>або</p>
+          <hr className="flex-1 border-gray-800" />
+        </div>
+        <GoogleAuth />
+      </div>
+    </form>
   );
 }
 

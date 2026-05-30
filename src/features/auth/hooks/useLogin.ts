@@ -7,6 +7,7 @@ import {
   type LoginParams,
   type ValidationErrors,
 } from "@/features/auth/types.ts";
+import { auth } from "@/config/firebase";
 
 function useLogin() {
   const [user, setUser] = useState<LoginParams>({ email: "", password: "" });
@@ -36,14 +37,14 @@ function useLogin() {
 
     try {
       await login(user).unwrap(); // RTK Query "unwrap()" allows the catch block to handle errors.
-      toast.success("З поверненням");
+      toast.success(`З поверненням, ${auth.currentUser?.displayName} (◕‿◕)`);
     } catch (error) {
       if (isFirebaseError(error)) {
         console.error(error);
         toast.error(error.message);
       } else {
         console.error(error);
-        toast.error("Сталася непередбачувана помилка. Спробуйте пізніше.");
+        toast.error("Сталася непередбачувана помилка. Спробуй пізніше.");
       }
     }
   }

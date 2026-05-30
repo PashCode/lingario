@@ -8,14 +8,14 @@ function useAnonLogin() {
   async function handleAnonLogin() {
     try {
       await anonLogin().unwrap(); // RTK Query "unwrap()" allows the catch block to handle errors.
-      toast.success("АНОНІМНА РЕЄСТРАЦІЯ УСПІШНА");
+      toast.success("Привіт, гість. Час вчити слова (◕‿◕)");
     } catch (error) {
       if (isFirebaseError(error)) {
         console.error(error);
         toast.error(error.message);
       } else {
         console.error(error);
-        toast.error("Сталася непередбачувана помилка. Спробуйте пізніше.");
+        toast.error("Сталася непередбачувана помилка. Спробуй пізніше.");
       }
     }
   }

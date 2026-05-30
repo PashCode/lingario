@@ -18,7 +18,7 @@ function useDeleteAccount() {
       await reauth(password).unwrap(); // RTK Query "unwrap()" allows the catch block to handle errors.
       // delete account after successful verification
       await deleteAccount().unwrap();
-      toast.success("Акаунт успішно видалено");
+      toast.success("Акаунт успішно видалено (╯︵╰,)");
     } catch (error) {
       if (isFirebaseError(error)) {
         console.error(error);
@@ -39,7 +39,7 @@ function useDeleteAccount() {
         toast.error(error.message);
       } else {
         console.error(error);
-        toast.error("Сталася непередбачувана помилка. Спробуйте пізніше.");
+        toast.error("Сталася непередбачувана помилка. Спробуй пізніше.");
       }
     }
   }

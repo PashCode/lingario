@@ -38,14 +38,14 @@ function useRegister() {
 
     try {
       await register(user).unwrap(); // RTK Query "unwrap()" allows the catch block to handle errors.
-      toast.success("Ласкаво просимо");
+      toast.success(`Ласкаво просимо до Lingario, ${user.name} (◕‿◕)`);
     } catch (error) {
       if (isFirebaseError(error)) {
         console.error(error);
         toast.error(error.message);
       } else {
         console.error(error);
-        toast.error("Сталася непередбачувана помилка. Спробуйте пізніше.");
+        toast.error("Сталася непередбачувана помилка. Спробуй пізніше.");
       }
     }
   }

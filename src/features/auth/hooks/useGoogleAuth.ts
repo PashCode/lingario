@@ -22,7 +22,7 @@ function useGoogleAuth() {
         dispatch(setGoogleRedirectStatus("idle"));
       } else {
         console.error(error);
-        toast.error("Сталася непередбачувана помилка. Спробуйте пізніше.");
+        toast.error("Сталася непередбачувана помилка. Спробуй пізніше.");
         dispatch(setGoogleRedirectStatus("idle"));
       }
     }
