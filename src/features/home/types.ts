@@ -20,5 +20,5 @@ export interface PersonalWordValues {
   addedAt?: Timestamp;
   nextRepeat?: Timestamp;
   score?: number;
-  phrase?: string;
+  sentence?: string;
 }

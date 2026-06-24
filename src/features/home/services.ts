@@ -1,8 +1,10 @@
-import { geminiAI } from "@/config/gemini";
+import { httpsCallable } from "firebase/functions";
 import { auth, db } from "@/config/firebase";
+import { functions } from "@/config/functions";
 import { collection, getDocs } from "firebase/firestore";
 import type { PersonalWordValues } from "@/features/home/types";
 
+// gets a random word with "new" or "in progress" status to use in AI sentence generation
 export async function getRandomLearningWord() {
   if (!auth.currentUser) return;
 
@@ -21,42 +23,26 @@ export async function getRandomLearningWord() {
   return learningWords[randomIndex];
 }
 
+// generates an AI sentence for the homepage. if the request fails waits 1s and retries, up to 3 attempts total
 export async function createHomepageAISentence(retryCount: number = 0) {
   const randomLearningWord = await getRandomLearningWord();
 
   try {
-    const response = await geminiAI.models.generateContent({
-      model: "gemini-2.5-flash-lite",
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: "object",
-          properties: { sentence: { type: "string" } },
-          required: ["sentence"],
-        },
-        systemInstruction:
-          "Use the exact dictionary word only. Do not change its form. Do not add endings like -ed, -ing, or -s.",
-        temperature: 1,
-        maxOutputTokens: 150,
-      },
-      contents: randomLearningWord
-        ? `Task: Create one grammatically correct sentence ${randomLearningWord.level} level.\n` +
-          "Length: No more than 10 words\n" +
-          `Vocabulary: Use the word "${randomLearningWord.englishWord}" and wrap it in double asterisks (like **${randomLearningWord.englishWord}**)\n` +
-          "Topic: Random everyday theme\n"
-        : "Task: Create one grammatically correct sentence\n" +
-          "Length: Exactly 10 words\n" +
-          "Vocabulary: Only Oxford 3000, A2 level\n" +
-          "Topic: Random everyday theme\n",
-    });
+    const getHomepageSentence = httpsCallable(
+      functions,
+      "createHomepageAISentence",
+    );
+    const result = await getHomepageSentence(
+      // if there is a word — pass it to the firebase function so the sentence is about it. if not, generate any sentence
+      randomLearningWord
+        ? {
+            englishWord: randomLearningWord.englishWord,
+            level: randomLearningWord.level,
+          }
+        : {},
+    );
 
-    if (!response.text) {
-      throw new Error(
-        "Gemini API повернуло порожню відповідь (response.text is empty)",
-      );
-    }
-    const parsed = JSON.parse(response.text);
-    return parsed.sentence;
+    return result.data as string;
   } catch (error) {
     console.warn(`[WARNING]: Спроба генерації фрази: ${retryCount + 1} / 3`);
 
@@ -65,6 +51,7 @@ export async function createHomepageAISentence(retryCount: number = 0) {
       throw error;
     }
 
+    // wait 1 second before retrying to avoid spamming requests
     await new Promise((resolve) => setTimeout(resolve, 1000));
     return createHomepageAISentence(retryCount + 1);
   }
