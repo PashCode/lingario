@@ -7,7 +7,6 @@ import type {
 import { useMemo, useState } from "react";
 
 function useWordsFiltering(dictionary: Array<Oxford3000Values>) {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchWord, setSearchWord] = useState("");
   const [sortOrder, setSortOrder] = useState<SortWordsOrder>(null);
   const [sortLevel, setSortLevel] = useState<SortWordsLevel>(null);
@@ -44,8 +43,6 @@ function useWordsFiltering(dictionary: Array<Oxford3000Values>) {
     resetAllFilters,
     searchWord,
     setSearchWord,
-    isSearchOpen,
-    setIsSearchOpen,
     sortOrder,
     setSortOrder,
     sortLevel,

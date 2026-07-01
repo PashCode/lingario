@@ -21,7 +21,7 @@ function PronounceButton({
   strokeWith = 1.5,
 }: PlayWordAudioButtonProps) {
   const { isPlaying, currentPronounce, pronounceText } = usePronounceText();
-  const currentText = text.replaceAll("*", "")
+  const currentText = text.replaceAll("*", "");
 
   useEffect(() => {
     if (autoplay) {

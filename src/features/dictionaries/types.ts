@@ -21,16 +21,13 @@ export interface Oxford3000Values {
   addedAt?: Timestamp;
   nextRepeat?: Timestamp;
   score?: number;
-  phrase?: string;
+  sentence?: string;
 }
 
 export interface DictionaryListProps {
   dictionary: Array<Oxford3000Values>;
-}
-
-export interface WordNotFoundProps {
-  dictionary: Array<Oxford3000Values>;
-  searchWord: string;
+  typeDictionary: "public" | "personal";
+  emptyMessage?: string;
 }
 
 export interface LSOxford3000Values {
@@ -61,9 +58,6 @@ export interface FetchTTSResponse {
 export interface SearchInputProps {
   onChange: (param: string) => void;
   value: string;
-  isSearchOpen: boolean;
-  setSearchWord: (param: string) => void;
-  setIsSearchOpen: (param: boolean) => void;
 }
 
 export interface WordControlsProps {
@@ -81,7 +75,8 @@ export interface WordContentProps {
   englishWord: string;
   translation: string;
   level: string;
-  phrase?: string;
+  typeDictionary: "public" | "personal";
+  sentence?: string;
   progress?: string;
   nextRepeat?: Timestamp;
 }
@@ -94,11 +89,11 @@ export interface AddWordToPersonalDictProps {
   addedAt: FieldValue;
   progress: string;
   score: number;
-  phrase?: string;
+  sentence?: string;
   nextRepeat?: FieldValue;
 }
 
-export interface GeneratePhraseForPersonalWordProps {
+export interface GenerateSentenceForPersonalWordProps {
   id: string;
   englishWord: string;
   level: string;

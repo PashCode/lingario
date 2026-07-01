@@ -3,13 +3,13 @@ import BottomNavigation from "../ui/BottomNavigation.tsx";
 
 function NavigationLayout() {
   return (
-    <div className="grid min-h-dvh min-w-full place-items-center">
-      <div className="grid h-[90dvh] w-11/12 max-w-380 grid-rows-[minmax(0,1fr)_auto]">
-        <main className="overflow-y-auto">
+    <div className="grid min-h-dvh w-full min-w-0 place-items-center justify-self-center">
+      <div className="grid h-dvh max-h-325 w-full max-w-384 grid-cols-1 grid-rows-[minmax(0,1fr)_auto] pt-5 lg:pb-5">
+        <main className="w-[95%] justify-self-center overflow-y-auto">
           <Outlet />
         </main>
 
-        <footer>
+        <footer className="flex w-full justify-center">
           <BottomNavigation />
         </footer>
       </div>

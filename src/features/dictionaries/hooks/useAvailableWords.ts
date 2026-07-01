@@ -11,7 +11,8 @@ function useAvailableWords() {
   const isOxford3000DictLoading = useAppSelector(selectIsOxford3000DictLoading);
   const { personalDictionary, isPersonalDictLoading } = useDictSnapshot<Oxford3000Values>();
 
-  // щоб при оновленні оксфорд паблік не миготів словник зі всіма словами. чекаємо доки завантажаться слова які я ще не додавав у персональний, поки чекаємо - віддаємо пустий масив
+  // wait for both dictionaries to load first
+  // if we don't wait, the screen flashes all oxford words for a second
   if (isPersonalDictLoading || isOxford3000DictLoading === "loading") {
     return {
       availableWords: [],

@@ -4,7 +4,6 @@ import { LuArrowLeft } from "react-icons/lu";
 
 function BackButton({
   btnColor,
-  size = 40,
   to = -1,
 }: {
   btnColor?: string;
@@ -23,7 +22,13 @@ function BackButton({
 
   return (
     <Button
-      text={<LuArrowLeft strokeWidth={1} size={size} className="w-full" />}
+      text={
+        <LuArrowLeft
+          strokeWidth={1}
+          size="1em"
+          className="w-full text-2xl md:text-3xl"
+        />
+      }
       className={`cursor-pointer ${btnColor} w-full text-center`}
       onClick={handleGoBack}
     ></Button>

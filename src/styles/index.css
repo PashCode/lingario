@@ -43,6 +43,7 @@
   /*анімація флеш карточки у вправах*/
   --animate-front: front 0.3s ease-in;
   --animate-back: back 0.3s ease-in;
+  --animate-filterHint: filterHint 1s ease-in-out 1s 1;
   
   @keyframes front {
     from {
@@ -65,6 +66,21 @@
       transform: translateY(0);
     }
   }
+  
+  @keyframes filterHint {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(-2rem);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+/*  кастомні брейкпоінти */
+  --breakpoint-xs: 480px;
 }
 
 html,

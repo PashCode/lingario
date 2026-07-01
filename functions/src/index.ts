@@ -9,6 +9,7 @@ const TTS_API_KEY = defineSecret("TTS_API_KEY");
 const GEMINI_API_KEY = defineSecret("GEMINI_API_KEY");
 const MAIN_GEMINI_MODEL = "gemini-3.1-flash-lite-preview";
 const EXTRA_GEMINI_MODEL = "gemini-3.5-flash";
+
 async function createSentenceForPersonalDictHandler(
   request: {
     auth?: unknown;
@@ -45,16 +46,21 @@ async function createSentenceForPersonalDictHandler(
           required: ["sentence"],
         },
         systemInstruction:
-          "Use the exact dictionary word only. Do not change its form. Do not add endings like -ed, -ing, or -s.",
+          "You write one short example sentence for a language learner.\n" +
+          "Rules you must always follow:\n" +
+          "- The sentence must contain between 4 and 6 words total. Never more than 6.\n" +
+          "- Use the exact dictionary word only. Do not change its form (no -ed, -ing, -s endings).\n" +
+          "- Wrap the dictionary word in double asterisks, like **word**.\n" +
+          "- No period at the end.\n" +
+          "Examples of the right length:\n" +
+          "- We **travel** to new places often\n" +
+          "- They **enjoy** quiet evenings at home",
         temperature: 1,
         maxOutputTokens: 150,
       },
       contents:
-        `Task: Create one grammatically correct sentence ${level} level.\n` +
-        "Length: No more than 10 words\n" +
-        `Vocabulary: Use the word "${word}" and wrap it in double asterisks (like **${word}**)\n` +
-        "Topic: Random everyday theme\n" +
-        "Ending: No period at the end",
+        `Create one ${level} level sentence using the word "${word}".\n` +
+        "Topic: a random everyday theme",
     });
 
     if (!response.text) {
