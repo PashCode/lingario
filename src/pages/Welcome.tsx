@@ -3,7 +3,7 @@ import { ROUTES } from "@/routes/paths";
 
 function Welcome() {
   return (
-    <div className="flex h-full w-11/12 flex-col items-center justify-center">
+    <div className="flex h-full w-full flex-col items-center justify-center">
       <div className="mb-10 space-y-6 text-center">
         <h1 className="text-2xl leading-snug font-bold tracking-tight text-blue-800 sm:text-3xl md:text-4xl 2xl:text-5xl">
           Навколо і так забагато шуму, <br />

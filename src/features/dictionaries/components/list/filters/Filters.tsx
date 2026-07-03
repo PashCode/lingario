@@ -48,7 +48,7 @@ function Filters(props: FiltersProps) {
       <div className="rounded-main-blocks shadow-main-blocks flex w-full min-w-0 flex-col gap-y-3 bg-white px-3 py-4 lg:hidden">
         <div
           ref={scrollRef}
-          className="scrollbar-hidden w-full overflow-x-auto"
+          className="no-scrollbar w-full overflow-x-auto"
         >
           <div
             className={`${showHint ? "animate-filterHint" : ""} xs:h-10 flex h-8 w-max gap-x-2 sm:h-12`}

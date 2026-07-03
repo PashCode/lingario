@@ -44,7 +44,7 @@ function DictionaryList({
         // oxford has almost 3000 words, too many to show all at once
         <Virtuoso
           data={dictionary}
-          className="scrollbar-hidden shadow-main-blocks"
+          className="no-scrollbar shadow-main-blocks"
           style={{ height: "100%" }}
           itemContent={(_, word) => {
             return (

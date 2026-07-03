@@ -83,22 +83,18 @@
   --breakpoint-xs: 480px;
 }
 
+@utility no-scrollbar {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
+
 html,
 body,
 #root {
   min-height: 100%;
+  overflow-x: clip;
 }
 
 body {
   color: var(--color-text);
   background: var(--color-main-background);
-}
-
-.scrollbar-hidden {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.scrollbar-hidden::-webkit-scrollbar {
-  display: none;
 }

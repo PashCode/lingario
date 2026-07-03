@@ -10,11 +10,12 @@ export function App() {
   useAuthListener();
   useGoogleRedirect();
 
+  // position:relative prevent x-shift in dictionary list due scrolling filters.
   return (
-    <>
+    <div className="relative">
       <RouterProvider router={router} />
       <Toaster richColors position="top-right" />
-    </>
+    </div>
   );
 }
 

@@ -35,7 +35,7 @@ function PersonalDictionaryList() {
   }
 
   return (
-    <div className="grid h-full w-full grid-rows-[auto_minmax(0,1fr)] gap-y-5">
+    <div className="grid h-full w-full grid-rows-[auto_minmax(0,1fr)] gap-y-5 py-5 min-w-0">
       <Filters
         resetAllFilters={resetAllFilters}
         sortLevel={sortLevel}
