@@ -5,10 +5,10 @@ const initialState: ExercisesState = {
   newWords: [],
   repeatWords: [],
   exercisesConfig: {
-    voiceSetting: { voice: "", gender: "" },
+    exerciseType: "",
     vocabularyWords: [],
     selectedExercises: { flashCard: false, wordMatching: false },
-    wordsLimit: 0,
+    wordsCount: 0,
     isReady: false,
     sessionWords: [],
     sessionSequence: [],

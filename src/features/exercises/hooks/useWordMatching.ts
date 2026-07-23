@@ -10,23 +10,20 @@ function useWordMatching({
   setCurrentIndex,
   changeScore,
 }: ExerciseProps) {
-  const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
-  const currentPhrase = exercisesConfig.sessionSequence[currentIndex].word.phrase.replaceAll("*", "");
+  const word = exercisesConfig.sessionSequence[currentIndex].word;
   const [clickedButton, setClickedButton] = useState("");
   const [mistakesCount, setMistakesCount] = useState(0);
 
+  // makes 4 answer options: 3 wrong words from this session + the right one
   const shuffledWords = useMemo(() => {
     const incorrectWords = exercisesConfig.sessionWords.filter(
-      ({ id }: { id: string }) => id !== currentWord.id,
+      ({ id }: { id: string }) => id !== word.id,
     );
 
-    const answerOptions = [
-      ...shuffleArray(incorrectWords).slice(0, 3),
-      currentWord,
-    ];
+    const answerOptions = [...shuffleArray(incorrectWords).slice(0, 3), word];
 
     return shuffleArray(answerOptions);
-  }, [currentWord, exercisesConfig.sessionWords]);
+  }, [word, exercisesConfig.sessionWords]);
 
   function handleAnswerResult(isCorrect: boolean, id: string) {
     setClickedButton(id);
@@ -40,6 +37,7 @@ function useWordMatching({
         setMistakesCount(0);
       }, ANSWER_ANIMATION_DELAY);
     } else {
+      // wrong answer does not move us forward, the user tries again
       setMistakesCount((prevState) => prevState + 1);
       setTimeout(() => setClickedButton(""), ANSWER_ANIMATION_DELAY);
     }
@@ -48,8 +46,7 @@ function useWordMatching({
   return {
     shuffledWords,
     clickedButton,
-    currentWord,
-    currentPhrase,
+    word,
     handleAnswerResult,
   };
 }

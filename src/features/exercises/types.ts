@@ -21,16 +21,17 @@ export interface BaseWordsValues {
 
 export interface NewWordsValues extends BaseWordsValues {
   nextRepeat: Timestamp;
-  phrase: string;
+  sentence: string;
 }
 
 export type InProgressWordsValues = NewWordsValues;
 
 export interface ExerciseConfigValues {
-  voiceSetting: { voice: string; gender: string };
+  // kept here so the session can pass it back to settings on "go back"
+  exerciseType: string;
   vocabularyWords: Array<NewWordsValues | InProgressWordsValues>;
   selectedExercises: { flashCard: boolean; wordMatching: boolean };
-  wordsLimit: number;
+  wordsCount: number;
   isReady: boolean;
   sessionWords: Array<NewWordsValues | InProgressWordsValues>;
   sessionSequence: Array<SessionSequenceValues>;
@@ -54,11 +55,6 @@ export interface ExerciseProps {
   currentIndex: number;
   setCurrentIndex: (value: number | ((prevState: number) => number)) => void;
   changeScore: (props: ChangeScoreProps) => void;
-}
-
-export interface VoiceSettingValues {
-  voiceSetting: ExerciseConfigValues["voiceSetting"];
-  setVoiceSetting: (props: ExerciseConfigValues["voiceSetting"]) => void;
 }
 
 export interface SelectedExercisesValues {
@@ -88,8 +84,8 @@ export interface ExercisesByTypeValues {
 
 export interface WordsCountProps {
   words: Array<NewWordsValues | InProgressWordsValues>;
-  wordsLimit: number;
-  setWordsLimit: (value: (prevState: number) => number) => void;
+  wordsCount: number;
+  setWordsCount: (value: number | ((prevState: number) => number)) => void;
 }
 
 export interface SelectionControlsProps {
@@ -112,5 +108,4 @@ export interface WordColumnProps {
     wordId: string,
     type: "englishWords" | "translations",
   ) => void;
-  voiceSettings: ExerciseConfigValues["voiceSetting"];
 }

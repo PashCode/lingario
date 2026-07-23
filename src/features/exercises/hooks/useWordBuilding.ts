@@ -9,26 +9,28 @@ function useWordBuilding({
   setCurrentIndex,
   changeScore,
 }: ExerciseProps) {
-  const currentWord = exercisesConfig.sessionSequence[currentIndex].word;
+  const word = exercisesConfig.sessionSequence[currentIndex].word;
   const [mistakesCount, setMistakesCount] = useState(0);
   const [collectedLetters, setCollectedLetters] = useState<Array<string>>([]);
   const [guessedIndexes, setGuessedIndexes] = useState<Array<number>>([]);
   const [notGuessedIndex, setNotGuessedIndex] = useState<number | null>(null);
 
   const shuffledLetters = useMemo(() => {
-    const splitToLetters = currentWord.englishWord.split("");
+    const splitToLetters = word.englishWord.split("");
     return shuffleArray(splitToLetters);
-  }, [currentWord.englishWord]);
+  }, [word.englishWord]);
 
   function handleLetterClick(clickedLetter: string, clickedIndex: number) {
-    const expectedLetter = currentWord.englishWord[collectedLetters.length];
+    // letters must be clicked in order, so the next needed letter
+    // is the one at the position we already collected up to
+    const expectedLetter = word.englishWord[collectedLetters.length];
 
     if (clickedLetter === expectedLetter) {
       const currentCollectedLetters = [...collectedLetters, clickedLetter];
       setGuessedIndexes([...guessedIndexes, clickedIndex]);
       setCollectedLetters(currentCollectedLetters);
 
-      if (currentCollectedLetters.length === currentWord.englishWord.length) {
+      if (currentCollectedLetters.length === word.englishWord.length) {
         setTimeout(() => {
           changeScore({ resultType: calcMistakes(mistakesCount) });
           setCollectedLetters([]);
@@ -38,6 +40,7 @@ function useWordBuilding({
         }, ANSWER_ANIMATION_DELAY);
       }
     } else {
+      // show the letter in red for a moment, then clear it
       setMistakesCount((prevState) => prevState + 1);
       setNotGuessedIndex(clickedIndex);
       setTimeout(() => {
@@ -47,7 +50,7 @@ function useWordBuilding({
   }
 
   return {
-    currentWord,
+    word,
     collectedLetters,
     shuffledLetters,
     handleLetterClick,

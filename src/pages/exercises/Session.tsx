@@ -1,4 +1,4 @@
-import { Session as SessionComponent } from "@/features/exercises/components/exercises/Session";
+import { Session as SessionComponent } from "@/features/exercises/components/exercises/session/Session";
 
 function Session() {
   return <SessionComponent />;

@@ -8,10 +8,12 @@ import type {
   PersonalWordsProgressValues,
 } from "@/features/exercises/types";
 import {
-  PHRASE_CREATING,
-  PHRASE_ERROR,
+  SENTENCE_CREATING,
+  SENTENCE_ERROR,
 } from "@/features/dictionaries/utils/constants";
 
+// splits the personal dictionary into two groups:
+// words to learn now, and words that are ready to repeat today
 function useExercisesWords() {
   const { personalDictionary, isPersonalDictLoading } = useDictSnapshot<
     NewWordsValues | InProgressWordsValues
@@ -28,17 +30,21 @@ function useExercisesWords() {
     if (personalDictionary.length > 0) {
       personalDictionary.forEach((word) => {
         const repeatDate = word.nextRepeat?.toDate();
-        const isPhraseReady =
-          !!word.phrase &&
-          word.phrase !== PHRASE_CREATING &&
-          word.phrase !== PHRASE_ERROR;
 
-        if (word.progress === "new" && isPhraseReady) {
+        // word is ready only if its sentence is already generated
+        const isSentenceReady =
+          !!word.sentence &&
+          word.sentence !== SENTENCE_CREATING &&
+          word.sentence !== SENTENCE_ERROR;
+
+        // new words that never studied before
+        if (word.progress === "new" && isSentenceReady) {
           personalWordsProgress.newWords.push(word);
         }
 
+        // repeat words that already studied and the next repeat date has come
         if (
-          isPhraseReady &&
+          isSentenceReady &&
           word.progress === "in progress" &&
           repeatDate <= currentDate
         ) {
@@ -51,7 +57,7 @@ function useExercisesWords() {
     dispatch(setRepeatWords(personalWordsProgress.repeatWords));
   }, [personalDictionary, dispatch]);
 
-  return isPersonalDictLoading;
+  return { personalDictionary, isPersonalDictLoading };
 }
 
 export default useExercisesWords;

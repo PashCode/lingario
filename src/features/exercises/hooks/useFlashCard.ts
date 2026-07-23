@@ -13,19 +13,21 @@ function useFlashCard({
 }: ExerciseProps) {
   const [isFrontSide, setIsFrontSide] = useState(true);
   const [clickedButton, setClickedButton] = useState<"know" | "dontKnow" | "">("");
-  const englishWord = exercisesConfig.sessionSequence[currentIndex].word.englishWord;
-  const translation = exercisesConfig.sessionSequence[currentIndex].word.translation;
-  const sentence = exercisesConfig.sessionSequence[currentIndex].word.phrase.replaceAll("*", "");
+  const word = exercisesConfig.sessionSequence[currentIndex].word;
   const { PERFECT, FAILED } = ANSWER_RESULTS;
 
   function handleButtonClick(
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     buttonType: "know" | "dontKnow",
   ) {
+    // the whole card flips on click, so stop the click here
+    // otherwise pressing a button would also flip the card
     event.stopPropagation();
     setClickedButton(buttonType);
 
+    // here there are no mistakes to count — the user says "know" or "don't know"
     setTimeout(() => {
+      // stop the audio, so it does not play over the next exercise
       Howler.stop();
       setCurrentIndex((prevState) => prevState + 1);
       changeScore({ resultType: buttonType === "know" ? PERFECT : FAILED });
@@ -39,9 +41,7 @@ function useFlashCard({
     setIsFrontSide,
     isFrontSide,
     clickedButton,
-    englishWord,
-    translation,
-    sentence,
+    word
   };
 }
 

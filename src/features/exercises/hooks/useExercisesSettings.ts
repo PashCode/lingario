@@ -1,15 +1,23 @@
-import FlashCard from "@/features/exercises/components/exercises/FlashCard";
-import WordMatching from "@/features/exercises/components/exercises/WordMatching";
-import WordBuilding from "@/features/exercises/components/exercises/WordBuilding";
-import WordListening from "@/features/exercises/components/exercises/WordListening";
-import MultipleChoices from "@/features/exercises/components/exercises/MultipleChoices";
+import FlashCard from "@/features/exercises/components/exercises/session/FlashCard";
+import WordMatching from "@/features/exercises/components/exercises/session/WordMatching";
+import WordBuilding from "@/features/exercises/components/exercises/session/WordBuilding";
+import WordListening from "@/features/exercises/components/exercises/session/WordListening";
+import MultipleChoices from "@/features/exercises/components/exercises/session/MultipleChoices";
 import { useAppSelector } from "@/app/store";
-import { selectNewWords, selectRepeatWords } from "@/features/exercises/slice";
+import {
+  selectExercisesConfig,
+  selectNewWords,
+  selectRepeatWords,
+} from "@/features/exercises/slice";
 import { useLocation } from "react-router-dom";
 import { useMemo, useState } from "react";
 import type { ExerciseConfigValues, SessionSequenceValues, } from "@/features/exercises/types";
 import { shuffleArray } from "@/features/exercises/utils/helpers";
 
+// all exercise types in one place
+// wordsPerIteration: how many words one exercise needs at a time
+// phase: the order in a session — first you meet the word, then you
+// recognize it, and only then you write it
 const EXERCISES_DEFINITIONS = {
   flashCard: { component: FlashCard, wordsPerIteration: 1, phase: 1 },
   wordListening: { component: WordListening, wordsPerIteration: 1, phase: 2 },
@@ -21,15 +29,16 @@ const EXERCISES_DEFINITIONS = {
 function useExercisesSettings() {
   const newWords = useAppSelector(selectNewWords);
   const repeatWords = useAppSelector(selectRepeatWords);
-  const exerciseType = useLocation().state?.exerciseType;
+  const savedConfig = useAppSelector(selectExercisesConfig);
+
+  // coming from the exercises screen we get the type in location state, but
+  // coming back from a session there is no state — fall back to the saved one
+  const exerciseType =
+    useLocation().state?.exerciseType || savedConfig.exerciseType;
   const words = exerciseType === "repeat-words" ? repeatWords : newWords;
 
-  const [wordsLimit, setWordsLimit] = useState(5);
+  const [wordsCount, setWordsCount] = useState(4);
   const [isExerciseSelectionEmpty, setIsExerciseSelectionEmpty] = useState(false);
-  const [voiceSetting, setVoiceSetting] = useState({
-    voice: "en-US-Neural2-D",
-    gender: "MALE",
-  });
 
   const [selectedExercises, setSelectedExercises] = useState({
     flashCard: false,
@@ -39,9 +48,11 @@ function useExercisesSettings() {
     wordListening: false,
   });
 
+  // builds the full list of exercises for the session
   const exercisesConfig = useMemo<ExerciseConfigValues>(() => {
     const sessionItems: Array<SessionSequenceValues> = [];
-    const limitedWords = words.slice(0, wordsLimit);
+    // the user can choose how many words to train, so we cut the rest
+    const limitedWords = words.slice(0, wordsCount);
 
     for (const exerciseKey in selectedExercises) {
       const exerciseName = exerciseKey as keyof typeof selectedExercises;
@@ -49,6 +60,7 @@ function useExercisesSettings() {
       if (!selectedExercises[exerciseName]) continue;
 
       const exerciseDefinition = EXERCISES_DEFINITIONS[exerciseName];
+      // cut the words into groups: 1 word for most exercises, 4 for pairs
       const wordsGroup = [];
 
       for (
@@ -61,6 +73,8 @@ function useExercisesSettings() {
         );
       }
 
+      // "find pairs" needs 4 words, but one word can be left alone at the end
+      // if that happens, we move it into the group before it
       if (
         exerciseName === "multipleChoices" &&
         wordsGroup.at(-1)?.length === 1
@@ -79,6 +93,8 @@ function useExercisesSettings() {
       });
     }
 
+    // we mix exercises inside every phase, but the phases always go 1, 2, 3
+    // phase 2 is sorted so that "find pairs" (4 words) comes first
     const phase1 = shuffleArray( sessionItems.filter((item) => item.phase === 1));
     const phase2 = shuffleArray( sessionItems
       .filter((item) => item.phase === 2))
@@ -86,24 +102,23 @@ function useExercisesSettings() {
     const phase3 = shuffleArray( sessionItems.filter((item) => item.phase === 3));
 
     return {
-      voiceSetting,
+      exerciseType,
       vocabularyWords: [...words],
       selectedExercises,
-      wordsLimit,
+      wordsCount,
       isReady: true,
+      // how many exercise types are chosen, used to split the score
       multiplier: Object.values(selectedExercises).filter(Boolean).length,
       sessionWords: limitedWords,
       sessionSequence: [...phase1, ...phase2, ...phase3],
     };
-  }, [words, wordsLimit, selectedExercises, voiceSetting]);
+  }, [words, wordsCount, selectedExercises, exerciseType]);
 
 
   return {
     exercisesConfig,
-    voiceSetting,
-    setVoiceSetting,
-    wordsLimit,
-    setWordsLimit,
+    wordsCount,
+    setWordsCount,
     selectedExercises,
     setSelectedExercises,
     isExerciseSelectionEmpty,
