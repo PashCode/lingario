@@ -17,7 +17,7 @@ function WordColumn({
   handleWordClick,
 }: WordColumnProps) {
   return (
-    <div className="grid w-full lg:w-200 grid-rows-4 items-center gap-y-2 sm:gap-y-3 2xl:gap-y-4">
+    <div className="grid w-full grid-rows-4 items-center gap-y-2 sm:gap-y-3 2xl:gap-y-4">
       {words.map((word) => {
         const isMatched = matchedWordIds.includes(word.id);
         const isSelected = selectedValue === word.id;
@@ -31,7 +31,7 @@ function WordColumn({
           buttonClass = `${ANSWER_COLORS.WRONG}`;
         } else if (isSelected) {
           buttonClass = "bg-blue-300";
-        } else buttonClass = "border-blue-800";
+        } else buttonClass = "border-gray-800";
 
         const displayText =
           type === "englishWords" ? word.englishWord : word.translation;
@@ -93,7 +93,7 @@ function MultipleChoices({
           </span>
         </div>
 
-        <div className="flex w-full flex-col items-center h-full justify-center gap-y-8 sm:gap-y-12">
+        <div className="flex w-full flex-col items-center h-full justify-center gap-y-8 sm:gap-y-12 lg:flex-row lg:gap-x-8">
           <WordColumn
             words={shuffledEnglish}
             type="englishWords"

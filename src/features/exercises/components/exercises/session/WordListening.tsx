@@ -21,7 +21,7 @@ function WordListening({
 
   return (
     <div className="rounded-main-blocks shadow-main-blocks relative flex h-full w-11/12 justify-center bg-white">
-      <div className="grid h-full w-full grid-rows-[auto_minmax(0,1fr)_minmax(0,1fr)] place-items-center p-5 lg:p-8 2xl:p-10">
+      <div className="grid h-full w-full grid-rows-[auto_auto_minmax(0,1fr)] place-items-center p-5 lg:p-8 2xl:p-10">
         <div className="flex w-full items-center justify-between">
           <p className="xs:text-lg flex items-center justify-center text-base text-gray-800 sm:text-xl md:text-2xl 2xl:text-3xl">
             Прослухати і обрати
@@ -35,7 +35,7 @@ function WordListening({
         <div className="xs:text-2xl flex flex-col items-center justify-center gap-y-3 text-xl text-blue-800 sm:text-3xl md:text-4xl 2xl:text-5xl">
           <PronounceButton
             size="2em"
-            strokeWith={1.2}
+            strokeWith={1}
             text={currentWord.englishWord}
             autoplay
           />
@@ -61,7 +61,7 @@ function WordListening({
                 key={word.id}
                 text={word.translation}
                 disabled={!!clickedButton}
-                className={`xs:h-10 xs:text-xl h-9 w-full cursor-pointer rounded-[7px] border border-gray-800 text-lg font-bold text-blue-800 sm:h-11 sm:text-[22px] md:h-12 md:text-2xl lg:w-200 xl:text-3xl 2xl:h-14 ${buttonClass}`}
+                className={`xs:h-10 xs:text-xl h-9 w-full cursor-pointer rounded-[7px] border border-gray-800 text-lg font-bold text-blue-800 sm:h-11 sm:text-[22px] md:h-12 md:text-2xl lg:w-200 2xl:text-3xl 2xl:h-14 ${buttonClass}`}
                 onClick={() => handleAnswerResult(isCorrect, word.id)}
               />
             );

@@ -71,7 +71,7 @@ function WordMatching({
           </div>
           <hr className="my-1 w-1/4 text-gray-800" />
 
-          <div className="flex w-full flex-col items-center justify-center gap-y-2 sm:gap-y-3 2xl:gap-y-4">
+          <div className="flex w-full flex-col items-center justify-center gap-y-2 sm:gap-y-3 2xl:gap-y-4 lg:grid lg:grid-rows-2 lg:grid-cols-2 lg:gap-x-8 lg:gap-y-5 lg:w-200">
             {shuffledWords.map((answerWord) => {
               const isCorrect = answerWord.id === word.id;
               const isClicked = clickedButton === answerWord.id;
@@ -90,7 +90,7 @@ function WordMatching({
                   key={answerWord.id}
                   text={answerWord.translation}
                   disabled={!!clickedButton}
-                  className={`xs:h-10 xs:text-xl h-9 w-full cursor-pointer rounded-[7px] border border-gray-800 text-lg text-blue-800 sm:h-11 sm:text-[22px] md:h-12 md:text-2xl font-bold lg:w-200 2xl:h-14 2xl:text-3xl ${buttonClass}`}
+                  className={`xs:h-10 xs:text-xl h-9 w-full cursor-pointer rounded-[7px] border border-gray-800 text-lg text-blue-800 sm:h-11 sm:text-[22px] md:h-12 md:text-2xl font-bold 2xl:h-14 2xl:text-3xl ${buttonClass}`}
                   onClick={() => handleAnswerResult(isCorrect, answerWord.id)}
                 />
               );
