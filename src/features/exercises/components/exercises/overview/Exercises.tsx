@@ -11,16 +11,18 @@ import Button from "@/shared/components/ui/Button";
 import { useState } from "react";
 
 export function Exercises() {
-  useExercisesWords();
+  const { isPersonalDictLoading } = useExercisesWords();
   const newWordsCount = useAppSelector(selectNewWordsCount);
   const repeatWordsCount = useAppSelector(selectRepeatWordsCount);
 
   // on phone we show one card at a time and this state says which one,
   // on desktop both cards fit next to each other and this is not used
-  const [typeExercise, setTypeExercise] = useState<"newWords" | "repeatWords">("newWords")
+  const [typeExercise, setTypeExercise] = useState<"newWords" | "repeatWords">(
+    "newWords",
+  );
 
   return (
-    <div className="grid h-full grid-rows-[auto_minmax(0,1fr)] items-center justify-items-center">
+    <section className="grid h-full grid-rows-[auto_minmax(0,1fr)] items-center justify-items-center">
       <div className="rounded-main-blocks shadow-main-blocks xs:min-h-30 relative flex min-h-25 w-full items-center justify-between bg-white px-5 lg:px-7.5 2xl:min-h-35">
         <div>
           <h1 className="xs:text-4xl mb-0.5 text-3xl font-bold sm:mb-1 sm:text-[42px] md:text-[44px] lg:text-[40px] 2xl:text-[44px]">
@@ -53,18 +55,30 @@ export function Exercises() {
           </div>
 
           {typeExercise === "newWords" && (
-            <NewWordExercises newWordsCount={newWordsCount} />
+            <NewWordExercises
+              newWordsCount={newWordsCount}
+              isPersonalDictLoading={isPersonalDictLoading}
+            />
           )}
           {typeExercise === "repeatWords" && (
-            <RepeatWordExercises repeatWordsCount={repeatWordsCount} />
+            <RepeatWordExercises
+              repeatWordsCount={repeatWordsCount}
+              isPersonalDictLoading={isPersonalDictLoading}
+            />
           )}
         </div>
 
         <div className="hidden h-full lg:grid lg:grid-cols-2 lg:gap-x-5">
-          <NewWordExercises newWordsCount={newWordsCount} />
-          <RepeatWordExercises repeatWordsCount={repeatWordsCount} />
+          <NewWordExercises
+            newWordsCount={newWordsCount}
+            isPersonalDictLoading={isPersonalDictLoading}
+          />
+          <RepeatWordExercises
+            repeatWordsCount={repeatWordsCount}
+            isPersonalDictLoading={isPersonalDictLoading}
+          />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
