@@ -1,30 +1,54 @@
-import TestLoader from "@/shared/components/ui/TestLoader";
-import defaultAvatar from "@/features/profile/assets/default-avatar.png";
+import CircularLoader from "@/shared/components/ui/CircularLoader";
+import defaultAvatar from "@/features/profile/assets/defaultAvatar-img.png";
 import type { AvatarProps } from "@/features/profile/types";
+import { LuUpload } from "react-icons/lu";
 
 function Avatar({ uploadStatus, avatar, setAvatarToProfile }: AvatarProps) {
+  let uploadButtonStatus;
+  if (uploadStatus === "uploading") {
+    uploadButtonStatus = (
+      <span className="2xl:text-2xl xs:text-lg sm:text-xl rounded-buttons flex h-full w-full items-center justify-center gap-x-2 border border-blue-800 text-blue-800 transition-transform duration-100 ease-out active:scale-98">
+        <p>Завантаження</p>
+        <CircularLoader />
+      </span>
+    );
+  } else if (avatar) {
+    uploadButtonStatus = (
+      <span className="2xl:text-2xl xs:text-lg rounded-buttons flex h-full w-full items-center justify-center gap-x-2 border border-blue-800 text-blue-800 transition-transform duration-100 ease-out active:scale-98 sm:text-xl">
+        <p>Змінити</p>
+        <LuUpload />
+      </span>
+    );
+  } else {
+    uploadButtonStatus = (
+      <span className="2xl:text-2xl xs:text-lg rounded-buttons flex h-full w-full items-center justify-center gap-x-2 border border-blue-800 text-blue-800 transition-transform duration-100 ease-out active:scale-98 sm:text-xl">
+        <p>Завантажити</p>
+        <LuUpload />
+      </span>
+    );
+  }
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex h-full w-full flex-col items-center justify-between gap-2">
       {avatar ? (
         <img
           src={avatar}
           alt="avatar"
-          className={`w-1/5 rounded-full ${uploadStatus === "uploading" ? "opacity-0" : ""}`}
+          className={`xs:w-30 xs:h-30 h-25 w-25 rounded-full border border-gray-800 p-2 sm:h-40 sm:w-40 2xl:h-45 2xl:w-45`}
         />
       ) : (
         <img
           src={defaultAvatar}
           alt="default-avatar"
-          className="w-1/5 rounded-full"
+          className="2xl:h-45 sm:h-40 xs:w-30 xs:h-30 h-25 w-25 rounded-full border border-gray-800 p-2 sm:w-40 2xl:w-45"
         />
       )}
 
-      <form className="flex flex-col items-center gap-3">
+      <form className="2xl:h-14 2xl:w-60 xs:h-10 xs:w-45 h-8 w-40 sm:h-12 sm:w-50">
         <label
           htmlFor="upload-avatar"
-          className={`border ${uploadStatus === "uploading" ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
+          className={`${uploadStatus === "uploading" ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
         >
-          {avatar ? "Змінити" : "Завантажити"}
+          {uploadButtonStatus}
         </label>
 
         <input
@@ -38,12 +62,7 @@ function Avatar({ uploadStatus, avatar, setAvatarToProfile }: AvatarProps) {
           }
           hidden
         />
-
-        {uploadStatus === "uploading" && (
-          <TestLoader text="Завантаження фото..." />
-        )}
       </form>
-      {/*{uploadStatus === "error" && <p>Помилка завантаження, спробуйте ще раз</p>}*/}
     </div>
   );
 }

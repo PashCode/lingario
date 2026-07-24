@@ -34,7 +34,7 @@ function useAvatar(): UseAvatarReturn {
         }
       } catch (error) {
         console.error("[ERROR]", error);
-        toast.error("Помилка завантаження фото. Спробуйте оновити сторінку.");
+        toast.error("Помилка завантаження фото. Спробуй оновити сторінку.");
       } finally {
         setIsProfileLoading(false);
       }

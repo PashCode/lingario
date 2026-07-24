@@ -8,6 +8,7 @@ import type { FormEvent } from "react";
 
 function useEditName(): UseEditNameReturn {
   const [editNameStatus, setEditNameStatus] = useState<EditNameStatus>("idle");
+  const [isClickedEditName, setIsClickedEditName] = useState(false);
   const [name, setName] = useState("");
   const currentUser = requireCurrentUser();
 
@@ -25,8 +26,9 @@ function useEditName(): UseEditNameReturn {
       setEditNameStatus("loading");
       await updateProfile(currentUser, { displayName: trimmedName });
       setName("");
-      setEditNameStatus("idle");
       toast.success("Імʼя змінено успішно");
+      setEditNameStatus("idle");
+      setIsClickedEditName(false);
     } catch (error) {
       console.error(error);
       setEditNameStatus("error");
@@ -34,7 +36,14 @@ function useEditName(): UseEditNameReturn {
     }
   }
 
-  return { editNameStatus, handleEditName, name, setName };
+  return {
+    editNameStatus,
+    handleEditName,
+    name,
+    setName,
+    isClickedEditName,
+    setIsClickedEditName,
+  };
 }
 
 export default useEditName;

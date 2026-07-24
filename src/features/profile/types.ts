@@ -10,13 +10,6 @@ export interface AvatarProps {
   setAvatarToProfile: (file: File | undefined) => Promise<void>;
 }
 
-export interface EditNameProps {
-  editNameStatus: EditNameStatus;
-  handleEditName: (e: FormEvent<HTMLFormElement>) => Promise<void>;
-  name: string;
-  setName: Dispatch<SetStateAction<string>>;
-}
-
 export interface ProfileStatsProps {
   oxford3000: Array<Oxford3000Values>;
   personalDictionary: Array<Oxford3000Values>;
@@ -34,4 +27,17 @@ export interface UseEditNameReturn {
   handleEditName: (e: FormEvent<HTMLFormElement>) => Promise<void>;
   name: string;
   setName: Dispatch<SetStateAction<string>>;
+  isClickedEditName: boolean;
+  setIsClickedEditName: Dispatch<SetStateAction<boolean>>;
+}
+
+// поєднати потім типи
+
+export interface EditNameProps {
+  editNameStatus: EditNameStatus;
+  handleEditName: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+  name: string;
+  setName: Dispatch<SetStateAction<string>>;
+  isClickedEditName: boolean;
+  setIsClickedEditName: Dispatch<SetStateAction<boolean>>;
 }
