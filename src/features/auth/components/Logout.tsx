@@ -8,9 +8,9 @@ function Logout() {
   return (
     <Button
       text={
-        <span className="cursor-pointer rounded-buttons flex h-full items-center gap-x-3 border border-blue-800 p-4 text-blue-800">
+        <span className="2xl:text-2xl sm:w-40 rounded-buttons xs:w-35 xs:text-lg flex h-full w-30 cursor-pointer items-center justify-center gap-x-3 border border-blue-800 p-1 text-blue-800 sm:text-xl 2xl:w-50">
           <LuLogOut size={20} strokeWidth={1.7} />
-          <p>Вийти з акаунту</p>
+          <p>Вийти</p>
         </span>
       }
       disabled={isLoading}

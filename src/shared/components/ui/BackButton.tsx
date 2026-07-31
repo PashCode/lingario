@@ -7,7 +7,6 @@ function BackButton({
   to = -1,
 }: {
   btnColor?: string;
-  size?: number;
   to?: number | string;
 }) {
   const navigate = useNavigate();

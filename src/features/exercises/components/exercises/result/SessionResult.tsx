@@ -49,7 +49,7 @@ export function SessionResult() {
   calculateLevelResults();
 
   return (
-    <div className="rounded-main-blocks relative flex h-full w-11/12 justify-center bg-white p-5 lg:p-8 2xl:p-10">
+    <section className="rounded-main-blocks relative flex h-full w-11/12 justify-center bg-white p-5 lg:p-8 2xl:p-10">
       <div className="flex flex-col items-center justify-center gap-y-10 h-full w-full ">
         <div className="text-center">
           <h1 className="xs:text-3xl text-2xl font-bold text-blue-800 sm:text-4xl md:text-[40px] 2xl:text-5xl">
@@ -136,6 +136,6 @@ export function SessionResult() {
           Зрозуміло
         </Link>
       </div>
-    </div>
+    </section>
   );
 }

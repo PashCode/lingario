@@ -24,8 +24,8 @@ function AISentence() {
   function getAISentenceState() {
     if (homepageAISentenceStatus === "loading") {
       return (
-        <div className="flex items-center gap-2 pt-1.5">
-          <h1>Генерування фрази...</h1>
+        <div className="flex items-center gap-2">
+          <p>Генерування фрази...</p>
           <CircularLoader color="#ffffff" size={20} />
         </div>
       );
@@ -33,8 +33,8 @@ function AISentence() {
 
     if (homepageAISentenceStatus === "error") {
       return (
-        <div className="flex items-center gap-2 pt-1.5">
-          <h1>Помилка генерування фрази...</h1>
+        <div className="flex items-center gap-2">
+          <p>Помилка генерування фрази</p>
           <Button
             className="rounded-buttons cursor-pointer border px-2 py-1 text-[14px]"
             onClick={async () => {
@@ -54,7 +54,7 @@ function AISentence() {
             text={
               <span className="flex items-center gap-x-1">
                 <LuRefreshCw strokeWidth={1.2} size={15} />
-                <p>Повторити</p>
+                <p >Повторити</p>
               </span>
             }
           ></Button>
@@ -66,12 +66,12 @@ function AISentence() {
       return null;
     }
 
-    // &nbsp; (non-breaking space) + whitespace-nowrap — keeps the pronounce button from wrapping to a new line
+    // &nbsp; [non-breaking space] + whitespace-nowrap — keeps the pronounce button from wrapping to a new line
     return (
       <ReactMarkdown
         components={{
           p: ({ children }) => (
-            <p className="italic font-extralight">
+            <p>
               {children}
               <span className="whitespace-nowrap">
                 {"\u00A0"}

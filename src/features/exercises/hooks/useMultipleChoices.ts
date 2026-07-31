@@ -13,10 +13,13 @@ function useMultipleChoices({
 
   const [selectedEng, setSelectedEng] = useState("");
   const [selectedTr, setSelectedTr] = useState("");
+  // true for a moment after the second click, so the user can't click more
   const [isCheckingMatch, setIsCheckingMatch] = useState(false);
+  // here 4 words are trained at once, so every word counts its own mistakes
   const [mistakesMap, setMistakesMap] = useState<Record<string, number>>({});
   const [matchedWordIds, setMatchedWordIds] = useState<string[]>([]);
 
+  // two columns with the same words, but mixed differently
   const { shuffledEnglish, shuffledTranslations } = useMemo(() => {
     return {
       shuffledEnglish: shuffleArray([...sessionWords]),
@@ -41,6 +44,8 @@ function useMultipleChoices({
     );
     const wordMistakes = mistakesMap[wordIdFromEnglishColumn] || 0;
 
+    // we pass targetWord, because the score is for this pair,
+    // not for the word that the session is currently on
     if (targetWord) {
       changeScore({
         resultType: calcMistakes(wordMistakes),
@@ -51,6 +56,7 @@ function useMultipleChoices({
     setTimeout(() => {
       resetSelection();
 
+      // go to the next exercise only when all 4 pairs are found
       if (currentMatchedWords.length === sessionWords.length) {
         Howler.stop();
         setCurrentIndex((prev) => prev + 1);
@@ -95,12 +101,14 @@ function useMultipleChoices({
     const oppositeSelected = isEng ? selectedTr : selectedEng;
     const setSelectedWord = isEng ? setSelectedEng : setSelectedTr;
 
+    // clicking the same word again just unselects it
     if (currentSelected === wordId) {
       setSelectedWord("");
       return;
     }
     setSelectedWord(wordId);
 
+    // we check the pair only when one word from each column is selected
     if (oppositeSelected) {
       const wordIdFromEnglishColumn = isEng ? wordId : oppositeSelected;
       const wordIdFromTranslationColumn = isEng ? oppositeSelected : wordId;

@@ -14,6 +14,7 @@ function useWordListening({
   const [clickedButton, setClickedButton] = useState("");
   const [mistakesCount, setMistakesCount] = useState(0);
 
+  // makes 4 answer options: 3 wrong words from this session + the right one
   const shuffledWords = useMemo(() => {
     const incorrectWords = exercisesConfig.sessionWords.filter(
       ({ id }: { id: string }) => id !== currentWord.id,
@@ -39,6 +40,7 @@ function useWordListening({
         setMistakesCount(0);
       }, ANSWER_ANIMATION_DELAY);
     } else {
+      // wrong answer does not move us forward, the user tries again
       setMistakesCount((prevState) => prevState + 1);
       setTimeout(() => setClickedButton(""), ANSWER_ANIMATION_DELAY);
     }

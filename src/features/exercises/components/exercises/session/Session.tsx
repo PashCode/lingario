@@ -27,7 +27,7 @@ export function Session() {
 
   return exercisesConfig.isReady ? (
     currentIndex < exercisesConfig.sessionSequence.length ? (
-      <div className="grid h-full w-full grid-rows-[auto_minmax(0,1fr)] items-start justify-items-center gap-y-5 py-5 lg:gap-y-7">
+      <section className="grid h-full w-full grid-rows-[auto_minmax(0,1fr)] items-start justify-items-center gap-y-5 py-5 lg:gap-y-7">
         <div className="rounded-main-blocks shadow-main-blocks xs:min-h-30 relative flex min-h-25 w-full items-center justify-between bg-white px-5 xs:px-7 lg:px-7.5 2xl:min-h-35 text-base xs:text-lg sm:text-xl md:text-2xl 2xl:text-3xl">
           <div className="flex h-full gap-x-4">
             <div className="flex items-center gap-x-5">
@@ -60,7 +60,7 @@ export function Session() {
           currentIndex={currentIndex}
           changeScore={changeScore}
         />
-      </div>
+      </section>
     ) : (
       <Navigate
         to={ROUTES.EXERCISES.SESSION_RESULT}

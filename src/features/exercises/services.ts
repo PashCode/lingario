@@ -8,6 +8,7 @@ import type { RefObject } from "react";
 import { writeBatch } from "firebase/firestore";
 import requireCurrentUser from "@/shared/utils/auth/requireCurrentUser";
 
+// saves all words of the session in one write, not one by one
 export async function saveSessionResultsToDB({
   current: updatedWords,
 }: RefObject<Record<string, NewWordsValues | InProgressWordsValues>>) {

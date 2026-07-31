@@ -9,7 +9,7 @@ function AuthForm() {
   const [authType, setAuthType] = useState<"register" | "login">("register");
 
   return (
-    <section className="lg:rounded-main-blocks lg:shadow-main-blocks bg-main-blocks flex min-h-svh w-full flex-col items-center overflow-y-auto pt-10 lg:h-[clamp(620px,90dvh,850px)] lg:min-h-0 lg:w-11/12 lg:max-w-350 lg:justify-evenly lg:pt-0">
+    <section className="lg:rounded-main-blocks lg:shadow-main-blocks bg-main-blocks flex min-h-dvh w-full flex-col items-center overflow-y-auto pt-10 lg:h-[clamp(620px,90dvh,850px)] lg:min-h-0 lg:w-11/12 lg:max-w-350 lg:justify-evenly lg:pt-0">
       <div className="flex w-11/12 flex-col items-center gap-y-7 max-lg:mb-10 md:w-9/12 lg:w-5/12">
         <header className="flex flex-col items-center justify-center gap-y-2">
           <img

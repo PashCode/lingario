@@ -22,14 +22,14 @@ export function Dictionaries() {
   >("oxford");
 
   return (
-    <div className="grid h-full grid-rows-[auto_minmax(0,1fr)] items-center justify-items-center">
+    <section className="grid h-full grid-rows-[auto_minmax(0,1fr)] items-center justify-items-center">
       <div className="rounded-main-blocks shadow-main-blocks xs:min-h-30 relative flex min-h-25 w-full items-center justify-between bg-white px-5 sm:min-h-30 lg:px-7.5 2xl:min-h-35">
         <div>
           <h1 className="xs:text-4xl mb-0.5 text-3xl font-bold sm:mb-1 sm:text-[42px] md:text-[44px] lg:text-[40px] 2xl:text-[44px]">
             Словники
           </h1>
           <p className="xs:text-xl text-lg font-light text-gray-800 sm:text-2xl lg:text-lg 2xl:text-xl">
-            Твої слова для щоденних тренувань
+            Обирай, додавай і вивчай
           </p>
         </div>
         <img
@@ -71,6 +71,6 @@ export function Dictionaries() {
           <PersonalCard personalDictionary={personalDictionary} />
         </div>
       </div>
-    </div>
+    </section>
   );
 }

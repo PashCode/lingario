@@ -35,7 +35,7 @@ export function Settings() {
   }
 
   return (
-    <div className="grid h-full w-full grid-rows-[auto_auto_minmax(0,1fr)] items-start justify-items-center gap-y-5 lg:gap-y-7 py-5">
+    <section className="grid h-full w-full grid-rows-[auto_auto_minmax(0,1fr)] items-start justify-items-center gap-y-5 lg:gap-y-7 py-5">
       <div className="rounded-main-blocks shadow-main-blocks xs:min-h-30 flex min-h-25 w-full items-center bg-white px-5 lg:px-7.5 2xl:min-h-35">
         <div className="flex w-full items-center justify-between gap-x-5">
           <div className="flex gap-x-5">
@@ -94,6 +94,6 @@ export function Settings() {
           ></Button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

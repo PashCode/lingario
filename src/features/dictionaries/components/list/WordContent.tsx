@@ -47,7 +47,7 @@ function Sentence({
                 <LuRefreshCw strokeWidth={1.2} size="1em" />
               </span>
             }
-            className="ml-1 cursor-pointer bg-white"
+            className="ml-2 cursor-pointer"
             onClick={() =>
               void retrySentenceForPersonalWord({
                 id,

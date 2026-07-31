@@ -11,6 +11,8 @@ function useCalculateSession(
   exercisesConfig: ExerciseConfigValues,
   currentIndex: number,
 ) {
+  // a box that keeps new scores while the session is running
+  // useRef, not useState, because changing it should not re-render the exercise
   const sessionResults = useRef<SessionResultsValues>({});
   const isLastExercise = currentIndex === exercisesConfig.sessionSequence.length;
   const currentWord = exercisesConfig.sessionSequence[currentIndex]?.word;
@@ -22,6 +24,8 @@ function useCalculateSession(
       sessionResults.current[wordToScore.id]?.score ??
       wordToScore.score;
 
+    // one level is 0.2, so we split it between all exercises in the session
+    // this way the word moves only one level per session, not more
     function newScore() {
       if (!resultType) return currentScore;
 
@@ -35,6 +39,7 @@ function useCalculateSession(
       return currentScore;
     }
 
+    // the score always stays between 1 and 2
     const normalizedScore = Number(
       Math.min(2, Math.max(1, newScore())).toFixed(3),
     );
@@ -45,6 +50,7 @@ function useCalculateSession(
     };
   }
 
+  // a better score means we can wait longer before showing the word again
   function changeRepetitionDate() {
     const currentWords = sessionResults.current;
 
@@ -75,6 +81,7 @@ function useCalculateSession(
     }
   }
 
+  // save everything only once, when the session is over
   useEffect(() => {
     if (isLastExercise) {
       changeRepetitionDate();

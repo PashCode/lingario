@@ -6,7 +6,7 @@ import requireCurrentUser from "@/shared/utils/auth/requireCurrentUser";
 import EditName from "@/features/profile/components/EditName";
 import useEditName from "@/features/profile/hooks/useEditName";
 import Avatar from "@/features/profile/components/Avatar";
-import profileImg from "@/features/profile/assets/defaultProfile-img.png";
+import profileImg from "@/features/profile/assets/profile-img.png";
 import { LuCalendarHeart, LuMail } from "react-icons/lu";
 
 export function Profile() {

@@ -43,8 +43,10 @@
   /*анімація флеш карточки у вправах*/
   --animate-front: front 0.3s ease-in;
   --animate-back: back 0.3s ease-in;
-  --animate-filterHint: filterHint 1s ease-in-out 1s 1;
   
+  --animate-filterHint: filterHint 1s ease-in-out 1s 1;
+  --animate-fade-in: fadeIn 0.35s ease-in;
+
   @keyframes front {
     from {
       opacity: 0;
@@ -67,6 +69,15 @@
     }
   }
   
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   @keyframes filterHint {
     0% {
       transform: translateX(0);

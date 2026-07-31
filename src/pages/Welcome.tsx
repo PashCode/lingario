@@ -3,11 +3,11 @@ import { ROUTES } from "@/routes/paths";
 
 function Welcome() {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
+    <section className="flex h-full w-full flex-col items-center justify-center">
       <div className="mb-10 space-y-6 text-center">
         <h1 className="text-2xl leading-snug font-bold tracking-tight text-blue-800 sm:text-3xl md:text-4xl 2xl:text-5xl">
           Навколо і так забагато шуму, <br />
-          тому я прибрав усе зайве.
+          тому я прибрав усе зайве
         </h1>
 
         <p className="text-base font-medium text-gray-800 sm:text-xl md:text-2xl 2xl:text-3xl">
@@ -28,7 +28,7 @@ function Welcome() {
       >
         Почати
       </NavLink>
-    </div>
+    </section>
   );
 }
 
