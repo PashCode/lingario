@@ -19,11 +19,13 @@ function Sentence({
   sentence,
   id,
   englishWord,
+  translation,
   level,
 }: {
   sentence?: string;
   id: string;
   englishWord: string;
+  translation: string;
   level: string;
 }) {
   // 3 states: making it, error, or done
@@ -52,6 +54,7 @@ function Sentence({
               void retrySentenceForPersonalWord({
                 id,
                 englishWord,
+                translation,
                 level,
               }).catch((error) => {
                 console.error("Не вдалося згенерувати фразу:", error);
@@ -136,6 +139,7 @@ function WordContent({
               sentence={sentence}
               id={id}
               englishWord={englishWord}
+              translation={translation}
               level={level}
             />
           </div>
@@ -148,6 +152,7 @@ function WordContent({
             sentence={sentence}
             id={id}
             englishWord={englishWord}
+            translation={translation}
             level={level}
           />
         </div>

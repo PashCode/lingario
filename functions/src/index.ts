@@ -16,12 +16,19 @@ async function createSentenceForPersonalDictHandler(
     data: {
       word?: string;
       level?: string;
+      translation?: string;
       retryCount?: number;
       model?: string;
     };
   },
 ): Promise<string> {
-  const { word, level, retryCount = 0, model = MAIN_GEMINI_MODEL } = request.data;
+  const {
+    word,
+    level,
+    translation,
+    retryCount = 0,
+    model = MAIN_GEMINI_MODEL,
+  } = request.data;
 
   if (!request.auth) {
     throw new HttpsError("unauthenticated", "Потрібна авторизація");
@@ -52,6 +59,7 @@ async function createSentenceForPersonalDictHandler(
           "- Use the exact dictionary word only. Do not change its form (no -ed, -ing, -s endings).\n" +
           "- Wrap the dictionary word in double asterisks, like **word**.\n" +
           "- No period at the end.\n" +
+          "- If a Ukrainian translation is given, use the word in exactly that meaning, not in any other meaning.\n" +
           "Examples of the right length:\n" +
           "- We **travel** to new places often\n" +
           "- They **enjoy** quiet evenings at home",
@@ -60,6 +68,9 @@ async function createSentenceForPersonalDictHandler(
       },
       contents:
         `Create one ${level} level sentence using the word "${word}".\n` +
+        (translation
+          ? `Meaning: "${translation}" (Ukrainian translation of this word)\n`
+          : "") +
         "Topic: a random everyday theme",
     });
 
@@ -90,6 +101,7 @@ async function createSentenceForPersonalDictHandler(
       data: {
         word,
         level,
+        translation,
         retryCount: retryCount + 1,
         model: EXTRA_GEMINI_MODEL,
       },

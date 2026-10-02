@@ -51,13 +51,18 @@ export async function addWordToPersonalDict(
 export async function generateSentenceForPersonalWord({
   id,
   englishWord,
+  translation,
   level,
 }: GenerateSentenceForPersonalWordProps) {
   const currentUser = requireCurrentUser();
   const docRef = doc(db, "users", currentUser.uid, "dictionary", id);
 
   try {
-    const sentence = await createSentenceForPersonalDict(englishWord, level);
+    const sentence = await createSentenceForPersonalDict(
+      englishWord,
+      level,
+      translation,
+    );
     await updateDoc(docRef, { sentence });
   } catch (error) {
     await updateDoc(docRef, { sentence: SENTENCE_ERROR });
@@ -74,8 +79,12 @@ export async function retrySentenceForPersonalWord(
   await generateSentenceForPersonalWord(params);
 }
 
-export async function createSentenceForPersonalDict(word: string, level: string) {
+export async function createSentenceForPersonalDict(
+  word: string,
+  level: string,
+  translation: string,
+) {
   const createSentence = httpsCallable(functions, "createSentenceForPersonalDict");
-  const result = await createSentence({ word, level });
+  const result = await createSentence({ word, level, translation });
   return result.data as string;
 }

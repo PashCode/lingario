@@ -96,6 +96,7 @@ export interface AddWordToPersonalDictProps {
 export interface GenerateSentenceForPersonalWordProps {
   id: string;
   englishWord: string;
+  translation: string;
   level: string;
 }
 

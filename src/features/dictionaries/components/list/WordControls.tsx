@@ -112,6 +112,7 @@ function WordControls(props: WordControlsProps) {
                 void generateSentenceForPersonalWord({
                   id: wordId,
                   englishWord,
+                  translation,
                   level,
                 }).catch((error) => {
                   console.error(error);
